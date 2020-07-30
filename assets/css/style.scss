@@ -9,8 +9,6 @@ body {
 }
 
 pre.highlight {
-    filter: invert(100%);
-    opacity: 90.8%;
     filter: invert(96%) hue-rotate(666deg) brightness(104%);
     background: linen;
 }
