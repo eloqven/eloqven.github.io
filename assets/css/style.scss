@@ -9,6 +9,12 @@ body {
 }
 
 pre.highlight {
-    filter: invert(96%) hue-rotate(666deg) brightness(104%);
-    background: linen;
+    filter: invert(1) brightness(200%) hue-rotate(180deg);
+}
+
+.highlight {
+    filter: invert(1) brightness(200%) hue-rotate(180deg);
+    background: #c4f4f6;
+    border-radius: 8px;
+    border: none;
 }
