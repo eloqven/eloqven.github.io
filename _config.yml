@@ -1,3 +1,5 @@
+title: eloqven's site
+description: Personal site built with GitHub Pages and Jekyll.
+baseurl: ""    # leave empty for user site
+url: "https://eloqven.github.io"
 theme: jekyll-theme-dinky
-title: welcome to the breakeven homepage
-description: free, effortless; do not bookmark this page, thank you
