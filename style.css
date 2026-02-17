@@ -17,6 +17,123 @@
   --font-accent: 'Space Mono', 'Courier New', monospace;
 }
 
+/* ─── Dark Theme ──────────────────────────────────────────────────── */
+
+body.dark {
+  --accent: #60A5FA;
+  --accent-light: #1E3A5F;
+  --black: #E5E7EB;
+  --gray: #9CA3AF;
+  --light-gray: #374151;
+  --bg: #111827;
+  --white: #1F2937;
+  --dark-bg: #0B1120;
+  --dark-surface: #1A2332;
+}
+
+body.dark #nav {
+  background: rgba(17, 24, 39, 0.92);
+  border-bottom-color: var(--light-gray);
+}
+
+body.dark .about-info,
+body.dark .p-card,
+body.dark .skill-group,
+body.dark .track,
+body.dark .project-card,
+body.dark .link-card {
+  background: var(--white);
+  border-color: var(--light-gray);
+}
+
+body.dark .education-block {
+  background: var(--accent-light);
+}
+
+body.dark .tags span {
+  background: var(--white);
+  color: var(--black);
+  border-color: var(--light-gray);
+}
+
+body.dark .tags.accent span {
+  background: var(--accent-light);
+  color: var(--accent);
+}
+
+body.dark .writing-block blockquote {
+  color: var(--black);
+}
+
+body.dark .project-card h3,
+body.dark .link-name {
+  color: var(--black);
+}
+
+body.dark footer {
+  border-top-color: var(--light-gray);
+}
+
+body.dark .nav-toggle span {
+  background: var(--black);
+}
+
+body.dark .nav-links {
+  background: var(--bg);
+  border-bottom-color: var(--light-gray);
+}
+
+body.dark .project-stack {
+  background: var(--accent-light);
+  color: var(--accent);
+}
+
+/* Keep already-dark sections unchanged */
+body.dark .section-dark {
+  background: #0F172A;
+  color: #FFFFFF;
+}
+body.dark #hero {
+  background: #0F172A;
+}
+body.dark .gallery-item {
+  background: #1E293B;
+}
+body.dark .dna-item {
+  background: #1E293B;
+}
+body.dark .dna-value {
+  color: #FFFFFF;
+}
+body.dark .section-dark .section-title.light {
+  color: #FFFFFF;
+}
+body.dark .hero-title {
+  color: #FFFFFF;
+}
+body.dark .hero-title .accent {
+  color: #60A5FA;
+}
+body.dark .gallery-overlay span {
+  color: #FFFFFF;
+}
+body.dark .btn-outline {
+  color: #FFFFFF;
+  border-color: rgba(255,255,255,0.3);
+}
+body.dark .btn-outline:hover {
+  border-color: #FFFFFF;
+}
+body.dark .btn-primary {
+  background: #2563EB;
+  border-color: #2563EB;
+  color: #FFFFFF;
+}
+body.dark .btn-primary:hover {
+  background: #1d4ed8;
+  border-color: #1d4ed8;
+}
+
 html { scroll-behavior: smooth; }
 
 body {
