@@ -12,8 +12,9 @@
   --white: #FFFFFF;
   --dark-bg: #0F172A;
   --dark-surface: #1E293B;
-  --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font: 'JetBrains Mono', 'Consolas', monospace;
   --font-display: 'Playfair Display', Georgia, serif;
+  --font-accent: 'Space Mono', 'Courier New', monospace;
 }
 
 html { scroll-behavior: smooth; }
@@ -55,8 +56,9 @@ a { color: var(--accent); text-decoration: none; }
 
 .nav-links { display: flex; gap: 28px; }
 .nav-links a {
-  font-size: 13px; font-weight: 500; color: var(--gray);
-  text-transform: uppercase; letter-spacing: 0.5px;
+  font-family: var(--font-accent);
+  font-size: 11px; font-weight: 400; color: var(--gray);
+  text-transform: uppercase; letter-spacing: 1px;
   transition: color 0.2s;
 }
 .nav-links a:hover { color: var(--accent); }
@@ -143,7 +145,7 @@ a { color: var(--accent); text-decoration: none; }
   border-bottom: 1px solid var(--light-gray); font-size: 14px;
 }
 .info-row:last-child { border-bottom: none; }
-.info-row .label { color: var(--gray); font-weight: 500; }
+.info-row .label { font-family: var(--font-accent); color: var(--gray); font-weight: 400; }
 
 .about-text p { font-size: 15px; line-height: 1.7; margin-bottom: 16px; color: var(--gray); }
 
@@ -178,7 +180,7 @@ a { color: var(--accent); text-decoration: none; }
   background: var(--accent); border: 2px solid var(--white);
 }
 
-.timeline-date { font-size: 12px; color: var(--gray); text-align: right; padding-top: 2px; font-weight: 500; }
+.timeline-date { font-family: var(--font-accent); font-size: 11px; color: var(--gray); text-align: right; padding-top: 2px; font-weight: 400; }
 .timeline-content h3 { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
 .timeline-company { font-size: 13px; color: var(--accent); margin-bottom: 6px; }
 .timeline-content p:last-child { font-size: 14px; color: var(--gray); line-height: 1.6; }
@@ -206,7 +208,7 @@ a { color: var(--accent); text-decoration: none; }
 .tags { display: flex; flex-wrap: wrap; gap: 8px; }
 .tags span {
   display: inline-block; padding: 6px 14px; border-radius: 20px;
-  font-size: 12px; font-weight: 500;
+  font-family: var(--font-accent); font-size: 11px; font-weight: 400;
   background: var(--bg); color: var(--black);
   border: 1px solid var(--light-gray);
   transition: all 0.2s;
@@ -265,12 +267,15 @@ a { color: var(--accent); text-decoration: none; }
 
 .music-tracks { display: flex; flex-direction: column; gap: 20px; margin-bottom: 32px; }
 .track {
+  display: block; text-decoration: none; color: inherit;
   background: var(--bg); border-radius: 12px; padding: 24px;
   border: 1px solid var(--light-gray);
+  transition: transform 0.2s, box-shadow 0.2s;
 }
+a.track:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.06); border-color: var(--accent); }
 .track-info { display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap; margin-bottom: 8px; }
 .track-info h3 { font-size: 16px; font-weight: 600; }
-.track-meta { font-size: 12px; color: var(--gray); }
+.track-meta { font-family: var(--font-accent); font-size: 10px; color: var(--gray); }
 .track p { font-size: 14px; color: var(--gray); line-height: 1.6; font-style: italic; }
 
 .music-footnote { font-size: 14px; color: var(--gray); line-height: 1.7; max-width: 600px; }
@@ -300,7 +305,7 @@ a { color: var(--accent); text-decoration: none; }
 }
 .project-card:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.06); }
 .project-stack {
-  display: inline-block; font-size: 11px; font-weight: 600;
+  display: inline-block; font-family: var(--font-accent); font-size: 10px; font-weight: 400;
   color: var(--accent); background: var(--accent-light);
   padding: 4px 10px; border-radius: 12px; margin-bottom: 10px;
 }
@@ -322,13 +327,13 @@ a.project-card:hover h3 { color: var(--accent); }
   padding: 16px 20px; border-radius: 8px;
   background: var(--dark-surface);
 }
-.dna-label { font-size: 13px; color: var(--gray); }
+.dna-label { font-family: var(--font-accent); font-size: 11px; color: var(--gray); }
 .dna-value { font-size: 14px; font-weight: 600; color: var(--white); }
 
 /* ─── Links ────────────────────────────────────────────────────────── */
 
 .links-grid {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  display: grid; grid-template-columns: repeat(7, 1fr);
   gap: 16px; margin-top: 24px;
 }
 .link-card {
@@ -339,7 +344,7 @@ a.project-card:hover h3 { color: var(--accent); }
 }
 .link-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(37,99,235,0.1); }
 .link-icon {
-  font-size: 20px; font-weight: 700; color: var(--accent);
+  font-family: var(--font-accent); font-size: 18px; font-weight: 700; color: var(--accent);
   width: 48px; height: 48px; display: flex; align-items: center;
   justify-content: center; border-radius: 50%;
   background: var(--accent-light);
@@ -417,7 +422,7 @@ footer {
   .lightbox-info p:last-child { font-size: 13px; }
 
   .projects-grid { grid-template-columns: 1fr; }
-  .links-grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 12px; }
+  .links-grid { grid-template-columns: repeat(4, 1fr); gap: 12px; }
   .link-card { padding: 20px 12px; }
 
   .personality-cards { grid-template-columns: 1fr; }
