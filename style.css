@@ -321,6 +321,7 @@ a { color: var(--accent); text-decoration: none; }
   border: 1px solid var(--light-gray);
 }
 .skill-group h3 { font-size: 14px; font-weight: 600; margin-bottom: 12px; color: var(--accent); }
+.skill-group--wide { grid-column: span 2; }
 
 .tags { display: flex; flex-wrap: wrap; gap: 8px; }
 .tags span {
