@@ -67,7 +67,7 @@ const observer = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.1 });
 
-document.querySelectorAll('.gallery-item, .p-card, .project-card, .skill-group, .timeline-item, .track, .link-card, .dna-item').forEach(el => {
+document.querySelectorAll('.gallery-item, .p-card, .project-card, .service-card, .skill-group, .timeline-item, .track, .link-card, .dna-item').forEach(el => {
   el.classList.add('animate-in');
   observer.observe(el);
 });
@@ -86,3 +86,20 @@ style.textContent = `
   }
 `;
 document.head.appendChild(style);
+
+// CTA click tracking:
+// - Sends events to Cloudflare Zaraz when available.
+// - Also supports GA4 if gtag is later added.
+document.querySelectorAll('.track-cta').forEach((el) => {
+  el.addEventListener('click', () => {
+    const ctaName = el.dataset.cta || 'unknown_cta';
+
+    if (window.zaraz && typeof window.zaraz.track === 'function') {
+      window.zaraz.track('cta_click', { cta: ctaName });
+    }
+
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', 'cta_click', { cta_name: ctaName });
+    }
+  });
+});
