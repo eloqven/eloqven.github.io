@@ -1,5 +1,7 @@
 // Theme cycle easter egg: default -> dark -> brutalist -> luxe
 const themeToggle = document.getElementById('theme-toggle');
+const navThemeToggle = document.querySelector('.nav-logo');
+const themeToggles = [themeToggle, navThemeToggle].filter(Boolean);
 const themeModes = ['default', 'dark', 'brutalist', 'luxe'];
 const themeClassByMode = {
   dark: 'dark',
@@ -13,7 +15,9 @@ function applyThemeMode(mode) {
   if (cls) document.body.classList.add(cls);
   localStorage.setItem('theme_mode', mode);
   localStorage.setItem('theme', mode === 'dark' ? 'dark' : 'light');
-  if (themeToggle) themeToggle.title = `Theme: ${mode} (click to switch)`;
+  themeToggles.forEach((el) => {
+    el.title = `Theme: ${mode} (click to switch)`;
+  });
 }
 
 let currentThemeMode = localStorage.getItem('theme_mode');
@@ -24,11 +28,14 @@ if (!currentThemeMode) {
 if (!themeModes.includes(currentThemeMode)) currentThemeMode = 'default';
 applyThemeMode(currentThemeMode);
 
-if (themeToggle) {
-  themeToggle.addEventListener('click', () => {
+if (themeToggles.length) {
+  themeToggles.forEach((el) => {
+    el.addEventListener('click', (e) => {
+      if (el.tagName === 'A') e.preventDefault();
     const idx = themeModes.indexOf(currentThemeMode);
     currentThemeMode = themeModes[(idx + 1) % themeModes.length];
     applyThemeMode(currentThemeMode);
+    });
   });
 }
 
@@ -177,6 +184,88 @@ animationStyle.textContent = `
   }
 `;
 document.head.appendChild(animationStyle);
+
+// SoundCloud previews in music cards
+const previewButtons = document.querySelectorAll('.track-preview-btn');
+const PREVIEW_ICON_PLAY = '\u25B6';
+const PREVIEW_ICON_CLOSE = '\u2715';
+
+function closeTrackPreview(trackEl) {
+  const preview = trackEl.querySelector('.track-preview');
+  const button = trackEl.querySelector('.track-preview-btn');
+  const iframe = preview ? preview.querySelector('iframe') : null;
+  if (!preview || !button || !iframe) return;
+
+  preview.hidden = true;
+  button.textContent = PREVIEW_ICON_PLAY;
+  button.setAttribute('aria-label', 'Play preview');
+  button.title = 'Play preview';
+  iframe.src = '';
+}
+
+previewButtons.forEach((button) => {
+  button.addEventListener('click', () => {
+    const track = button.closest('.track');
+    if (!track) return;
+
+    const preview = track.querySelector('.track-preview');
+    const iframe = preview ? preview.querySelector('iframe') : null;
+    if (!preview || !iframe) return;
+
+    const shouldOpen = preview.hidden;
+
+    document.querySelectorAll('.track').forEach((otherTrack) => {
+      if (otherTrack !== track) closeTrackPreview(otherTrack);
+    });
+
+    if (!shouldOpen) {
+      closeTrackPreview(track);
+      return;
+    }
+
+    iframe.src = iframe.dataset.src || '';
+    preview.hidden = false;
+    button.textContent = PREVIEW_ICON_CLOSE;
+    button.setAttribute('aria-label', 'Hide preview');
+    button.title = 'Hide preview';
+  });
+});
+
+// Local one-off piece: disappears after it finishes playing.
+const ephemeralTrack = document.getElementById('track-ephemeral');
+const ephemeralButton = document.getElementById('track-ephemeral-btn');
+const ephemeralAudio = document.getElementById('track-ephemeral-audio');
+
+if (ephemeralTrack && ephemeralButton && ephemeralAudio) {
+  ephemeralButton.addEventListener('click', async () => {
+    // Stop other previews before playing the local piece.
+    document.querySelectorAll('.track').forEach((trackEl) => {
+      if (trackEl !== ephemeralTrack) closeTrackPreview(trackEl);
+    });
+
+    ephemeralTrack.classList.add('is-playing');
+    ephemeralButton.disabled = true;
+    ephemeralButton.title = 'Playing...';
+    ephemeralButton.textContent = '\u25A0';
+
+    try {
+      await ephemeralAudio.play();
+    } catch {
+      ephemeralTrack.classList.remove('is-playing');
+      ephemeralButton.disabled = false;
+      ephemeralButton.title = 'Play unnamed piece';
+      ephemeralButton.textContent = '\u25B6';
+    }
+  });
+
+  ephemeralAudio.addEventListener('ended', () => {
+    ephemeralTrack.classList.remove('is-playing');
+    ephemeralTrack.classList.add('is-vanishing');
+    setTimeout(() => {
+      ephemeralTrack.remove();
+    }, 650);
+  });
+}
 
 // CTA click tracking
 const ctaButtons = document.querySelectorAll('.track-cta');
