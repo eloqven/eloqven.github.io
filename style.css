@@ -351,7 +351,7 @@ a { color: var(--accent); text-decoration: none; }
 /* ─── Skills ───────────────────────────────────────────────────────── */
 
 .skills-grid {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 24px;
 }
 .skill-group {
@@ -379,7 +379,81 @@ a { color: var(--accent); text-decoration: none; }
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 16px;
 }
-.gallery-blog { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+.gallery-blog { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+.gallery-collapsible {
+  position: relative;
+  overflow: hidden;
+  max-height: none;
+  --collapsed-height: 1200px;
+  transition: max-height 0.45s ease;
+}
+.gallery-collapsible.is-collapsed {
+  max-height: var(--collapsed-height);
+}
+.gallery-fade {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 180px;
+  background: linear-gradient(to bottom, rgba(14, 14, 14, 0), rgba(14, 14, 14, 0.95) 70%, rgba(14, 14, 14, 1));
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 0.25s ease;
+  z-index: 2;
+}
+.gallery-more-btn {
+  position: absolute;
+  left: 50%;
+  bottom: 24px;
+  transform: translateX(-50%);
+  z-index: 3;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--white);
+  border-radius: 999px;
+  padding: 10px 20px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+}
+.gallery-more-btn:hover {
+  transform: translateX(-50%) translateY(-1px);
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+.gallery-collapsible.is-expanded .gallery-fade,
+.gallery-collapsible.is-expanded .gallery-more-btn {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Visual Art: packed masonry with original image ratios */
+#gallery {
+  display: block;
+  column-count: 5;
+  column-gap: 0;
+  line-height: 0;
+}
+#gallery .gallery-item {
+  display: inline-block;
+  width: 100%;
+  margin: 0;
+  border-radius: 0;
+  aspect-ratio: auto;
+  line-height: 0;
+  vertical-align: top;
+}
+#gallery .gallery-item img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
 
 .gallery-item {
   position: relative; overflow: hidden; border-radius: 8px;
@@ -537,8 +611,17 @@ footer {
   display: flex; gap: 32px; max-width: 1000px; max-height: 90vh;
   align-items: center;
 }
+.lightbox-content #lightbox-link {
+  display: block;
+  line-height: 0;
+  max-width: 60%;
+  max-height: 85vh;
+  flex: 0 1 60%;
+}
 .lightbox-content img {
-  max-width: 60%; max-height: 85vh; object-fit: contain;
+  max-width: 100%;
+  max-height: 85vh;
+  object-fit: contain;
   border-radius: 8px;
 }
 .lightbox-info { max-width: 350px; color: var(--white); }
@@ -565,13 +648,21 @@ footer {
   .timeline-item::before { left: 4px; }
   .timeline-date { text-align: left; font-size: 11px; }
 
+  .skills-grid { grid-template-columns: 1fr; gap: 16px; }
+  .skill-group { padding: 18px; }
+  .skill-group--wide { grid-column: span 1; }
+
   .gallery { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; }
+  .gallery-blog { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  #gallery { column-count: 3; column-gap: 0; }
+  #gallery .gallery-item { margin: 0; }
   .gallery-overlay { opacity: 1; padding: 20px 10px 10px; }
   .gallery-overlay span { font-size: 11px; }
 
   .lightbox-content {
     flex-direction: column; gap: 16px;
   }
+  .lightbox-content #lightbox-link { max-width: 100%; max-height: 50vh; flex: 0 1 auto; }
   .lightbox-content img { max-width: 100%; max-height: 50vh; }
   .lightbox-info { max-width: 100%; }
   .lightbox-info h3 { font-size: 20px; }
@@ -579,8 +670,10 @@ footer {
 
   .projects-grid { grid-template-columns: 1fr; }
   .services-grid { grid-template-columns: 1fr; }
-  .links-grid { grid-template-columns: repeat(4, 1fr); gap: 12px; }
-  .link-card { padding: 20px 12px; }
+  .links-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .link-card { padding: 16px 10px; min-height: 120px; }
+  .link-icon { width: 40px; height: 40px; font-size: 16px; }
+  .link-name { font-size: 12px; text-align: center; }
 
   .personality-cards { grid-template-columns: 1fr; }
   .dna-grid { grid-template-columns: 1fr; }
@@ -590,4 +683,6 @@ footer {
   .hero-title { letter-spacing: -1px; }
   .section { padding: 56px 0; }
   .gallery { grid-template-columns: repeat(2, 1fr); }
+  .gallery-blog { grid-template-columns: 1fr; }
+  #gallery { column-count: 2; column-gap: 0; }
 }

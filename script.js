@@ -26,11 +26,38 @@ links.querySelectorAll('a').forEach(a => {
 });
 
 // ─── Lightbox ────────────────────────────────────────────────────────
+// Visual Art collapsed view (show 1/3 by default, expand on demand).
+const artCollapsible = document.getElementById('art-collapsible');
+const artGallery = document.getElementById('gallery');
+const artShowMore = document.getElementById('art-show-more');
+
+function updateArtCollapsedHeight() {
+  if (!artCollapsible || !artGallery) return;
+  const fullHeight = artGallery.scrollHeight;
+  const collapsedHeight = Math.max(Math.round(fullHeight / 3), 420);
+  artCollapsible.style.setProperty('--collapsed-height', `${collapsedHeight}px`);
+}
+
+if (artCollapsible && artGallery && artShowMore) {
+  updateArtCollapsedHeight();
+  window.addEventListener('load', updateArtCollapsedHeight);
+  window.addEventListener('resize', updateArtCollapsedHeight);
+  artGallery.querySelectorAll('img').forEach((img) => {
+    img.addEventListener('load', updateArtCollapsedHeight, { once: true });
+  });
+
+  artShowMore.addEventListener('click', () => {
+    artCollapsible.classList.remove('is-collapsed');
+    artCollapsible.classList.add('is-expanded');
+  });
+}
 const lightbox = document.getElementById('lightbox');
+const lbLink = document.getElementById('lightbox-link');
 const lbImg = document.getElementById('lightbox-img');
 const lbTitle = document.getElementById('lightbox-title');
 const lbYear = document.getElementById('lightbox-year');
 const lbDesc = document.getElementById('lightbox-desc');
+let activeSourceLink = '';
 
 document.querySelectorAll('.gallery-item').forEach(item => {
   item.addEventListener('click', () => {
@@ -40,6 +67,21 @@ document.querySelectorAll('.gallery-item').forEach(item => {
     lbTitle.textContent = item.dataset.title || '';
     lbYear.textContent = item.dataset.year || '';
     lbDesc.textContent = item.dataset.desc || '';
+    activeSourceLink = item.dataset.link || '';
+
+    // Large image click opens original source post when available.
+    if (activeSourceLink) {
+      lbLink.href = activeSourceLink;
+      lbLink.style.pointerEvents = 'auto';
+      lbImg.style.cursor = 'pointer';
+      lbImg.title = 'Open original post';
+    } else {
+      lbLink.removeAttribute('href');
+      lbLink.style.pointerEvents = 'none';
+      lbImg.style.cursor = 'default';
+      lbImg.title = '';
+    }
+
     lightbox.classList.add('active');
     document.body.style.overflow = 'hidden';
   });
@@ -56,6 +98,7 @@ document.addEventListener('keydown', (e) => {
 function closeLightbox() {
   lightbox.classList.remove('active');
   document.body.style.overflow = '';
+  activeSourceLink = '';
 }
 
 // ─── Scroll animations ──────────────────────────────────────────────
@@ -103,3 +146,4 @@ document.querySelectorAll('.track-cta').forEach((el) => {
     }
   });
 });
+
