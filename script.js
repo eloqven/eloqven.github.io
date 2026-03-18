@@ -1,31 +1,38 @@
-// Theme cycle easter egg: default -> dark -> brutalist -> luxe
+// Theme switch: luxe (default) <-> light
 const themeToggle = document.getElementById('theme-toggle');
 const navThemeToggle = document.querySelector('.nav-logo');
 const themeToggles = [themeToggle, navThemeToggle].filter(Boolean);
-const themeModes = ['default', 'dark', 'brutalist', 'luxe'];
+const themeModes = ['luxe', 'light'];
 const themeClassByMode = {
-  dark: 'dark',
-  brutalist: 'theme-brutalist',
-  luxe: 'theme-luxe'
+  luxe: 'theme-luxe',
+  light: 'theme-light'
 };
 
+function normalizeThemeMode(mode) {
+  if (mode === 'luxe' || mode === 'light') return mode;
+  // Legacy removed modes now default to luxe.
+  if (mode === 'default' || mode === 'dark' || mode === 'brutalist') return 'luxe';
+  return null;
+}
+
 function applyThemeMode(mode) {
-  document.body.classList.remove('dark', 'theme-brutalist', 'theme-luxe');
+  document.body.classList.remove('dark', 'theme-brutalist', 'theme-luxe', 'theme-light');
   const cls = themeClassByMode[mode];
   if (cls) document.body.classList.add(cls);
   localStorage.setItem('theme_mode', mode);
-  localStorage.setItem('theme', mode === 'dark' ? 'dark' : 'light');
+  // Keep legacy key meaningful for older code paths.
+  localStorage.setItem('theme', mode === 'light' ? 'light' : 'dark');
   themeToggles.forEach((el) => {
-    el.title = `Theme: ${mode} (click to switch)`;
+    const label = mode === 'luxe' ? 'Luxe' : 'Light';
+    el.title = `Theme: ${label} (click to switch)`;
   });
 }
 
-let currentThemeMode = localStorage.getItem('theme_mode');
+let currentThemeMode = normalizeThemeMode(localStorage.getItem('theme_mode'));
 if (!currentThemeMode) {
-  // Backward compatibility with legacy dark/light key.
-  currentThemeMode = localStorage.getItem('theme') === 'dark' ? 'dark' : 'default';
+  // Default is luxe. Legacy dark/light key maps to luxe/light.
+  currentThemeMode = localStorage.getItem('theme') === 'light' ? 'light' : 'luxe';
 }
-if (!themeModes.includes(currentThemeMode)) currentThemeMode = 'default';
 applyThemeMode(currentThemeMode);
 
 if (themeToggles.length) {
