@@ -323,6 +323,22 @@ body.light-mode{color-scheme:light;--bg:#f2f6fb;--panel:#fff;--panel2:#eef4fa;--
 .prod-top-controls button{padding:5px 9px;border-radius:6px;border:1px solid var(--line);background:var(--panel2);color:var(--txt);font-size:11px;font-weight:700;transition:all 0.15s ease;}
 .prod-top-controls button.active{background:var(--accent-primary, #a9ed77);border-color:var(--accent-primary, #a9ed77);color:#0e1e12;}
 
+/* Survival Mode & Starter Selection Styles */
+.survival-trigger-btn{background:linear-gradient(135deg, #7a1c30, #541322);border:1px solid #c93b58;color:#fff!important;font-weight:750;border-radius:6px;padding:5px 12px;font-size:11px;cursor:pointer;display:inline-flex;align-items:center;gap:5px;transition:all 0.2s ease;}
+.survival-trigger-btn:hover{background:linear-gradient(135deg, #99233d, #6d182c);box-shadow:0 0 10px rgba(201, 59, 88, 0.4);}
+.mode-survival .survival-trigger-btn{background:#236139;border-color:#48a362;}
+.survival-lock-banner{background:#2b1117;border:1px solid #7a2233;border-radius:8px;padding:8px 12px;margin:10px 12px;text-align:center;color:#fca5a5;}
+body.mode-survival .sidebar.survival-locked{border-color:#7a2233;}
+body.mode-survival .sidebar.survival-locked input,
+body.mode-survival .sidebar.survival-locked select,
+body.mode-survival .sidebar.survival-locked button:not(#exitSurvivalBtn):not(.category-tab){opacity:0.55;pointer-events:none;cursor:not-allowed;}
+.survival-modal-backdrop{position:fixed;inset:0;background:rgba(4, 9, 15, 0.88);backdrop-filter:blur(8px);z-index:10000;display:flex;align-items:center;justify-content:center;padding:16px;}
+.survival-modal-card{background:#0f1a28;border:1px solid #334e68;border-radius:16px;max-width:860px;width:100%;padding:24px;box-shadow:0 20px 60px rgba(0,0,0,0.6);color:var(--txt);}
+.starter-grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(230px, 1fr));gap:16px;margin-top:14px;}
+.starter-card{background:#142334;border:2px solid #2d455d;border-radius:12px;padding:16px;display:flex;flex-direction:column;justify-content:space-between;gap:12px;transition:all 0.2s;}
+.starter-card.unlocked:hover{border-color:#58a6ff;transform:translateY(-2px);box-shadow:0 8px 24px rgba(88,166,255,0.15);}
+.starter-card.locked{opacity:0.65;border-color:#4a2b31;background:#18151c;}
+
 
 /* Theme Selector Bar & Toggle Buttons */
 .theme-selector-bar {
@@ -1366,6 +1382,9 @@ body.layout-arcade-deck .btn.primary, body.layout-arcade .btn.primary {
     <button id="layoutBtn_arcade" class="layout-btn" type="button" title="Arcade Cabinet">Arcade Deck</button>
     <button id="toggleDpadBtn" type="button" style="margin-left:6px;" title="Comută D-Pad pe ecran (tasta D)">🎮 D-Pad</button>
   </div>
+  <div class="btn-group">
+    <button id="btnSurvivalMode" class="survival-trigger-btn" type="button" title="Pornește Modul Supraviețuire cu setări înghețate și șerpi speciali">🛡️ Mod Supraviețuire</button>
+  </div>
 </div>
 <div id="virtualDpadContainer"></div>
 
@@ -1385,6 +1404,13 @@ body.layout-arcade-deck .btn.primary, body.layout-arcade .btn.primary {
 <div class="inline-info"><span><span class="kbd">Shift</span> + <span class="kbd">2–9</span> selectează șarpele · <span class="kbd">Alt</span> + <span class="kbd">Shift</span> + <span class="kbd">+</span>/<span class="kbd">−</span> schimbă selecția · <span class="kbd">Shift</span> + <span class="kbd">+</span>/<span class="kbd">−</span> schimbă pasul sliderelor</span><span><span class="kbd">Space</span> pauză</span></div>
 </main>
 <aside class="card sidebar sheet-collapsed" id="settingsPanel" aria-label="Configurare joc">
+
+<div class="survival-lock-banner" id="survivalLockBanner" hidden>
+  <strong style="display:flex;align-items:center;justify-content:center;gap:6px;">🔒 MOD SUPRAVIEȚUIRE ACTIV</strong>
+  <div style="font-size:10px;color:#fca5a5;margin:3px 0;">Setările sunt înghețate. Evoluează doar șarpele și mediul.</div>
+  <button type="button" id="exitSurvivalBtn" class="btn danger mini" style="padding:3px 8px;font-size:10px;margin-top:2px;">Ieși din Survival</button>
+</div>
+
 <div class="sheet-drag-handle" id="sheetDragHandle" title="Glisează sau apasă pentru a deschide/închide setările"><span class="sheet-drag-pill"></span><span class="sheet-handle-text">▲ Panou Setări · Glisează sau apasă</span></div>
 <div class="panel-tools" id="panelTools"><div><b>CATEGORII · LIVE</b><small>Derulează separat · grila rămâne vizibilă</small></div><div class="panel-buttons"><button id="panelSliders" type="button" class="active">Slidere</button><button id="panelAll" type="button">Tot</button><button id="panelClose" type="button" aria-label="Ascunde panoul">×</button></div></div>
 <div class="precision-tools" id="precisionTools" aria-label="Precizia globală a sliderelor">
@@ -1487,7 +1513,7 @@ const $=id=>document.getElementById(id),canvas=$('game'),ctx=canvas.getContext('
 const DIR={up:{x:0,y:-1},down:{x:0,y:1},left:{x:-1,y:0},right:{x:1,y:0}},DIRECTIONS=Object.values(DIR);
 const FOOD_BASE_COLOR='#b4f287'; // same RGB as the founder at initial creation
 const COLORS=['#b4f287','#b4a1ff','#6cd4f7','#fbb77d','#f27ba8','#ebdf78','#78e2b9','#f58d88','#9fc4fd','#cb9ee5','#ead1a4'];
-let opts={currentTheme:'cyber-slate',currentLayout:'cockpit',dpadVisible:false,worldMode:'finite',worldSeed:'12345',enableFaux3D:false,topScale:0.70,topAlpha:0.50,middleK:0.50,bottomAlpha:1.0,wireframeGrid:true,wireframeSnakes:true,initialVineSize:3,duplication:{grid:true,snakes:true,heads:true,berries:true,emojis:false,vineFootprints:false,vineLabels:false,heatmap:false,contactMarks:false,parentChildLinks:false,coordinates:false,editor:false},cols:30,rows:22,speed:5,timeScale:1,moonCycle:60,lunarReproduction:true,mutation:.35,colorMutation:8,moonBerryEffect:50,foodGeneMutation:5,founderSusceptibility:50,vineSpreadChance:25,vineAbsorbChance:100,sameColorAttraction:8,differentColorRepulsion:8,foodColorPreference:false,tailStealing:false,subpixel:false,subdivisions:4,collisionScale:100,decay:20,radius:5,foodDecay:.4,foodDensity:2.5,foodSpawn:.8,foodNodes:10,foodRadius:6,initialFood:2,baseFertility:1,corpseImpact:0.8,corpseLifetime:25,corpseRadius:1.5,showContactMarks:true,showDeathHeatmap:false,showNodes:false,numbers:false,showGrid:true,lightMode:false,fib:true,selfCut:false,family:false,noCollision:false,walls:false,fade:true,foodMode:"ecology",spawnMin:2,spawnMax:6,lifeMin:4,lifeMax:12};
+let opts={currentTheme:'cyber-slate',currentLayout:'cockpit',dpadVisible:false,worldMode:'finite',worldSeed:'12345',enableFaux3D:false,topScale:0.70,topAlpha:0.50,middleK:0.50,bottomAlpha:1.0,wireframeGrid:true,wireframeSnakes:true,initialVineSize:3,vineShape:'square',emojiOpacity:0.70,emojiPalette:['🔷', '🔹', '💠', '❄️', '💎', '🔶', '🔸', '🔆', '⭐', '✨'],gameMode:'sandbox',currentSurvivalStarter:'green',duplication:{grid:true,snakes:true,heads:true,berries:true,emojis:false,vineFootprints:false,vineLabels:false,heatmap:false,contactMarks:false,parentChildLinks:false,coordinates:false,editor:false},cols:30,rows:22,speed:5,timeScale:1,moonCycle:60,lunarReproduction:true,mutation:.35,colorMutation:8,moonBerryEffect:50,foodGeneMutation:5,founderSusceptibility:50,vineSpreadChance:25,vineAbsorbChance:100,sameColorAttraction:8,differentColorRepulsion:8,foodColorPreference:false,tailStealing:false,subpixel:false,subdivisions:4,collisionScale:100,decay:20,radius:5,foodDecay:.4,foodDensity:2.5,foodSpawn:.8,foodNodes:10,foodRadius:6,initialFood:2,baseFertility:1,corpseImpact:0.8,corpseLifetime:25,corpseRadius:1.5,showContactMarks:true,showDeathHeatmap:false,showNodes:false,numbers:false,showGrid:true,lightMode:false,fib:true,selfCut:false,family:false,noCollision:false,walls:false,fade:true,foodMode:"ecology",spawnMin:2,spawnMax:6,lifeMin:4,lifeMax:12};
 let nodeSlots=0,nextVineId=1,cachedVineCells=null,vineCacheTime=0;
 let contactMarks=new Map(),deathHeatmap=new Map(),heatmapDirty=false,heatSegments=0,nutrientStatsClock=0,foodNodes=[],foodNodesById=new Map(),ecoClock=0,nodeFlashUntil=0,ecoNote='—',snakes=[],foods=[],selected=new Set([1]),nextId=1,births=0,eaten=0,phase='ready',lastFrame=0,decayClock=0,hover=null,renderListNeedsUpdate=true,logItems=[],lastLog='',modePreset=1;
 let persistedSnakeControls={};
@@ -1532,6 +1558,418 @@ function bornSusceptibility(parent){
  return clamp((parent.vineSusceptibility??opts.founderSusceptibility)+shift,0,100);
 }
 
+// --- Modular Game Mechanics Extensions (RC-Znk-01) ---
+/**
+ * Maternal Speed Transfer & Food Recovery System.
+ *
+ * Requirements:
+ * - When a mother snake produces offspring, the newborn's speed is deducted from her total speed.
+ * - The mother must eat food berries to progressively recover her lost speed,
+ *   proportional to the percentage of energy/speed she transmitted to the offspring.
+ *
+ * Coordinator: RC-Znk-01 [uncle of RC03-Wisly]
+ */
+
+'use strict';
+
+/**
+ * Calculates the speed transfer from mother to newborn.
+ * @param {object} parent - The mother snake
+ * @param {number} childLength - Length of the newborn snake
+ * @returns {object} { speedDeducted, transferRatio, speedRecoveryPerBerry }
+ */
+function calculateMaternalTransfer(parent, childLength) {
+  if (!parent || !parent.body) {
+    return { speedDeducted: 0, transferRatio: 0, speedRecoveryPerBerry: 0 };
+  }
+  const parentLen = parent.body.length || 5;
+  const childLen = childLength || 3;
+  const totalLen = parentLen + childLen;
+
+  // Fraction of biomass/energy given to child, capped between 15% and 45%
+  const transferRatio = Math.max(0.15, Math.min(0.45, (childLen / totalLen) * 0.80));
+  
+  // Deduct speed proportional to the transfer ratio
+  const currentSpeed = parent.speedFactor || 1.0;
+  const speedDeducted = Number((currentSpeed * transferRatio).toFixed(4));
+  
+  // Each berry eaten recovers a fair share of the deficit (e.g. 1 child length of berries = full recovery)
+  const berriesToRecover = Math.max(2, Math.min(8, childLen));
+  const speedRecoveryPerBerry = Number((speedDeducted / berriesToRecover).toFixed(4));
+
+  return { speedDeducted, transferRatio, speedRecoveryPerBerry, berriesToRecover };
+}
+
+/**
+ * Applies speed deduction to the mother snake at the moment of birth/split.
+ * @param {object} parent - The mother snake
+ * @param {object} child - The newborn snake
+ */
+function applyMaternalBirthDeduction(parent, child) {
+  if (!parent) return;
+  const childLen = child && child.body ? child.body.length : 3;
+  const { speedDeducted, transferRatio, speedRecoveryPerBerry } = calculateMaternalTransfer(parent, childLen);
+
+  if (speedDeducted > 0) {
+    // Record original base speed if not already set
+    if (!parent.originalSpeedFactor) {
+      parent.originalSpeedFactor = parent.speedFactor || 1.0;
+    }
+    parent.speedDebt = Number(((parent.speedDebt || 0) + speedDeducted).toFixed(4));
+    parent.speedFactor = Number(Math.max(0.25, parent.speedFactor - speedDeducted).toFixed(4));
+    parent.speedRecoveryPerBerry = speedRecoveryPerBerry;
+    parent.lastSpeedDeduction = speedDeducted;
+    parent.speedTransferredPct = Number((transferRatio * 100).toFixed(1));
+  }
+}
+
+/**
+ * Recovers speed for a mother snake when she eats a food berry.
+ * @param {object} snake - The snake that ate a berry
+ * @returns {number} The recovered speed amount (0 if no debt)
+ */
+function recoverMaternalSpeed(snake) {
+  if (!snake || !snake.speedDebt || snake.speedDebt <= 0) {
+    return 0;
+  }
+  const recovery = Math.min(snake.speedDebt, snake.speedRecoveryPerBerry || 0.08);
+  snake.speedFactor = Number((snake.speedFactor + recovery).toFixed(4));
+  snake.speedDebt = Number(Math.max(0, snake.speedDebt - recovery).toFixed(4));
+
+  if (snake.speedDebt === 0 && snake.originalSpeedFactor) {
+    // Fully restored! Clean up debt tracking
+    snake.speedFactor = Number(Math.max(snake.speedFactor, snake.originalSpeedFactor).toFixed(4));
+  }
+  return recovery;
+}
+
+
+
+/**
+ * Emoji Mechanics: Desperation Feeding, Toxicity & Disorientation Engine.
+ *
+ * Requirements:
+ * - A snake can eat an emoji to save its life when it has fewer than 3 (or <= 3) segments.
+ * - The chance is not 100%; each snake has an inherited/mutated gene that dictates this chance.
+ * - The chance is near 0 when snake length > 3; it grows as length approaches 3,
+ *   then increases exponentially towards 1.0 as length drops to 1.
+ * - Emojis are toxic: eating an emoji inflicts disorientation.
+ * - Direction controls can be inverted with probability proportional to the number of emojis eaten.
+ * - Eating regular food berries cleanses toxicity stacks.
+ *
+ * Coordinator: RC-Znk-01 [uncle of RC03-Wisly]
+ */
+
+'use strict';
+
+const DEFAULT_EMOJI_PALETTE = ['🔷', '🔹', '💠', '❄️', '💎', '🔶', '🔸', '🔆', '⭐', '✨'];
+
+/**
+ * Calculates the exact probability of an emergency emoji consumption.
+ * @param {object} snake - Snake with length and emojiDesperationGene
+ * @returns {number} Probability in range [0, 1]
+ */
+function calculateEmojiEatChance(snake) {
+  if (!snake || !snake.body) return 0;
+  const len = snake.body.length;
+  // Desperation gene defaults to 75% for founder, mutates on offspring
+  const gene = typeof snake.emojiDesperationGene === 'number' 
+    ? Math.max(0.10, Math.min(1.0, snake.emojiDesperationGene / 100))
+    : 0.75;
+
+  if (len > 3) {
+    // Near 0 for length > 3, drops off steeply
+    return Number((0.005 * Math.exp(-(len - 3)) * gene).toFixed(6));
+  }
+
+  // Length <= 3: exponential growth towards 1.0
+  // L = 3: ~18% * gene
+  // L = 2: ~65% * gene
+  // L = 1: ~98% * gene
+  let baseProbability;
+  if (len === 3) {
+    baseProbability = 0.22;
+  } else if (len === 2) {
+    baseProbability = 0.68;
+  } else {
+    // len <= 1 (absolute critical survival threshold)
+    baseProbability = 0.98;
+  }
+
+  return Number(Math.min(1.0, Math.max(0.01, baseProbability * gene)).toFixed(4));
+}
+
+/**
+ * Mutates the emoji desperation gene on reproduction.
+ * @param {object} parent - Parent snake
+ * @param {number} mutationRate - Global mutation rate
+ * @returns {number} Mutated gene in [10, 100]%
+ */
+function mutateEmojiDesperationGene(parent, mutationRate = 0.05) {
+  const base = parent && typeof parent.emojiDesperationGene === 'number'
+    ? parent.emojiDesperationGene
+    : 75;
+  const shift = (Math.random() * 2 - 1) * (mutationRate * 50);
+  return Number(Math.max(10, Math.min(100, base + shift)).toFixed(2));
+}
+
+/**
+ * Processes emergency emoji consumption when a snake's head contacts an emoji landmark.
+ * @param {object} snake - Snake consuming the emoji
+ * @param {string} emojiChar - The emoji character
+ * @param {boolean} force - Force consumption regardless of roll (for testing)
+ * @returns {boolean} Whether consumption occurred
+ */
+function attemptEmergencyEmojiConsumption(snake, emojiChar, force = false) {
+  if (!snake) return false;
+  const chance = calculateEmojiEatChance(snake);
+  if (!force && Math.random() >= chance) {
+    return false; // Did not pass desperation roll
+  }
+
+  // Emergency consumption succeeded! Save the snake's life
+  snake.pending = (snake.pending || 0) + 1;
+  snake.score = (snake.score || 0) + 5;
+  snake.emojisEaten = (snake.emojisEaten || 0) + 1;
+
+  // Add toxicity and disorientation
+  snake.toxicity = (snake.toxicity || 0) + 1;
+  // Disorientation steps: 20 base + 15 per toxicity stack
+  snake.disorientationSteps = (snake.disorientationSteps || 0) + (20 + snake.toxicity * 15);
+  snake.lastEmergencyEmoji = emojiChar || '✨';
+
+  return true;
+}
+
+/**
+ * Inverts a direction vector: up <-> down, left <-> right.
+ * @param {object} dir - Direction { x, y }
+ * @returns {object} Inverted direction
+ */
+function invertDirection(dir) {
+  if (!dir) return { x: 1, y: 0 };
+  return { x: dir.x ? -dir.x : 0, y: dir.y ? -dir.y : 0 };
+}
+
+/**
+ * Evaluates direction steering, applying toxic disorientation inversion if active.
+ * Inversion probability is directly proportional to toxicity: min(0.85, toxicity * 0.25).
+ * @param {object} snake - The snake being steered
+ * @param {object} requestedDir - Requested direction { x, y }
+ * @returns {object} { dir, wasInverted, probability }
+ */
+function applyDisorientation(snake, requestedDir) {
+  if (!snake || !requestedDir) {
+    return { dir: requestedDir, wasInverted: false, probability: 0 };
+  }
+
+  if (!snake.disorientationSteps || snake.disorientationSteps <= 0 || !snake.toxicity) {
+    return { dir: requestedDir, wasInverted: false, probability: 0 };
+  }
+
+  // Inversion probability directly proportional to toxicity level
+  const inversionProb = Math.min(0.85, snake.toxicity * 0.25);
+  const roll = Math.random();
+
+  if (roll < inversionProb) {
+    const inverted = invertDirection(requestedDir);
+    return { dir: inverted, wasInverted: true, probability: inversionProb };
+  }
+
+  return { dir: requestedDir, wasInverted: false, probability: inversionProb };
+}
+
+/**
+ * Cleanses 1 stack of toxicity when a clean food berry is eaten.
+ * @param {object} snake - The snake that ate a berry
+ * @returns {number} Remaining toxicity
+ */
+function cleanseToxicityOnBerry(snake) {
+  if (!snake || !snake.toxicity || snake.toxicity <= 0) return 0;
+  snake.toxicity = Math.max(0, snake.toxicity - 1);
+  if (snake.toxicity === 0) {
+    snake.disorientationSteps = 0;
+  } else {
+    snake.disorientationSteps = Math.max(0, snake.disorientationSteps - 15);
+  }
+  return snake.toxicity;
+}
+
+
+
+/**
+ * Survival Mode Engine & Starter Character System.
+ *
+ * Requirements:
+ * - Dedicated Survival Mode with autosave in localStorage.
+ * - Settings are frozen/locked once started: only snake and environment evolve.
+ * - 3 starter snakes to choose from at run initialization:
+ *   1. Green & Short (length 3, agile, unlocked)
+ *   2. Amber & Medium (length 5, balanced, unlocked)
+ *   3. Red & Long (length 13, colossal tank, LOCKED initially)
+ * - Red starter unlocks upon reaching generation 3 or score >= 50.
+ *
+ * Coordinator: RC-Znk-01 [uncle of RC03-Wisly]
+ */
+
+'use strict';
+
+const SURVIVAL_SAVE_KEY = 'znake_survival_save';
+const UNLOCK_KEY = 'znake_unlocked_red_starter';
+
+const STARTER_SNAKES = {
+  green: {
+    id: 'green',
+    name: 'Vipera de Smarald',
+    length: 3,
+    color: '#2ecc71',
+    description: 'Șarpe scurt de 3 segmente, rapid și agil. Risc ridicat, dar capacitate maximă de salvare prin consum de emoji (95%).',
+    speedFactor: 1.25,
+    collisionResistance: 25,
+    emojiDesperationGene: 95,
+    fertility: 15,
+    locked: false,
+    lockReason: null
+  },
+  amber: {
+    id: 'amber',
+    name: 'Străjerul de Chihlimbar',
+    length: 5,
+    color: '#f39c12',
+    description: 'Șarpe mediu de 5 segmente (Fibonacci). Rezistență echilibrată și predispoziție superioară pentru clonare Fibonacci.',
+    speedFactor: 1.0,
+    collisionResistance: 40,
+    emojiDesperationGene: 70,
+    fertility: 25,
+    locked: false,
+    lockReason: null
+  },
+  red: {
+    id: 'red',
+    name: 'Leviatanul Stacojiu',
+    length: 13,
+    color: '#e74c3c',
+    description: 'Colos antic de 13 segmente (Fibonacci). Blindaj masiv și rezistență extremă la coliziuni și toxicitate.',
+    speedFactor: 0.75,
+    collisionResistance: 75,
+    emojiDesperationGene: 40,
+    fertility: 10,
+    locked: true,
+    lockReason: 'Atinge generația 3 sau scor 50 în mod Supraviețuire pentru deblocare'
+  }
+};
+
+/**
+ * Checks if the red leviathan starter is unlocked.
+ * @param {Storage} storage - localStorage interface
+ * @returns {boolean}
+ */
+function isRedStarterUnlocked(storage = typeof localStorage !== 'undefined' ? localStorage : null) {
+  if (!storage) return false;
+  try {
+    return storage.getItem(UNLOCK_KEY) === 'true';
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Unlocks the red leviathan starter.
+ * @param {Storage} storage - localStorage interface
+ */
+function unlockRedStarter(storage = typeof localStorage !== 'undefined' ? localStorage : null) {
+  if (!storage) return;
+  try {
+    storage.setItem(UNLOCK_KEY, 'true');
+  } catch {}
+}
+
+/**
+ * Retrieves the starter snake definitions with current unlock status.
+ * @param {Storage} storage - localStorage interface
+ * @returns {Array<object>}
+ */
+function getStarterSnakes(storage = typeof localStorage !== 'undefined' ? localStorage : null) {
+  const redUnlocked = isRedStarterUnlocked(storage);
+  return [
+    { ...STARTER_SNAKES.green },
+    { ...STARTER_SNAKES.amber },
+    { ...STARTER_SNAKES.red, locked: !redUnlocked }
+  ];
+}
+
+/**
+ * Serializes survival mode game state for localStorage persistence.
+ * @param {object} gameState - Full state of game, snakes, foods, and metrics
+ * @returns {string} JSON string
+ */
+function serializeSurvivalState(gameState) {
+  const payload = {
+    version: 1,
+    mode: 'survival',
+    savedAt: Date.now(),
+    starterId: gameState.starterId || 'green',
+    score: gameState.score || 0,
+    generation: gameState.generation || 1,
+    snakes: (gameState.snakes || []).map(s => ({
+      id: s.id,
+      body: s.body.map(p => ({ x: p.x, y: p.y })),
+      dir: { x: s.dir.x, y: s.dir.y },
+      color: s.color,
+      speedFactor: s.speedFactor,
+      speedDebt: s.speedDebt || 0,
+      toxicity: s.toxicity || 0,
+      disorientationSteps: s.disorientationSteps || 0,
+      emojiDesperationGene: s.emojiDesperationGene,
+      generation: s.generation,
+      role: s.role,
+      pending: s.pending || 0
+    })),
+    foods: (gameState.foods || []).map(f => ({ x: f.x, y: f.y, color: f.color })),
+    lockedSettings: {
+      speed: gameState.opts.speed,
+      cols: gameState.opts.cols,
+      rows: gameState.opts.rows,
+      vineShape: gameState.opts.vineShape || 'square',
+      foodMode: gameState.opts.foodMode || 'ecology'
+    }
+  };
+  return JSON.stringify(payload);
+}
+
+/**
+ * Deserializes survival mode game state from localStorage.
+ * @param {string} raw - JSON string from localStorage
+ * @returns {object|null}
+ */
+function deserializeSurvivalState(raw) {
+  if (!raw) return null;
+  try {
+    const data = JSON.parse(raw);
+    if (!data || data.mode !== 'survival' || !Array.isArray(data.snakes) || data.snakes.length === 0) {
+      return null;
+    }
+    return data;
+  } catch {
+    return null;
+  }
+}
+
+
+
+function checkEmergencyEmojiConsumption(snake, cell){
+  if(!snake || snake.body.length > 3) return false;
+  const ref = typeof getReferenceEmoji === 'function' ? getReferenceEmoji(cell.x, cell.y, opts.worldSeed) : null;
+  if(!ref || !ref.glyph) return false;
+  const consumed = attemptEmergencyEmojiConsumption(snake, ref.glyph);
+  if(consumed){
+    info('⚠️ SALVARE DISPERATĂ! #' + snake.id + ' a consumat emoji ' + ref.glyph + ' pentru a supraviețui! (Toxicitate Lv.' + snake.toxicity + ')');
+    renderListNeedsUpdate = true;
+    return true;
+  }
+  return false;
+}
+
 // --- Free Roam, Seeded PRNG & Wireframe Engine (RC-Znk-01) ---
 let camera = { x: 15, y: 11, zoom: 1.0, targetSnakeId: 1 };
 const EMOJI_PALETTE_3 = ['🔷', '🔹', '💠', '❄️', '💎'];
@@ -1568,13 +2006,14 @@ function getReferenceEmoji(worldX, worldY, seed = 0) {
   const is3 = posMod(worldX, 3) === 0 && posMod(worldY, 3) === 0;
   const is5 = posMod(worldX, 5) === 0 && posMod(worldY, 5) === 0;
   if (is3 && is5) return null; // intersection skip
+  const pal = (opts.emojiPalette && opts.emojiPalette.length) ? opts.emojiPalette : (typeof DEFAULT_EMOJI_PALETTE !== 'undefined' ? DEFAULT_EMOJI_PALETTE : EMOJI_PALETTE_3);
   if (is3) {
     const h = hashCoords(worldX, worldY, (hashString(String(seed)) ^ 0x33333333) >>> 0);
-    return { type: 'lattice3', glyph: seededPick(EMOJI_PALETTE_3, h), x: worldX, y: worldY };
+    return { type: 'lattice3', glyph: seededPick(pal, h), x: worldX, y: worldY };
   }
   if (is5) {
     const h = hashCoords(worldX, worldY, (hashString(String(seed)) ^ 0x55555555) >>> 0);
-    return { type: 'lattice5', glyph: seededPick(EMOJI_PALETTE_5, h), x: worldX, y: worldY };
+    return { type: 'lattice5', glyph: seededPick(pal, h + 3), x: worldX, y: worldY };
   }
   return null;
 }
@@ -1602,7 +2041,11 @@ function vineMixAt(cell){
  const k=key(cell);if(vineMixCache.has(k))return vineMixCache.get(k);
  let color=[0,0,0],gene=0,susceptibility=0,moonSpeedGene=0,foodSeekingGene=0,count=0;
  for(const n of foodNodes){const r=nodeRadius(n),dx=n.x-cell.x,dy=n.y-cell.y;
-  if(dx*dx+dy*dy>r*r+1e-8)continue;
+  if(opts.vineShape==='square'){
+   if(Math.abs(dx)>r||Math.abs(dy)>r)continue;
+  }else{
+   if(dx*dx+dy*dy>r*r+1e-8)continue;
+  }
   const rgb=rgbChannels(n.color);
   for(let i=0;i<3;i++)color[i]+=rgb[i];
   gene+=(n.foodGene||0);susceptibility+=(n.vineSusceptibility||0);moonSpeedGene+=(n.moonSpeedGene||0);foodSeekingGene+=(n.foodSeekingGene||0);count++;
@@ -1853,6 +2296,10 @@ function nodeRadius(node){
 // Three-way, pairwise MUTUAL coverage: every center lies inside both other circles.
 // Evaluate only on creation / radius growth / radius edits; nutrient decay cannot create a new overlap.
 function mutualNodeCoverage(a,b,ra,rb){
+ if(opts.vineShape==='square'){
+  const dx=Math.abs(a.x-b.x),dy=Math.abs(a.y-b.y);
+  return dx<=ra+1e-8 && dy<=ra+1e-8 && dx<=rb+1e-8 && dy<=rb+1e-8;
+ }
  const dx=a.x-b.x,dy=a.y-b.y,d2=dx*dx+dy*dy;
  return d2<=ra*ra+1e-8 && d2<=rb*rb+1e-8;
 }
@@ -2261,7 +2708,7 @@ function speedForNew(parent,childLength){
  else shift=(r*2-1)*m;
  return clamp(parent.speedFactor*(1+shift),.35,2.8);
 }
-function born(body,dir,parent=null,role='pui',forceAI=null,isTwinBirth=false){const id=++nextId;const s={id,body:body.map(p=>({...p})),dir:{...dir},next:null,control:(persistedSnakeControls[id]??(forceAI===null?(parent?'ai':'manual'):(forceAI?'ai':'manual'))),parentId:parent?.id??null,dependent:!!(opts.family&&parent),familySafe:!!(opts.family&&parent),generation:parent?parent.generation+1:1,color:parent?mutateColor(parent.color):COLORS[(id-1)%COLORS.length],speedFactor:speedForNew(parent,body.length),fertility:lunarBirthMutation(parent),collisionResistance:mutateCollisionResistance(parent),twinGene:mutateTwinGene(parent),moonSpeedGene:mutateMoonSpeedGene(parent),foodGene:mutateFoodGene(parent),foodSeekingGene:mutateFoodSeekingGene(parent),vineMeals:Object.create(null),vineSusceptibility:bornSusceptibility(parent),isSubpixel:false,elapsed:0,pending:0,score:0,role,fleeSteps:role==='auto-mușcare'?3:0};if(parent&&opts.family)s.elapsed=1000/(opts.speed*s.speedFactor);snakes.push(s);adaptChildGeometry(s);births++;renderListNeedsUpdate=true;if(parent&&!isTwinBirth)maybeSpawnTwin(parent,s,role+' · geamăn',forceAI);return s;}
+function born(body,dir,parent=null,role='pui',forceAI=null,isTwinBirth=false){const id=++nextId;const s={id,body:body.map(p=>({...p})),dir:{...dir},next:null,control:(persistedSnakeControls[id]??(forceAI===null?(parent?'ai':'manual'):(forceAI?'ai':'manual'))),parentId:parent?.id??null,dependent:!!(opts.family&&parent),familySafe:!!(opts.family&&parent),generation:parent?parent.generation+1:1,color:parent?mutateColor(parent.color):COLORS[(id-1)%COLORS.length],speedFactor:speedForNew(parent,body.length),speedDebt:0,fertility:lunarBirthMutation(parent),collisionResistance:mutateCollisionResistance(parent),twinGene:mutateTwinGene(parent),moonSpeedGene:mutateMoonSpeedGene(parent),foodGene:mutateFoodGene(parent),foodSeekingGene:mutateFoodSeekingGene(parent),vineMeals:Object.create(null),vineSusceptibility:bornSusceptibility(parent),emojiDesperationGene:typeof mutateEmojiDesperationGene==='function'?mutateEmojiDesperationGene(parent,opts.mutation):75,toxicity:0,disorientationSteps:0,emojisEaten:0,isSubpixel:false,elapsed:0,pending:0,score:0,role,fleeSteps:role==='auto-mușcare'?3:0};if(parent&&typeof applyMaternalBirthDeduction==='function')applyMaternalBirthDeduction(parent,s);if(parent&&opts.family)s.elapsed=1000/(opts.speed*s.speedFactor);snakes.push(s);adaptChildGeometry(s);births++;renderListNeedsUpdate=true;if(parent&&!isTwinBirth)maybeSpawnTwin(parent,s,role+' · geamăn',forceAI);return s;}
 function initialize(){closeInspector();const firstX=Math.max(4,Math.floor(opts.cols*.31)),firstY=Math.floor(opts.rows*.47),len=5;snakes=[];foods=[];selected=new Set([1]);nextId=0;births=0;eaten=0;decayClock=0;simCarryMs=0;moonClockMs=0;phase='ready';contactMarks.clear();logItems=[];lastLog='';born(Array.from({length:len},(_,i)=>({x:firstX-i,y:firstY})),DIR.right,null,'fondator',false);ecoClock=0;ecoNote='—';rebuildNodes(true);scheduleNextFood();if(opts.foodMode==='ecology')seedNodeFood();else for(let i=0;i<(opts.family?12:3);i++)addFood();renderEcoStats();info('Un șarpe fondator (#1). Crește, se divide și formează o familie.');renderListNeedsUpdate=true;refresh();}
 function reset(resume=false){initialize();if(resume)phase='running';refresh();}
 function splitOnReverse(s,automatic=false){const len=s.body.length;if(!opts.fib&&!automatic)return false;let a=2,b=3;while(a+b<len){[a,b]=[b,a+b];}if(a+b!==len||len<5){info('#'+s.id+' are '+len+' segmente. Divizarea necesită o lungime Fibonacci ≥ 5.');return false;}
@@ -2270,7 +2717,8 @@ function splitOnReverse(s,automatic=false){const len=s.body.length;if(!opts.fib&
  if(opts.family&&child.body.length>s.body.length)child.dependent=false;
  info('Divizare Fibonacci: #'+s.id+' ('+len+') → #'+s.id+' ('+parentLength+') + #'+child.id+' ('+childLength+').');refresh();return true;}
 function directionAway(head,second){const dx=head.x-second.x,dy=head.y-second.y;return {x:Math.abs(dx)>1?-Math.sign(dx):Math.sign(dx),y:Math.abs(dy)>1?-Math.sign(dy):Math.sign(dy)};}
-function steer(s,dir){if(!s)return;const d=DIR[dir];if(!d)return;
+function steer(s,dir){if(!s)return;let d=DIR[dir];if(!d)return;
+ if(typeof applyDisorientation==='function'){const dis=applyDisorientation(s,d);if(dis.wasInverted){d=dis.dir;info('💫 DEZORIENTARE TOXICĂ! Comanda #'+s.id+' a fost inversată din cauza emojiurilor toxice!');}}
  s.control='manual';if(d.x===-s.dir.x&&d.y===-s.dir.y){if(!splitOnReverse(s))return;return;}
  s.next={...d};renderListNeedsUpdate=true;}
 function steerGroup(dir){[...selected].forEach(id=>steer(owner(id),dir));refresh();}
@@ -2515,14 +2963,20 @@ function stepAll(dt){if(phase!=='running')return;
   // Debug mode bypasses collision physics, but the visual overlay still distinguishes overlap.
   if(s.body.some((q,i)=>i>0&&cellOverlap(s,q,s,p))||snakes.some(other=>other!==s&&other.body.some(q=>cellOverlap(s,p,other,q))))recordContact(p,'overlap');
  }
- s.dir=intent.dir;s.next=null;if(s.fleeSteps>0)s.fleeSteps--;s.body.unshift(p);const fi=foodAt(p,s);if(fi>=0){const consumed=foods[fi],foodColor=colorOfFood(consumed),overripe=isOverripeBerry(consumed);
+ s.dir=intent.dir;s.next=null;if(s.fleeSteps>0)s.fleeSteps--;if(s.disorientationSteps>0)s.disorientationSteps--;s.body.unshift(p);const fi=foodAt(p,s);if(fi>=0){const consumed=foods[fi],foodColor=colorOfFood(consumed),overripe=isOverripeBerry(consumed);
   foods.splice(fi,1);
   if(Math.random()<foodFatalityChance(s,foodColor)){recordContact(p,'collision');kill(s,'died eating incompatible-color berry');continue;}
-  consumeVineTraits(s,consumed);eaten++;s.score+=10;renderEcoStats();renderListNeedsUpdate=true;
+  consumeVineTraits(s,consumed);eaten++;s.score+=10;
+  if(typeof recoverMaternalSpeed==='function')recoverMaternalSpeed(s);
+  if(typeof cleanseToxicityOnBerry==='function')cleanseToxicityOnBerry(s);
+  renderEcoStats();renderListNeedsUpdate=true;
   if(overripe){const effect=applyOverripeBerry(s);if(effect.died)continue;}
  }
- else if(s.pending>0){s.pending--;renderListNeedsUpdate=true;}
- else s.body.pop();
+ else{
+  if(typeof checkEmergencyEmojiConsumption==='function')checkEmergencyEmojiConsumption(s,p);
+  if(s.pending>0){s.pending--;renderListNeedsUpdate=true;}
+  else s.body.pop();
+ }
  }
  updateDependents();
  if(!snakes.length){phase='over';info('Niciun șarpe nu mai trăiește. Restart pentru o nouă lume.');}
@@ -2639,8 +3093,10 @@ function draw(now=performance.now()){
     ctx.stroke();
   }
 
-  // Reference Emojis (Free Roam)
-  if(opts.worldMode === 'free-roam' && cw * camera.zoom >= 10){
+  // Reference Emojis (Free Roam & Survival)
+  if((opts.worldMode === 'free-roam' || opts.gameMode === 'survival') && cw * camera.zoom >= 10){
+    ctx.save();
+    ctx.globalAlpha = Number.isFinite(opts.emojiOpacity) ? opts.emojiOpacity : 0.70;
     ctx.font = Math.max(8, Math.min(18, cw * camera.zoom * 0.55)) + 'px sans-serif';
     ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
     for(let y=minWorldY; y<=maxWorldY; y++){
@@ -2652,6 +3108,7 @@ function draw(now=performance.now()){
         }
       }
     }
+    ctx.restore();
   }
 
   // Death Heatmap
@@ -2729,6 +3186,14 @@ function draw(now=performance.now()){
         const ox=d.x===0?ww*.48:d.x>0?ww*.7:ww*.3,oy=d.y===0?hh*.48:d.y>0?hh*.7:hh*.3;
         for(const sign of [-1,1]){
           ctx.beginPath();ctx.arc(x+(d.x===0?ox+sign*ww*.2:ox),y+(d.y===0?oy+sign*hh*.2:oy),eye,0,2*Math.PI);ctx.fill();
+        }
+        if(s.toxicity > 0){
+          ctx.save();
+          ctx.font = 'bold ' + Math.max(10, Math.min(22, cw * camera.zoom * 0.85)) + 'px sans-serif';
+          ctx.textAlign = 'center'; ctx.textBaseline = 'bottom';
+          const dizzyEmoji = s.toxicity >= 3 ? '🤢' : s.toxicity >= 2 ? '💫' : '🌀';
+          ctx.fillText(dizzyEmoji, x + ww/2, y - 2);
+          ctx.restore();
         }
         if(Math.min(ww,hh)>=15){
           ctx.font=`bold ${Math.max(7,Math.min(cw,ch)*.43)}px sans-serif`;
@@ -3226,6 +3691,33 @@ wireframePage.innerHTML = `
     </div>
   </div>
 
+  <div class="setting" id="settingVineShape">
+    <span>Formă Vine-uri ecologice</span>
+    <div class="btn-group" role="group">
+      <button type="button" id="vineShapeSquare" class="btn mini ${opts.vineShape!=='circle'?'primary':''}">■ Pătrat</button>
+      <button type="button" id="vineShapeCircle" class="btn mini ${opts.vineShape==='circle'?'primary':''}">● Cerc</button>
+    </div>
+  </div>
+
+  <div class="tune" id="tune-emojiOpacity">
+    <div class="tune-title"><span>Opacitate Emojicoane Repere</span><output id="emojiOpacityVal">${Math.round((opts.emojiOpacity ?? 0.70) * 100)}%</output></div>
+    <div class="tune-line">
+      <input id="emojiOpacityInput" type="range" min="0.00" max="1.00" step="0.05" value="${opts.emojiOpacity ?? 0.70}"/>
+      <input class="direct" type="number" id="emojiOpacityDirect" min="0" max="100" step="5" value="${Math.round((opts.emojiOpacity ?? 0.70) * 100)}"/>
+    </div>
+  </div>
+
+  <div class="setting" style="display:flex;flex-direction:column;align-items:flex-start;gap:6px;">
+    <span>Customizator Emoji Array (repere deterministe):</span>
+    <input id="emojiPaletteInput" type="text" class="field" style="width:100%;font-size:13px;padding:6px 8px;" value="${(opts.emojiPalette || DEFAULT_EMOJI_PALETTE).join(', ')}"/>
+    <div class="btn-group" style="display:flex;gap:4px;flex-wrap:wrap;margin-top:2px;">
+      <button type="button" class="btn mini" id="emojiPresetCrystals">💎 Cristale</button>
+      <button type="button" class="btn mini" id="emojiPresetNature">🍎 Natură</button>
+      <button type="button" class="btn mini" id="emojiPresetRetro">👾 Retro</button>
+      <button type="button" class="btn mini" id="emojiPresetToxic">💀 Toxic</button>
+    </div>
+  </div>
+
   <label class="setting"><span>Activează Faux-3D (3 planuri)</span><input id="enableFaux3D" type="checkbox" ${opts.enableFaux3D?'checked':''}/></label>
 
   <div id="faux3dControls" style="${!opts.enableFaux3D?'opacity:0.6;':''}">
@@ -3599,6 +4091,222 @@ $('stopLatched').addEventListener('click',stopAllLatched);
     });
   }
 
+  // --- Extended Game Mechanics Wiring (Vine Shape, Emojis, Survival Mode) ---
+  $('vineShapeSquare')?.addEventListener('click', () => {
+    opts.vineShape = 'square';
+    $('vineShapeSquare').classList.add('primary');
+    $('vineShapeCircle').classList.remove('primary');
+    cachedVineCells = null;
+    vineMixCache.clear();
+    draw();
+  });
+  $('vineShapeCircle')?.addEventListener('click', () => {
+    opts.vineShape = 'circle';
+    $('vineShapeCircle').classList.add('primary');
+    $('vineShapeSquare').classList.remove('primary');
+    cachedVineCells = null;
+    vineMixCache.clear();
+    draw();
+  });
+
+  $('emojiOpacityInput')?.addEventListener('input', e => {
+    opts.emojiOpacity = parseFloat(e.target.value);
+    $('emojiOpacityVal').textContent = Math.round(opts.emojiOpacity * 100) + '%';
+    $('emojiOpacityDirect').value = Math.round(opts.emojiOpacity * 100);
+    draw();
+  });
+  $('emojiOpacityDirect')?.addEventListener('input', e => {
+    opts.emojiOpacity = Math.max(0, Math.min(100, parseFloat(e.target.value) || 0)) / 100;
+    $('emojiOpacityVal').textContent = Math.round(opts.emojiOpacity * 100) + '%';
+    $('emojiOpacityInput').value = opts.emojiOpacity;
+    draw();
+  });
+
+  const PRESET_PALETTES = {
+    crystals: ['🔷', '🔹', '💠', '❄️', '💎', '🔶', '🔸', '🔆', '⭐', '✨'],
+    nature: ['🍎', '🍇', '🍄', '🌿', '🌸', '🍒', '🌰', '🥑', '🥥', '🥝'],
+    retro: ['👾', '🛸', '🚀', '🤖', '⚡', '💫', '🔮', '🧬', '🌀', '🔋'],
+    toxic: ['💀', '☣️', '⚠️', '🧪', '🐍', '🦂', '🕷️', '🩸', '🕸️', '💣']
+  };
+
+  function updatePalette(pal) {
+    opts.emojiPalette = Array.from(pal);
+    const input = $('emojiPaletteInput');
+    if (input) input.value = opts.emojiPalette.join(', ');
+    draw();
+  }
+
+  $('emojiPaletteInput')?.addEventListener('change', e => {
+    const raw = e.target.value.split(',').map(s => s.trim()).filter(Boolean);
+    if (raw.length > 0) {
+      opts.emojiPalette = raw;
+      draw();
+    }
+  });
+
+  $('emojiPresetCrystals')?.addEventListener('click', () => updatePalette(PRESET_PALETTES.crystals));
+  $('emojiPresetNature')?.addEventListener('click', () => updatePalette(PRESET_PALETTES.nature));
+  $('emojiPresetRetro')?.addEventListener('click', () => updatePalette(PRESET_PALETTES.retro));
+  $('emojiPresetToxic')?.addEventListener('click', () => updatePalette(PRESET_PALETTES.toxic));
+
+  // --- Survival Mode Engine ---
+  function openSurvivalModal() {
+    renderStarterCards();
+    const modal = $('survivalModal');
+    if (modal) modal.hidden = false;
+  }
+
+  function closeSurvivalModal() {
+    const modal = $('survivalModal');
+    if (modal) modal.hidden = true;
+  }
+
+  function renderStarterCards() {
+    const container = $('starterGrid');
+    if (!container) return;
+    const starters = getStarterSnakes();
+    container.innerHTML = starters.map(s => 
+      '<div class="starter-card ' + (s.locked ? 'locked' : 'unlocked') + '" data-starter="' + s.id + '">' +
+        '<div style="display:flex;align-items:center;justify-content:space-between;">' +
+          '<div style="display:flex;align-items:center;gap:8px;">' +
+            '<span style="display:inline-block;width:14px;height:14px;border-radius:50%;background:' + s.color + ';box-shadow:0 0 8px ' + s.color + ';"></span>' +
+            '<strong style="color:' + s.color + ';font-size:13px;">' + s.name + '</strong>' +
+          '</div>' +
+          (s.locked 
+            ? '<span style="font-size:13px;color:#fca5a5;" title="' + s.lockReason + '">🔒 Blocat</span>' 
+            : '<span style="font-size:10px;color:#a9e19a;border:1px solid #3a6557;border-radius:12px;padding:2px 6px;">Deblocat</span>'
+          ) +
+        '</div>' +
+        '<div style="font-size:11px;color:var(--txt-muted);line-height:1.4;">' + s.description + '</div>' +
+        '<div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;font-size:10px;background:#0d1824;padding:8px;border-radius:6px;">' +
+          '<div>Lungime: <strong>' + s.length + ' segm.</strong></div>' +
+          '<div>Viteză: <strong>' + s.speedFactor + '×</strong></div>' +
+          '<div>Rezistență: <strong>' + s.collisionResistance + '%</strong></div>' +
+          '<div>Salvare Emoji: <strong>' + s.emojiDesperationGene + '%</strong></div>' +
+        '</div>' +
+        (s.locked 
+          ? '<button type="button" class="btn disabled mini" disabled style="opacity:0.6;font-size:10px;width:100%;">🔒 ' + s.lockReason + '</button>'
+          : '<button type="button" class="btn primary select-starter-btn" data-starter="' + s.id + '" style="width:100%;font-size:11px;padding:7px;">▶ Alege ' + s.name + '</button>'
+        ) +
+      '</div>'
+    ).join('');
+
+    container.querySelectorAll('.select-starter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        startSurvivalRun(btn.dataset.starter);
+      });
+    });
+  }
+
+  function startSurvivalRun(starterId = 'green') {
+    const starters = getStarterSnakes();
+    const sel = starters.find(s => s.id === starterId) || starters[0];
+    if (sel.locked) {
+      info('❌ Acest șarpe este blocat! ' + (sel.lockReason || ''));
+      return false;
+    }
+
+    opts.gameMode = 'survival';
+    opts.currentSurvivalStarter = starterId;
+    closeSurvivalModal();
+
+    closeInspector();
+    const firstX = Math.max(4, Math.floor(opts.cols * 0.31));
+    const firstY = Math.floor(opts.rows * 0.47);
+    snakes = [];
+    foods = [];
+    selected = new Set([1]);
+    nextId = 0;
+    births = 0;
+    eaten = 0;
+    decayClock = 0;
+    simCarryMs = 0;
+    moonClockMs = 0;
+    phase = 'running';
+    contactMarks.clear();
+    logItems = [];
+
+    const coords = Array.from({ length: sel.length }, (_, i) => ({ x: firstX - i, y: firstY }));
+    const founder = born(coords, DIR.right, null, 'supraviețuitor', false);
+    founder.color = sel.color;
+    founder.speedFactor = sel.speedFactor;
+    founder.collisionResistance = sel.collisionResistance;
+    founder.emojiDesperationGene = sel.emojiDesperationGene;
+    founder.fertility = sel.fertility;
+
+    rebuildNodes(true);
+    scheduleNextFood();
+    if (opts.foodMode === 'ecology') seedNodeFood();
+    else for (let i = 0; i < 4; i++) addFood();
+
+    applySurvivalUIMode(true);
+    info('🛡️ MOD SUPRAVIEȚUIRE PORNIT! Șarpe: ' + sel.name + ' (' + sel.length + ' segmente). Setările sunt înghețate.');
+    renderListNeedsUpdate = true;
+    refresh();
+    saveSurvivalRun();
+    return true;
+  }
+
+  function applySurvivalUIMode(active) {
+    document.body.classList.toggle('mode-survival', active);
+    const banner = $('survivalLockBanner');
+    if (banner) banner.hidden = !active;
+    const btn = $('btnSurvivalMode');
+    if (btn) {
+      btn.textContent = active ? '🛡️ Survival (Activ)' : '🛡️ Mod Supraviețuire';
+      btn.classList.toggle('active', active);
+    }
+    const settingsPanel = $('settingsPanel');
+    if (settingsPanel) {
+      settingsPanel.classList.toggle('survival-locked', active);
+      const inputs = settingsPanel.querySelectorAll('input, select, button:not(#exitSurvivalBtn):not(.category-tab)');
+      inputs.forEach(el => { el.disabled = active; });
+    }
+  }
+
+  function saveSurvivalRun() {
+    if (opts.gameMode !== 'survival') return;
+    try {
+      const state = serializeSurvivalState({
+        starterId: opts.currentSurvivalStarter,
+        score: snakes[0]?.score || 0,
+        generation: Math.max(0, ...snakes.map(s => s.generation)),
+        opts,
+        snakes,
+        foods
+      });
+      localStorage.setItem(SURVIVAL_SAVE_KEY, state);
+      // Check unlock condition for Red Leviathan
+      const maxGen = Math.max(0, ...snakes.map(s => s.generation));
+      const maxScore = snakes[0]?.score || 0;
+      if (maxGen >= 3 || maxScore >= 50) {
+        if (!isRedStarterUnlocked()) {
+          unlockRedStarter();
+          info('🎉 FELICITĂRI! Ai deblocat LEVIATANUL STACOJIU (13 segmente) pentru Modul Supraviețuire!');
+        }
+      }
+    } catch (e) {}
+  }
+
+  function exitSurvivalRun() {
+    opts.gameMode = 'sandbox';
+    applySurvivalUIMode(false);
+    try { localStorage.removeItem(SURVIVAL_SAVE_KEY); } catch (e) {}
+    info('Modul Supraviețuire s-a încheiat. Ai revenit în Sandbox (setările sunt deblocate).');
+    reset(false);
+  }
+
+  $('btnSurvivalMode')?.addEventListener('click', () => {
+    if (opts.gameMode === 'survival') {
+      info('Ești deja în modul Supraviețuire. Poți ieși folosind butonul din panoul de setări.');
+    } else {
+      openSurvivalModal();
+    }
+  });
+
+  $('closeSurvivalModalBtn')?.addEventListener('click', closeSurvivalModal);
+  $('exitSurvivalBtn')?.addEventListener('click', exitSurvivalRun);
+
 function setSettingsTab(key){
  if(!tabDescriptors.some(d=>d[0]===key))return;
  activeSettingsTab=key;
@@ -3742,7 +4450,7 @@ function currentSettings(){
  const controls={...persistedSnakeControls};
  for(const s of snakes)controls[String(s.id)]=s.control;
  return {
-  version:3,savedAt:Date.now(),options:{...opts},currentTheme:opts.currentTheme,currentLayout:opts.currentLayout,worldMode:opts.worldMode,worldSeed:opts.worldSeed,enableFaux3D:opts.enableFaux3D,topScale:opts.topScale,topAlpha:opts.topAlpha,middleK:opts.middleK,wireframeGrid:opts.wireframeGrid,wireframeSnakes:opts.wireframeSnakes,duplication:{...opts.duplication},modePreset,precisionIndex,
+  version:3,savedAt:Date.now(),options:{...opts},currentTheme:opts.currentTheme,currentLayout:opts.currentLayout,worldMode:opts.worldMode,worldSeed:opts.worldSeed,enableFaux3D:opts.enableFaux3D,topScale:opts.topScale,topAlpha:opts.topAlpha,middleK:opts.middleK,wireframeGrid:opts.wireframeGrid,wireframeSnakes:opts.wireframeSnakes,duplication:{...opts.duplication},vineShape:opts.vineShape,emojiOpacity:opts.emojiOpacity,emojiPalette:opts.emojiPalette,gameMode:opts.gameMode,currentSurvivalStarter:opts.currentSurvivalStarter,modePreset,precisionIndex,
   sliderLimits:Object.fromEntries(Object.keys(TUNES).map(n=>[n,Number($(n).max)])),
   dualLimits:Object.fromEntries(Object.keys(DUALS).map(n=>[n,Number($(n+'Track').dataset.limit)])),
   editor:$('editor').value,
@@ -3790,6 +4498,10 @@ function restoreSettings(){
   if(state.worldSeed)opts.worldSeed=state.worldSeed;
   if(typeof state.enableFaux3D==='boolean')opts.enableFaux3D=state.enableFaux3D;
   if(state.duplication&&typeof state.duplication==='object')opts.duplication={...opts.duplication,...state.duplication};
+  if(state.vineShape)opts.vineShape=state.vineShape;
+  if(typeof state.emojiOpacity==='number')opts.emojiOpacity=state.emojiOpacity;
+  if(Array.isArray(state.emojiPalette))opts.emojiPalette=state.emojiPalette;
+  if(state.gameMode==='survival')applySurvivalUIMode(true);
  for(const [name,previous] of Object.entries(opts)){
   const value=state.options[name];
   if(typeof previous==='boolean'){
@@ -3911,7 +4623,7 @@ function advanceSimulation(realDt){
 function frame(now){if(!lastFrame)lastFrame=now;const dt=Math.min(85,Math.max(0,now-lastFrame));lastFrame=now;advanceSimulation(dt);updateMoonUI();if(renderListNeedsUpdate)updateList();draw(now);requestAnimationFrame(frame);}
 window.addEventListener('resize',resize);if(typeof ResizeObserver!=='undefined')new ResizeObserver(resize).observe(board);
 restoreSettings();restoreHeatmap();restoreVines();if(typeof applyThemeMode==='function')applyThemeMode(opts.currentTheme);if(typeof applyLayoutMode==='function')applyLayoutMode(opts.currentLayout);initialize();resize();updateMoonUI(true);requestAnimationFrame(frame);
-window.__snakeLab={debugWireframe:()=>({camera,opts,computeMiddleOpacity,getReferenceEmoji,inBoard,advance,dist,setWorldMode:(m)=>{opts.worldMode=m;draw();},setFaux3D:(f)=>{opts.enableFaux3D=!!f;draw();},setTopScale:(s)=>{opts.topScale=s;draw();},setTopAlpha:(a)=>{opts.topAlpha=a;draw();},setMiddleK:(k)=>{opts.middleK=k;draw();},setTheme:applyThemeMode,setLayout:applyLayoutMode,getLayout:()=>opts.currentLayout,updateTelemetry:updateTelemetryBar,draw:()=>draw()}),getUI:()=>({immersive:document.body.classList.contains('immersive'),menuOpen:!document.body.classList.contains('menu-closed'),showAll:document.body.classList.contains('menu-all'),canvasWidth:canvas.clientWidth,canvasHeight:canvas.clientHeight,boardHeight:board.clientHeight,sidebarScrollHeight:$('settingsPanel').scrollHeight,sidebarHeight:$('settingsPanel').clientHeight}),enterImmersive,exitImmersive,toggleMenu,getState:()=>({phase,opts:{...opts},snakes:snakes.map(s=>({id:s.id,length:s.body.length,pending:s.pending,parentId:s.parentId,dependent:s.dependent,familySafe:s.familySafe,control:s.control,speedFactor:s.speedFactor,color:s.color,fertility:s.fertility,collisionResistance:s.collisionResistance,twinGene:s.twinGene,subpixel:snakeSubcell(s),foodGene:s.foodGene,foodSeekingGene:s.foodSeekingGene,vineSusceptibility:s.vineSusceptibility,moonSpeedGene:s.moonSpeedGene,berrySlowFactor:s.berrySlowFactor||1,head:{...s.body[0]}})),foods:foods.length,nodes:foodNodes.length,nodePositions:foodNodes.map(n=>({...n})),births,eaten,selected:[...selected],moonPhase:lunarPhase(),moonClockMs}),select:exclusiveSelect,steer:(id,d)=>{steer(owner(id),d);refresh();},tick:stepAll,advanceSimulation,setTimeScale,setPreset,reset,feed:addFood,
+window.__snakeLab={debugWireframe:()=>({camera,opts,computeMiddleOpacity,getReferenceEmoji,inBoard,advance,dist,setWorldMode:(m)=>{opts.worldMode=m;draw();},setFaux3D:(f)=>{opts.enableFaux3D=!!f;draw();},setTopScale:(s)=>{opts.topScale=s;draw();},setTopAlpha:(a)=>{opts.topAlpha=a;draw();},setMiddleK:(k)=>{opts.middleK=k;draw();},setTheme:applyThemeMode,setLayout:applyLayoutMode,getLayout:()=>opts.currentLayout,updateTelemetry:updateTelemetryBar,draw:()=>draw()}),debugMaternalTransfer:calculateMaternalTransfer,debugEmojiEatChance:calculateEmojiEatChance,debugAttemptEmojiEat:attemptEmergencyEmojiConsumption,debugDisorientation:applyDisorientation,debugCleanseToxicity:cleanseToxicityOnBerry,debugGetStarters:getStarterSnakes,debugStartSurvival:startSurvivalRun,debugExitSurvival:exitSurvivalRun,debugSetVineShape:(s)=>{opts.vineShape=s;cachedVineCells=null;vineMixCache.clear();draw();},getUI:()=>({immersive:document.body.classList.contains('immersive'),menuOpen:!document.body.classList.contains('menu-closed'),showAll:document.body.classList.contains('menu-all'),canvasWidth:canvas.clientWidth,canvasHeight:canvas.clientHeight,boardHeight:board.clientHeight,sidebarScrollHeight:$('settingsPanel').scrollHeight,sidebarHeight:$('settingsPanel').clientHeight}),enterImmersive,exitImmersive,toggleMenu,getState:()=>({phase,opts:{...opts},snakes:snakes.map(s=>({id:s.id,length:s.body.length,pending:s.pending,parentId:s.parentId,dependent:s.dependent,familySafe:s.familySafe,control:s.control,speedFactor:s.speedFactor,color:s.color,fertility:s.fertility,collisionResistance:s.collisionResistance,twinGene:s.twinGene,subpixel:snakeSubcell(s),foodGene:s.foodGene,foodSeekingGene:s.foodSeekingGene,vineSusceptibility:s.vineSusceptibility,moonSpeedGene:s.moonSpeedGene,berrySlowFactor:s.berrySlowFactor||1,head:{...s.body[0]}})),foods:foods.length,nodes:foodNodes.length,nodePositions:foodNodes.map(n=>({...n})),births,eaten,selected:[...selected],moonPhase:lunarPhase(),moonClockMs}),select:exclusiveSelect,steer:(id,d)=>{steer(owner(id),d);refresh();},tick:stepAll,advanceSimulation,setTimeScale,setPreset,reset,feed:addFood,
  debugCollisionProbability:(a,b,resistance=0)=>collisionProbability(a,b,resistance),debugMutateColor:mutateColor,debugResistanceMutation:(id)=>{const s=owner(id);return s?mutateCollisionResistance(s):null;},debugResistanceRates:resistanceMutationRates,inspectSnake,closeInspector,
  debugFoodMismatchRisk:foodMismatchRisk,debugFoodFatality:(id,color)=>foodFatalityChance(owner(id),color),
  debugGetVines:()=>foodNodes.map(n=>({...n,pulses:n.pulses.map(p=>({...p}))})),
@@ -3943,4 +4655,16 @@ window.__snakeLab={debugWireframe:()=>({camera,opts,computeMiddleOpacity,getRefe
  };
 })();
 </script>
+
+<div id="survivalModal" class="survival-modal-backdrop" hidden role="dialog" aria-modal="true" aria-label="Alege Șarpele de Supraviețuire">
+  <div class="survival-modal-card">
+    <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding-bottom:12px;">
+      <h3 style="margin:0;font-size:16px;color:#ff859b;display:flex;align-items:center;gap:8px;">🛡️ MOD SUPRAVIEȚUIRE · ALEGE ȘARPELE FONDATOR</h3>
+      <button type="button" id="closeSurvivalModalBtn" class="btn mini" style="font-size:16px;padding:2px 8px;">✕</button>
+    </div>
+    <p style="font-size:12px;color:var(--txt-muted);margin:12px 0;">În modul Supraviețuire, setările jocului sunt <strong>înghețate definitiv</strong> pe durata sesiunii pentru a garanta o provocare curată. Starea se salvează automat în browser.</p>
+    <div class="starter-grid" id="starterGrid"></div>
+  </div>
+</div>
+
 </body></html>
