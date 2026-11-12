@@ -1367,20 +1367,27 @@ body.layout-arcade-deck .btn.primary, body.layout-arcade .btn.primary {
 <body>
 <div class="wrap">
 <div class="prod-top-controls">
-  <div class="btn-group">
+  <div class="btn-group theme-group" style="display:none;">
     <strong style="color:var(--txt-muted);letter-spacing:0.5px;margin-right:2px;">TEMA:</strong>
     <button id="themeBtn_cyber-slate" class="theme-btn active" type="button" title="Cyber Slate (Implicit)">💠 Cyber</button>
     <button id="themeBtn_solar-luxe" class="theme-btn" type="button" title="Solar Luxe">☀️ Solar</button>
     <button id="themeBtn_midnight-oled" class="theme-btn" type="button" title="Midnight OLED">🌑 OLED</button>
     <button id="themeBtn_arcade-crt" class="theme-btn" type="button" title="Arcade CRT">📺 Arcade</button>
   </div>
-  <div class="btn-group">
+  <div class="btn-group layout-group" style="display:none;">
     <strong style="color:var(--txt-muted);letter-spacing:0.5px;margin-right:2px;">LAYOUT:</strong>
     <button id="layoutBtn_cockpit" class="layout-btn active" type="button" title="Desktop Cockpit">Cockpit</button>
     <button id="layoutBtn_bottom-sheet" class="layout-btn" type="button" title="Mobile Bottom Sheet">Mobile HUD</button>
     <button id="layoutBtn_zen" class="layout-btn" type="button" title="Minimalist Zen">Zen</button>
     <button id="layoutBtn_arcade" class="layout-btn" type="button" title="Arcade Cabinet">Arcade Deck</button>
     <button id="toggleDpadBtn" type="button" style="margin-left:6px;" title="Comută D-Pad pe ecran (tasta D)">🎮 D-Pad</button>
+  </div>
+  <div class="shortcut-hints" style="font-size:11px;color:var(--txt-muted);display:flex;align-items:center;gap:12px;padding:3px 6px;">
+    <span><strong style="color:var(--accent-primary, #a9ed77);">[T]</strong> Schimbă Tema</span>
+    <span><strong style="color:var(--accent-primary, #a9ed77);">[L]</strong> Layout</span>
+    <span><strong style="color:#00f0ff;">[P]</strong> Modul P (Hărți)</span>
+    <span><strong style="color:#ffd166;">[O]</strong> Ou / Escortă</span>
+    <span><strong style="color:#ff859b;">[E×3]</strong> Meniu Secret</span>
   </div>
   <div class="btn-group">
     <button id="btnSurvivalMode" class="survival-trigger-btn" type="button" title="Pornește Modul Supraviețuire cu setări înghețate și șerpi speciali">🛡️ Mod Supraviețuire</button>
@@ -1823,11 +1830,26 @@ const STARTER_SNAKES = {
     name: 'Vipera de Smarald',
     length: 3,
     color: '#2ecc71',
-    description: 'Șarpe scurt de 3 segmente, rapid și agil. Risc ridicat, dar capacitate maximă de salvare prin consum de emoji (95%).',
+    description: 'Șarpe scurt de 3 segmente, rapid și agil. Risc ridicat, dar capacitate maximă de salvare prin consum de emoji (95%). Consum redus de energie.',
     speedFactor: 1.25,
     collisionResistance: 25,
     emojiDesperationGene: 95,
     fertility: 15,
+    hungerRate: 0.85,
+    locked: false,
+    lockReason: null
+  },
+  blue: {
+    id: 'blue',
+    name: 'Safirul Azuriu',
+    length: 5,
+    color: '#3498db',
+    description: 'Șarpe azuriu de 5 segmente. Excelent explorator, echilibru optim între viteză hidrodinamică și rezistență.',
+    speedFactor: 1.15,
+    collisionResistance: 35,
+    emojiDesperationGene: 80,
+    fertility: 20,
+    hungerRate: 1.0,
     locked: false,
     lockReason: null
   },
@@ -1838,9 +1860,24 @@ const STARTER_SNAKES = {
     color: '#f39c12',
     description: 'Șarpe mediu de 5 segmente (Fibonacci). Rezistență echilibrată și predispoziție superioară pentru clonare Fibonacci.',
     speedFactor: 1.0,
-    collisionResistance: 40,
+    collisionResistance: 45,
     emojiDesperationGene: 70,
     fertility: 25,
+    hungerRate: 1.0,
+    locked: false,
+    lockReason: null
+  },
+  yellow: {
+    id: 'yellow',
+    name: 'Fulgerul Solar',
+    length: 8,
+    color: '#f1c40f',
+    description: 'Șarpe lung de 8 segmente (Fibonacci). Foarte iute și ofensiv (1.35×), dar îi este foame foarte repede (hunger rate 1.45×).',
+    speedFactor: 1.35,
+    collisionResistance: 55,
+    emojiDesperationGene: 55,
+    fertility: 18,
+    hungerRate: 1.45,
     locked: false,
     lockReason: null
   },
@@ -1849,11 +1886,12 @@ const STARTER_SNAKES = {
     name: 'Leviatanul Stacojiu',
     length: 13,
     color: '#e74c3c',
-    description: 'Colos antic de 13 segmente (Fibonacci). Blindaj masiv și rezistență extremă la coliziuni și toxicitate.',
-    speedFactor: 0.75,
+    description: 'Colos de 13 segmente (Fibonacci). Iute și blindat masiv (1.45×, 75% rezistență), dar necesită hrană constantă datorită metabolismului alert (hunger rate 1.85×).',
+    speedFactor: 1.45,
     collisionResistance: 75,
     emojiDesperationGene: 40,
     fertility: 10,
+    hungerRate: 1.85,
     locked: true,
     lockReason: 'Atinge generația 3 sau scor 50 în mod Supraviețuire pentru deblocare'
   }
@@ -1893,7 +1931,9 @@ function getStarterSnakes(storage = typeof localStorage !== 'undefined' ? localS
   const redUnlocked = isRedStarterUnlocked(storage);
   return [
     { ...STARTER_SNAKES.green },
+    { ...STARTER_SNAKES.blue },
     { ...STARTER_SNAKES.amber },
+    { ...STARTER_SNAKES.yellow },
     { ...STARTER_SNAKES.red, locked: !redUnlocked }
   ];
 }
@@ -1954,6 +1994,3432 @@ function deserializeSurvivalState(raw) {
     return null;
   }
 }
+
+
+
+/**
+ * Egg and Escort Mechanics for Znake Fibonacci Ecology.
+ *
+ * Requirements:
+ * - handleKeyOPress(snake, gameState):
+ *   - CASE A (Parent snake):
+ *     - If snake.dependentIds && snake.dependentIds.length > 0 or has children (isParent(snake)):
+ *       - Toggles/activates escortMode / protectingChildren: true.
+ *       - The parent circles around the children to protect them.
+ *       - The parent and children can be directed by the user (steering towards nearest food or input).
+ *       - Returns { action: 'escort', active: boolean, targetChildren: array }.
+ *   - CASE B (Non-parent long snake without recent clones):
+ *     - If !isParent(snake) and snake.body.length >= 8 and snake.cyclesWithoutClone >= 2:
+ *       - Begins trampling (bătătoare teren): circles/patrols local area (3x3 radius) for TRAMPLE_TICKS = 10 steps.
+ *       - Once trampling is complete, deposits an Egg at current/head coordinates:
+ *         { id, x, y, hatchTimer, parentId, color, state: 'laid' }.
+ *       - Returns { action: 'trample_or_laid', status: 'trampling' | 'egg_laid', egg: object }.
+ *   - CASE C (Another snake over an egg):
+ *     - If snake is at (egg.x, egg.y) and presses 'O':
+ *       - Eats the egg!
+ *       - Bonus segments gained: randomly 2, 3, or 5 new segments ([2, 3, 5][Math.floor(Math.random() * 3)]).
+ *       - Egg is removed.
+ *       - Returns { action: 'egg_eaten', segmentsGained: number }.
+ * - updateEggs(eggs, gameState):
+ *   - Decrements hatchTimer for all active eggs.
+ *   - When hatchTimer <= 0:
+ *     - Egg hatches into 2, 3, or 5 new baby snakes at random ([2, 3, 5][Math.floor(Math.random() * 3)]).
+ *     - Returns { hatchedSnakes: array, removedEggIds: array }.
+ * - calculateHungerAndSpeed(snake):
+ *   - Implements rule: "cei lungi sunt iuti, dar li se face si foame rpd":
+ *   - For snakes with length >= 8:
+ *     - speedBonus = Math.min(0.6, (snake.body.length - 7) * 0.08)
+ *     - hungerRate = 1.0 + (snake.body.length - 7) * 0.15
+ *
+ * Coordinator: RC-Znk-01 [uncle of RC03-Wisly] / Subagent Ovum-Escort
+ */
+
+'use strict';
+
+const TRAMPLE_TICKS = 10;
+const DEFAULT_HATCH_TIMER = 20;
+const EGG_BONUS_SEGMENTS = [2, 3, 5];
+const BABY_HATCH_COUNTS = [2, 3, 5];
+
+/**
+ * Returns snake head coordinates { x, y }.
+ */
+function getSnakeHead(snake) {
+  if (!snake) return null;
+  if (Array.isArray(snake.body) && snake.body.length > 0) {
+    return snake.body[0];
+  }
+  if (typeof snake.x === 'number' && typeof snake.y === 'number') {
+    return { x: snake.x, y: snake.y };
+  }
+  return null;
+}
+
+/**
+ * Checks cell equality with integer/subpixel tolerance.
+ */
+function isSameCell(p1, p2) {
+  if (!p1 || !p2) return false;
+  return (p1.x === p2.x && p1.y === p2.y) ||
+         (Math.floor(p1.x) === Math.floor(p2.x) && Math.floor(p1.y) === Math.floor(p2.y));
+}
+
+/**
+ * Checks if snake is a parent (has dependentIds, children, or parentId references).
+ */
+function isParent(snake, gameState) {
+  if (!snake) return false;
+  if (snake.isParent === true) return true;
+  if (Array.isArray(snake.dependentIds) && snake.dependentIds.length > 0) return true;
+  if (Array.isArray(snake.children) && snake.children.length > 0) return true;
+  if (gameState && Array.isArray(gameState.snakes)) {
+    return gameState.snakes.some(s => s && s.parentId === snake.id);
+  }
+  return false;
+}
+
+/**
+ * Retrieves children array belonging to a parent snake.
+ */
+function getTargetChildren(snake, gameState) {
+  if (!snake) return [];
+  const childrenMap = new Map();
+
+  if (Array.isArray(snake.children)) {
+    for (const c of snake.children) {
+      if (c && c.id !== undefined) childrenMap.set(c.id, c);
+    }
+  }
+
+  if (gameState && Array.isArray(gameState.snakes)) {
+    const depSet = Array.isArray(snake.dependentIds) ? new Set(snake.dependentIds) : null;
+    for (const s of gameState.snakes) {
+      if (!s) continue;
+      if (s.parentId === snake.id || (depSet && depSet.has(s.id))) {
+        childrenMap.set(s.id, s);
+      }
+    }
+  }
+
+  if (childrenMap.size === 0 && Array.isArray(snake.dependentIds)) {
+    for (const id of snake.dependentIds) {
+      if (typeof id === 'object' && id !== null) {
+        childrenMap.set(id.id ?? Math.random(), id);
+      } else {
+        childrenMap.set(id, { id, parentId: snake.id });
+      }
+    }
+  }
+
+  return Array.from(childrenMap.values());
+}
+
+/**
+ * Finds an egg at the snake head location in gameState.eggs.
+ */
+function findEggAtSnake(snake, gameState) {
+  if (!snake || !gameState) return null;
+  const eggs = Array.isArray(gameState.eggs)
+    ? gameState.eggs
+    : (gameState.eggs instanceof Set ? Array.from(gameState.eggs) : []);
+  const head = getSnakeHead(snake);
+  if (!head) return null;
+  return eggs.find(e => e && e.state !== 'eaten' && e.state !== 'hatched' && isSameCell(head, e)) || null;
+}
+
+/**
+ * Calculates centroid of children positions.
+ */
+function calculateChildrenCenter(children) {
+  if (!children || !children.length) return { x: 0, y: 0 };
+  let sumX = 0, sumY = 0, count = 0;
+  for (const c of children) {
+    const head = getSnakeHead(c);
+    if (head) {
+      sumX += head.x;
+      sumY += head.y;
+      count++;
+    }
+  }
+  if (count === 0) return { x: 0, y: 0 };
+  return { x: sumX / count, y: sumY / count };
+}
+
+/**
+ * Computes circular perimeter orbit around children.
+ */
+function computeEscortOrbit(parent, children, radius = 2) {
+  const center = calculateChildrenCenter(children);
+  const head = getSnakeHead(parent) || { x: center.x + radius, y: center.y };
+  const currentAngle = Math.atan2(head.y - center.y, head.x - center.x);
+  const nextAngle = currentAngle + (Math.PI / 4); // 45 degree rotational step
+  return {
+    x: Math.round(center.x + Math.cos(nextAngle) * radius),
+    y: Math.round(center.y + Math.sin(nextAngle) * radius),
+    center,
+    angle: nextAngle
+  };
+}
+
+/**
+ * Directs parent and escort children towards a given steering vector or food target.
+ */
+function directEscort(parent, children, target) {
+  if (!parent) return { parent, children: [] };
+  const dirMap = {
+    up: { x: 0, y: -1 },
+    down: { x: 0, y: 1 },
+    left: { x: -1, y: 0 },
+    right: { x: 1, y: 0 }
+  };
+  const targetDir = typeof target === 'string' ? (dirMap[target] || { x: 1, y: 0 }) : target;
+  if (targetDir && typeof targetDir.x === 'number') {
+    parent.dir = { ...targetDir };
+    if (Array.isArray(children)) {
+      for (const child of children) {
+        if (child) child.dir = { ...targetDir };
+      }
+    }
+  }
+  return { parent, children };
+}
+
+/**
+ * Handles the 'O' key press for a snake in the current gameState.
+ *
+ * Implements:
+ * - CASE C: Another snake standing over an egg eats it, gaining 2, 3, or 5 bonus segments.
+ * - CASE A: Parent snake toggles/activates escortMode / protectingChildren: true.
+ * - CASE B: Non-parent snake with length >= 8 and cyclesWithoutClone >= 2 begins trampling and deposits an egg.
+ *
+ * @param {object} snake - The active snake object
+ * @param {object} gameState - Current game state { eggs, snakes, nextEggId, ... }
+ * @returns {object} Action result
+ */
+function handleKeyOPress(snake, gameState = {}) {
+  if (!snake) {
+    return { action: 'none', reason: 'Invalid snake' };
+  }
+
+  const head = getSnakeHead(snake);
+  if (!head) {
+    return { action: 'none', reason: 'Snake has no head position' };
+  }
+
+  // 1. Check if snake is in an active trampling process (CASE B ongoing)
+  if (snake.isTrampling) {
+    return advanceTrample(snake, gameState);
+  }
+
+  // 2. CASE C: Check if snake is over an egg
+  const eggAtHead = findEggAtSnake(snake, gameState);
+  if (eggAtHead) {
+    const isAnotherSnake = !eggAtHead.parentId ||
+                           !snake.id ||
+                           eggAtHead.parentId !== snake.id ||
+                           (!isParent(snake, gameState) && (!snake.body || snake.body.length < 8));
+
+    if (isAnotherSnake) {
+      // Eats the egg!
+      const segmentsGained = EGG_BONUS_SEGMENTS[Math.floor(Math.random() * EGG_BONUS_SEGMENTS.length)];
+      snake.pending = (snake.pending || 0) + segmentsGained;
+      snake.eggsEaten = (snake.eggsEaten || 0) + 1;
+      eggAtHead.state = 'eaten';
+
+      // Remove egg from gameState
+      if (Array.isArray(gameState.eggs)) {
+        const idx = gameState.eggs.indexOf(eggAtHead);
+        if (idx !== -1) gameState.eggs.splice(idx, 1);
+      } else if (gameState.eggs instanceof Set) {
+        gameState.eggs.delete(eggAtHead);
+      }
+
+      return {
+        action: 'egg_eaten',
+        segmentsGained,
+        egg: eggAtHead
+      };
+    }
+  }
+
+  // 3. CASE A: Parent snake (has dependentIds or children)
+  if (isParent(snake, gameState)) {
+    const active = !snake.escortMode;
+    snake.escortMode = active;
+    snake.protectingChildren = active;
+
+    const targetChildren = getTargetChildren(snake, gameState);
+
+    if (active) {
+      // Circle around children to protect them
+      snake.orbit = computeEscortOrbit(snake, targetChildren, 2);
+    } else {
+      snake.orbit = null;
+    }
+
+    return {
+      action: 'escort',
+      active,
+      targetChildren
+    };
+  }
+
+  // 4. CASE B: Non-parent long snake without recent clones
+  const snakeLen = Array.isArray(snake.body) ? snake.body.length : (typeof snake.length === 'number' ? snake.length : 0);
+  const cycles = snake.cyclesWithoutClone !== undefined ? snake.cyclesWithoutClone : 2;
+
+  if (!isParent(snake, gameState) && snakeLen >= 8 && cycles >= 2) {
+    return advanceTrample(snake, gameState);
+  }
+
+  return {
+    action: 'none',
+    reason: 'Snake does not qualify for escort or egg laying'
+  };
+}
+
+/**
+ * Advances the trampling sequence (bătătoare teren) in a 3x3 local radius.
+ * After TRAMPLE_TICKS (10), deposits an egg at head coordinates.
+ */
+function advanceTrample(snake, gameState = {}, steps = 1) {
+  const head = getSnakeHead(snake) || { x: 0, y: 0 };
+
+  if (!snake.isTrampling) {
+    snake.isTrampling = true;
+    snake.trampleCenter = { ...head };
+    snake.trampleRadius = 3;
+    snake.trampleTicks = 0;
+  }
+
+  snake.trampleTicks = (snake.trampleTicks || 0) + steps;
+
+  // Complete trampling when threshold reached
+  if (snake.trampleTicks >= TRAMPLE_TICKS) {
+    const eggId = (gameState && typeof gameState.nextEggId === 'number')
+      ? ++gameState.nextEggId
+      : `egg_${snake.id || '0'}_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
+
+    const egg = {
+      id: eggId,
+      x: head.x,
+      y: head.y,
+      hatchTimer: (gameState && gameState.defaultHatchTimer) || DEFAULT_HATCH_TIMER,
+      parentId: snake.id ?? null,
+      color: snake.color || '#e5f2ac',
+      state: 'laid'
+    };
+
+    if (gameState && Array.isArray(gameState.eggs)) {
+      gameState.eggs.push(egg);
+    } else if (gameState && gameState.eggs instanceof Set) {
+      gameState.eggs.add(egg);
+    }
+
+    // Reset trampling state and cycles without clone
+    snake.isTrampling = false;
+    snake.trampleTicks = 0;
+    snake.cyclesWithoutClone = 0;
+    if (snake.ticksWithoutBreeding !== undefined) snake.ticksWithoutBreeding = 0;
+
+    return {
+      action: 'trample_or_laid',
+      status: 'egg_laid',
+      egg
+    };
+  }
+
+  return {
+    action: 'trample_or_laid',
+    status: 'trampling',
+    egg: null,
+    trampleTicks: snake.trampleTicks
+  };
+}
+
+/**
+ * Updates all eggs in the simulation:
+ * - Decrements hatchTimer.
+ * - Hatches into 2, 3, or 5 baby snakes when hatchTimer <= 0.
+ *
+ * @param {Array|object} eggsOrGameState - Array of eggs or gameState object
+ * @param {object} [maybeGameState] - gameState object if first arg is eggs array
+ * @returns {object} { hatchedSnakes: array, removedEggIds: array }
+ */
+function updateEggs(eggsOrGameState, maybeGameState = {}) {
+  let eggs;
+  let gameState;
+  if (Array.isArray(eggsOrGameState)) {
+    eggs = eggsOrGameState;
+    gameState = maybeGameState || {};
+  } else if (eggsOrGameState && Array.isArray(eggsOrGameState.eggs)) {
+    eggs = eggsOrGameState.eggs;
+    gameState = eggsOrGameState;
+  } else {
+    eggs = [];
+    gameState = maybeGameState || {};
+  }
+
+  const hatchedSnakes = [];
+  const removedEggIds = [];
+
+  for (let i = eggs.length - 1; i >= 0; i--) {
+    const egg = eggs[i];
+    if (!egg || egg.state === 'eaten' || egg.state === 'hatched') continue;
+
+    egg.hatchTimer = (egg.hatchTimer !== undefined ? egg.hatchTimer : DEFAULT_HATCH_TIMER) - 1;
+
+    if (egg.hatchTimer <= 0) {
+      egg.state = 'hatched';
+      removedEggIds.push(egg.id);
+
+      const babyCount = (egg.babyCount !== undefined)
+        ? egg.babyCount
+        : BABY_HATCH_COUNTS[Math.floor(Math.random() * BABY_HATCH_COUNTS.length)];
+
+      const babiesForEgg = [];
+      for (let b = 0; b < babyCount; b++) {
+        let babyId;
+        if (gameState && typeof gameState.nextSnakeId === 'number') {
+          babyId = ++gameState.nextSnakeId;
+        } else if (gameState && Array.isArray(gameState.snakes)) {
+          babyId = gameState.snakes.length + 100 + b;
+        } else {
+          babyId = `baby_${egg.id}_${b + 1}`;
+        }
+
+        const baby = {
+          id: babyId,
+          parentId: egg.parentId ?? null,
+          color: egg.color || '#a9e19a',
+          body: [
+            { x: egg.x, y: egg.y },
+            { x: egg.x - (b % 2 === 0 ? 1 : 0), y: egg.y - (b % 2 !== 0 ? 1 : 0) }
+          ],
+          dir: { x: 1, y: 0 },
+          generation: (egg.generation || 1) + 1,
+          role: 'pui',
+          dependent: true,
+          familySafe: true,
+          speedFactor: 1.0,
+          speedDebt: 0,
+          isBaby: true
+        };
+
+        babiesForEgg.push(baby);
+        hatchedSnakes.push(baby);
+
+        if (gameState && Array.isArray(gameState.snakes)) {
+          gameState.snakes.push(baby);
+        }
+      }
+
+      // Link newly hatched babies to parent's dependentIds
+      if (gameState && Array.isArray(gameState.snakes) && egg.parentId) {
+        const parent = gameState.snakes.find(s => s && s.id === egg.parentId);
+        if (parent) {
+          if (!Array.isArray(parent.dependentIds)) {
+            parent.dependentIds = [];
+          }
+          for (const b of babiesForEgg) {
+            if (!parent.dependentIds.includes(b.id)) {
+              parent.dependentIds.push(b.id);
+            }
+          }
+        }
+      }
+
+      // Remove egg from array
+      eggs.splice(i, 1);
+    }
+  }
+
+  return { hatchedSnakes, removedEggIds };
+}
+
+/**
+ * Calculates hunger rate and speed bonus based on snake length.
+ * Rule: "cei lungi sunt iuti, dar li se face si foame rpd"
+ *
+ * For snakes with length >= 8:
+ * - speedBonus = Math.min(0.6, (snake.body.length - 7) * 0.08)
+ * - hungerRate = 1.0 + (snake.body.length - 7) * 0.15
+ *
+ * For snakes with length < 8:
+ * - speedBonus = 0
+ * - hungerRate = 1.0
+ *
+ * @param {object} snake - Snake object with body array or length property
+ * @returns {object} { speedBonus, hungerRate, length, isLong }
+ */
+function calculateHungerAndSpeed(snake) {
+  if (!snake) {
+    return { speedBonus: 0, hungerRate: 1.0, length: 0, isLong: false };
+  }
+  const len = Array.isArray(snake.body) ? snake.body.length : (typeof snake.length === 'number' ? snake.length : 0);
+
+  if (len >= 8) {
+    const delta = len - 7;
+    const speedBonus = Math.min(0.6, delta * 0.08);
+    const hungerRate = 1.0 + delta * 0.15;
+    return {
+      speedBonus,
+      hungerRate,
+      length: len,
+      isLong: true
+    };
+  }
+
+  return {
+    speedBonus: 0,
+    hungerRate: 1.0,
+    length: len,
+    isLong: false
+  };
+}
+
+/**
+ * Applies hunger decay to a snake based on its length and elapsed delta time.
+ */
+function applyHungerDecay(snake, dt = 1) {
+  const { hungerRate, speedBonus } = calculateHungerAndSpeed(snake);
+  snake.hunger = (snake.hunger || 0) + hungerRate * dt;
+  return { hungerRate, speedBonus, currentHunger: snake.hunger };
+}
+
+
+
+/**
+ * Black Rectangle Portal Engine (2-Square Void Gateways).
+ *
+ * Requirements:
+ * - 2-square black rectangle portal object:
+ *   { id, x, y, width: 2, height: 1, orientation: 'horizontal' | 'vertical', customColor: null | '#hex' }
+ *   (pitch-black color #000000).
+ * - spawnPortalSnakes(portal, gameState):
+ *   - Spawns TWO snakes emerging from the portal on the SAME axis in OPPOSITE directions!
+ *     - If horizontal: one snake emerges heading Left { x: -1, y: 0 }, one snake emerges heading Right { x: 1, y: 0 }.
+ *     - If vertical: one snake emerges heading Up { x: 0, y: -1 }, one emerges heading Down { x: 0, y: 1 }.
+ *   - Snake color:
+ *     - If portal.customColor is set, both emerging snakes have that exact custom color!
+ *     - If portal.customColor is null or 'random', each emerging snake gets a random color.
+ *   - Returns { snakes: [snakeA, snakeB] }.
+ *
+ * Coordinator: RC-Znk-01 [uncle of RC03-Wisly]
+ * Architect: Subagent Arch-Portal
+ */
+
+'use strict';
+
+const PORTAL_COLOR = '#000000';
+
+const PORTAL_DEFAULT_PALETTE = [
+  '#b4f287', '#b4a1ff', '#6cd4f7', '#fbb77d',
+  '#f27ba8', '#ebdf78', '#78e2b9', '#f58d88',
+  '#9fc4fd', '#cb9ee5', '#ead1a4', '#50e3c2'
+];
+
+let _portalSnakeCounter = 1000;
+
+/**
+ * Generates or picks a random vibrant snake color.
+ * @param {Array<string>} [palette]
+ * @returns {string}
+ */
+function getRandomSnakeColor(palette = PORTAL_DEFAULT_PALETTE) {
+  if (Array.isArray(palette) && palette.length > 0) {
+    const idx = Math.floor(Math.random() * palette.length);
+    return palette[idx];
+  }
+  const letters = '0123456789ABCDEF';
+  let color = '#';
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
+
+/**
+ * Creates a 2-square black rectangle portal.
+ * @param {object} options
+ * @returns {object}
+ */
+function createBlackPortal(options = {}) {
+  const orientation = (options.orientation === 'vertical') ? 'vertical' : 'horizontal';
+  const width = options.width ?? (orientation === 'vertical' ? 1 : 2);
+  const height = options.height ?? (orientation === 'vertical' ? 2 : 1);
+  const rawColor = options.customColor;
+  let customColor = null;
+
+  if (rawColor && typeof rawColor === 'string') {
+    const trimmed = rawColor.trim();
+    if (trimmed.toLowerCase() === 'random') {
+      customColor = 'random';
+    } else if (trimmed.length > 0 && trimmed !== 'null' && trimmed !== 'undefined') {
+      customColor = trimmed.startsWith('#') ? trimmed : ('#' + trimmed);
+    }
+  }
+
+  return {
+    id: options.id || ('portal_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7)),
+    x: Math.round(options.x ?? 0),
+    y: Math.round(options.y ?? 0),
+    width,
+    height,
+    orientation,
+    customColor,
+    color: PORTAL_COLOR
+  };
+}
+
+/**
+ * Retrieves all grid cells occupied by the portal.
+ * @param {object} portal
+ * @returns {Array<{x: number, y: number}>}
+ */
+function getPortalOccupiedCells(portal) {
+  if (!portal) return [];
+  const cells = [];
+  const width = portal.width ?? (portal.orientation === 'vertical' ? 1 : 2);
+  const height = portal.height ?? (portal.orientation === 'vertical' ? 2 : 1);
+
+  for (let dx = 0; dx < width; dx++) {
+    for (let dy = 0; dy < height; dy++) {
+      cells.push({ x: portal.x + dx, y: portal.y + dy });
+    }
+  }
+  return cells;
+}
+
+/**
+ * Checks whether a given grid coordinate lies inside the portal.
+ * @param {object} portal
+ * @param {number} x
+ * @param {number} y
+ * @returns {boolean}
+ */
+function isCellInPortal(portal, x, y) {
+  if (!portal) return false;
+  const width = portal.width ?? (portal.orientation === 'vertical' ? 1 : 2);
+  const height = portal.height ?? (portal.orientation === 'vertical' ? 2 : 1);
+  return (x >= portal.x && x < portal.x + width && y >= portal.y && y < portal.y + height);
+}
+
+/**
+ * Spawns TWO snakes emerging from the portal on the SAME axis in OPPOSITE directions.
+ *
+ * Rules:
+ * - If horizontal:
+ *   - Snake A emerges heading Left: { x: -1, y: 0 }
+ *   - Snake B emerges heading Right: { x: 1, y: 0 }
+ * - If vertical:
+ *   - Snake A emerges heading Up: { x: 0, y: -1 }
+ *   - Snake B emerges heading Down: { x: 0, y: 1 }
+ * - Snake color:
+ *   - If portal.customColor is set (not null and not 'random'), both snakes have that exact color.
+ *   - If portal.customColor is null or 'random', each emerging snake gets a random color.
+ * - Returns { snakes: [snakeA, snakeB] }.
+ *
+ * @param {object} portal
+ * @param {object} [gameState] - Optional game state to register snakes into
+ * @param {object} [options] - Additional options (length, speedFactor, etc.)
+ * @returns {{ snakes: [object, object] }}
+ */
+function spawnPortalSnakes(portal, gameState = {}, options = {}) {
+  if (!portal) {
+    throw new Error('spawnPortalSnakes requires a valid portal object');
+  }
+
+  const orientation = portal.orientation === 'vertical' ? 'vertical' : 'horizontal';
+  const snakeLength = options.length || 3;
+  const speedFactor = options.speedFactor || 1.0;
+
+  // Resolve snake colors
+  let colorA, colorB;
+  const hasCustomColor = portal.customColor && portal.customColor !== 'random' && typeof portal.customColor === 'string';
+
+  if (hasCustomColor) {
+    colorA = portal.customColor;
+    colorB = portal.customColor;
+  } else {
+    colorA = getRandomSnakeColor();
+    colorB = getRandomSnakeColor();
+    // Ensure distinct colors if palette has at least 2 entries
+    if (colorA === colorB && PORTAL_DEFAULT_PALETTE.length > 1) {
+      const filtered = PORTAL_DEFAULT_PALETTE.filter(c => c !== colorA);
+      colorB = filtered[Math.floor(Math.random() * filtered.length)];
+    }
+  }
+
+  // Determine unique IDs
+  let idA, idB;
+  if (gameState && typeof gameState.nextId === 'number') {
+    idA = ++gameState.nextId;
+    idB = ++gameState.nextId;
+  } else {
+    idA = ++_portalSnakeCounter;
+    idB = ++_portalSnakeCounter;
+  }
+
+  let dirA, dirB;
+  let bodyA = [];
+  let bodyB = [];
+
+  if (orientation === 'horizontal') {
+    // Axis: horizontal. Opposite directions: Left and Right.
+    dirA = { x: -1, y: 0 }; // Left
+    dirB = { x: 1, y: 0 };  // Right
+
+    // Snake A emerges heading Left from the left portal square (portal.x, portal.y)
+    for (let i = 0; i < snakeLength; i++) {
+      bodyA.push({ x: portal.x + i, y: portal.y });
+    }
+
+    // Snake B emerges heading Right from the right portal square (portal.x + 1, portal.y)
+    const rightSquareX = portal.x + (portal.width ? (portal.width - 1) : 1);
+    for (let i = 0; i < snakeLength; i++) {
+      bodyB.push({ x: rightSquareX - i, y: portal.y });
+    }
+  } else {
+    // Axis: vertical. Opposite directions: Up and Down.
+    dirA = { x: 0, y: -1 }; // Up
+    dirB = { x: 0, y: 1 };  // Down
+
+    // Snake A emerges heading Up from the top portal square (portal.x, portal.y)
+    for (let i = 0; i < snakeLength; i++) {
+      bodyA.push({ x: portal.x, y: portal.y + i });
+    }
+
+    // Snake B emerges heading Down from the bottom portal square (portal.x, portal.y + 1)
+    const bottomSquareY = portal.y + (portal.height ? (portal.height - 1) : 1);
+    for (let i = 0; i < snakeLength; i++) {
+      bodyB.push({ x: portal.x, y: bottomSquareY - i });
+    }
+  }
+
+  const snakeA = {
+    id: idA,
+    body: bodyA,
+    dir: { ...dirA },
+    next: null,
+    control: 'ai',
+    color: colorA,
+    speedFactor,
+    speedDebt: 0,
+    fertility: options.fertility ?? 20,
+    collisionResistance: options.collisionResistance ?? 35,
+    emojiDesperationGene: options.emojiDesperationGene ?? 75,
+    twinGene: options.twinGene ?? 10,
+    foodGene: options.foodGene ?? 0,
+    hungerMultiplier: options.hungerMultiplier ?? 1.0,
+    generation: 1,
+    role: 'portal_snake_a',
+    originPortalId: portal.id,
+    score: 0,
+    toxicity: 0,
+    disorientationSteps: 0,
+    isSubpixel: false
+  };
+
+  const snakeB = {
+    id: idB,
+    body: bodyB,
+    dir: { ...dirB },
+    next: null,
+    control: 'ai',
+    color: colorB,
+    speedFactor,
+    speedDebt: 0,
+    fertility: options.fertility ?? 20,
+    collisionResistance: options.collisionResistance ?? 35,
+    emojiDesperationGene: options.emojiDesperationGene ?? 75,
+    twinGene: options.twinGene ?? 10,
+    foodGene: options.foodGene ?? 0,
+    hungerMultiplier: options.hungerMultiplier ?? 1.0,
+    generation: 1,
+    role: 'portal_snake_b',
+    originPortalId: portal.id,
+    score: 0,
+    toxicity: 0,
+    disorientationSteps: 0,
+    isSubpixel: false
+  };
+
+  // Register into gameState if available
+  if (gameState && Array.isArray(gameState.snakes)) {
+    gameState.snakes.push(snakeA, snakeB);
+    if (typeof gameState.renderListNeedsUpdate !== 'undefined') {
+      gameState.renderListNeedsUpdate = true;
+    }
+    if (typeof gameState.births === 'number') {
+      gameState.births += 2;
+    }
+  }
+
+  return { snakes: [snakeA, snakeB] };
+}
+
+/**
+ * Renders a black 2-square portal onto a 2D canvas context.
+ * @param {CanvasRenderingContext2D} ctx
+ * @param {object} portal
+ * @param {number} cellSize - Pixel dimensions per grid cell
+ * @param {object} [camera] - Optional camera offset { x, y }
+ */
+function renderBlackPortal(ctx, portal, cellSize = 20, camera = null) {
+  if (!ctx || !portal) return;
+
+  const width = portal.width ?? (portal.orientation === 'vertical' ? 1 : 2);
+  const height = portal.height ?? (portal.orientation === 'vertical' ? 2 : 1);
+
+  const screenX = camera ? (portal.x - camera.x) * cellSize + (ctx.canvas.width / 2) : portal.x * cellSize;
+  const screenY = camera ? (portal.y - camera.y) * cellSize + (ctx.canvas.height / 2) : portal.y * cellSize;
+  const pixelW = width * cellSize;
+  const pixelH = height * cellSize;
+
+  ctx.save();
+
+  // Pitch-black void body
+  ctx.fillStyle = PORTAL_COLOR;
+  ctx.fillRect(screenX, screenY, pixelW, pixelH);
+
+  // Void boundary glow or custom color accent rim
+  const accentColor = (portal.customColor && portal.customColor !== 'random') ? portal.customColor : '#444444';
+  ctx.strokeStyle = accentColor;
+  ctx.lineWidth = Math.max(1.5, Math.floor(cellSize * 0.1));
+  ctx.strokeRect(screenX + 0.5, screenY + 0.5, pixelW - 1, pixelH - 1);
+
+  // Inner portal horizon / pulse lines
+  ctx.strokeStyle = 'rgba(255, 255, 255, 0.25)';
+  ctx.lineWidth = 1;
+  if (portal.orientation === 'horizontal') {
+    // Horizontal portal dividing line
+    const midX = screenX + pixelW / 2;
+    ctx.beginPath();
+    ctx.moveTo(midX, screenY + 2);
+    ctx.lineTo(midX, screenY + pixelH - 2);
+    ctx.stroke();
+  } else {
+    // Vertical portal dividing line
+    const midY = screenY + pixelH / 2;
+    ctx.beginPath();
+    ctx.moveTo(screenX + 2, midY);
+    ctx.lineTo(screenX + pixelW - 2, midY);
+    ctx.stroke();
+  }
+
+  // Draw directional emerging arrows
+  ctx.fillStyle = accentColor;
+  const arrowSize = Math.max(3, Math.floor(cellSize * 0.2));
+  if (portal.orientation === 'horizontal') {
+    // Left arrow
+    ctx.beginPath();
+    ctx.moveTo(screenX + arrowSize * 1.5, screenY + pixelH / 2);
+    ctx.lineTo(screenX + arrowSize * 2.5, screenY + pixelH / 2 - arrowSize);
+    ctx.lineTo(screenX + arrowSize * 2.5, screenY + pixelH / 2 + arrowSize);
+    ctx.fill();
+    // Right arrow
+    ctx.beginPath();
+    ctx.moveTo(screenX + pixelW - arrowSize * 1.5, screenY + pixelH / 2);
+    ctx.lineTo(screenX + pixelW - arrowSize * 2.5, screenY + pixelH / 2 - arrowSize);
+    ctx.lineTo(screenX + pixelW - arrowSize * 2.5, screenY + pixelH / 2 + arrowSize);
+    ctx.fill();
+  } else {
+    // Up arrow
+    ctx.beginPath();
+    ctx.moveTo(screenX + pixelW / 2, screenY + arrowSize * 1.5);
+    ctx.lineTo(screenX + pixelW / 2 - arrowSize, screenY + arrowSize * 2.5);
+    ctx.lineTo(screenX + pixelW / 2 + arrowSize, screenY + arrowSize * 2.5);
+    ctx.fill();
+    // Down arrow
+    ctx.beginPath();
+    ctx.moveTo(screenX + pixelW / 2, screenY + pixelH - arrowSize * 1.5);
+    ctx.lineTo(screenX + pixelW / 2 - arrowSize, screenY + pixelH - arrowSize * 2.5);
+    ctx.lineTo(screenX + pixelW / 2 + arrowSize, screenY + pixelH - arrowSize * 2.5);
+    ctx.fill();
+  }
+
+  ctx.restore();
+}
+
+/**
+ * Serializes a black portal object.
+ * @param {object} portal
+ * @returns {object}
+ */
+function serializePortal(portal) {
+  if (!portal) return null;
+  return {
+    id: portal.id,
+    x: portal.x,
+    y: portal.y,
+    width: portal.width ?? (portal.orientation === 'vertical' ? 1 : 2),
+    height: portal.height ?? (portal.orientation === 'vertical' ? 2 : 1),
+    orientation: portal.orientation || 'horizontal',
+    customColor: portal.customColor ?? null,
+    color: PORTAL_COLOR
+  };
+}
+
+/**
+ * Deserializes portal data into a valid portal object.
+ * @param {object|string} data
+ * @returns {object}
+ */
+function deserializePortal(data) {
+  if (!data) return null;
+  const obj = typeof data === 'string' ? JSON.parse(data) : data;
+  return createBlackPortal(obj);
+}
+
+// Export for CommonJS and browser environments
+
+
+/**
+ * Secret Menu & Advanced Customization Editors for Znake.
+ *
+ * Implements:
+ * 1. Triple 'E' Keypress Detector (TripleEPressDetector)
+ *    - Tracks keydowns for 'e' or 'E'.
+ *    - Triggers openSecretMenu() when 3 presses occur within 1200ms.
+ * 2. Secret Menu Modal & Multi-Tab Editors:
+ *    - Tab 1: Snake Entity & Gene Customizer:
+ *      Inputs: Name, Color (picker + hex), Length, Speed Factor, Collision Resistance,
+ *              Fertility, Food Gene, Emoji Desperation Gene, Twin Gene, Hunger Multiplier.
+ *      "Salvează în LocalStorage" -> localStorage['znake_custom_entities']
+ *      "Încarcă Entitate" -> lists saved entities with "Spawnează" & "Șterge".
+ *    - Tab 2: Special Vine Editor:
+ *      Inputs: Shape ('square' | 'circle'), Size/Radius, Color, Opacity, Spread Chance,
+ *              Absorption Chance, Harmful/Poisonous toggle.
+ *      "Salvează Vine Personalizat" -> localStorage['znake_custom_vines']
+ *    - Tab 3: Map Editor:
+ *      Palette tools:
+ *        - Place / Erase Vines (custom from Tab 2)
+ *        - Place Food Berries / Landmarks
+ *        - Place Player Initial Snake (head position, length, direction)
+ *        - Place 2-Square Black Portal (orientation toggle & color picker or random)
+ *      "Testează Harta" -> loads map directly into current game state & starts simulation!
+ *      "Exportă JSON" / "Importă JSON"
+ *      "Salvează Hartă" -> localStorage['znake_custom_maps']
+ *
+ * Coordinator: RC-Znk-01 [uncle of RC03-Wisly]
+ * Architect: Subagent Arch-Portal
+ */
+
+'use strict';
+
+// Import black portal module if available in CommonJS
+var BlackPortalModule = (typeof BlackPortalModule !== 'undefined') ? BlackPortalModule : null;
+if (!BlackPortalModule && typeof require !== 'undefined') {
+  try {
+    BlackPortalModule = require('./black_portal');
+  } catch {}
+}
+if (!BlackPortalModule && typeof window !== 'undefined' && window.BlackPortal) {
+  BlackPortalModule = window.BlackPortal;
+}
+
+const SECRET_STORAGE_KEYS = {
+  ENTITIES: 'znake_custom_entities',
+  VINES: 'znake_custom_vines',
+  MAPS: 'znake_custom_maps'
+};
+const STORAGE_KEYS = SECRET_STORAGE_KEYS;
+
+// =============================================================================
+// 1. Triple 'E' Keypress Detector
+// =============================================================================
+
+class TripleEPressDetector {
+  /**
+   * @param {Function} onTrigger - Callback when triple E is detected
+   * @param {object} [options]
+   */
+  constructor(onTrigger, options = {}) {
+    this.onTrigger = onTrigger;
+    this.windowMs = options.windowMs || 1200;
+    this.requiredPresses = options.requiredPresses || 3;
+    this.timestamps = [];
+    this._handler = this.handleKeyDown.bind(this);
+    this.enabled = false;
+    this.allowInInputs = Boolean(options.allowInInputs);
+
+    if (options.autoAttach && typeof window !== 'undefined') {
+      this.attach();
+    }
+  }
+
+  /**
+   * Handles a keydown event.
+   * @param {KeyboardEvent|object} event
+   * @returns {boolean} Whether triple E was triggered
+   */
+  handleKeyDown(event) {
+    if (!event) return false;
+
+    // Check if key is 'e' or 'E'
+    const key = (event.key || '').toLowerCase();
+    const code = (event.code || '').toLowerCase();
+    const isE = (key === 'e' || code === 'keye');
+    if (!isE) return false;
+
+    // Ignore if user is currently typing inside an input/textarea/select
+    if (!this.allowInInputs && event.target) {
+      const tag = (event.target.tagName || '').toUpperCase();
+      const isEditable = tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || event.target.isContentEditable;
+      if (isEditable) return false;
+    }
+
+    const now = typeof event.timeStamp === 'number' ? event.timeStamp : Date.now();
+    this.timestamps.push(now);
+
+    // Prune presses outside the time window
+    this.timestamps = this.timestamps.filter(t => (now - t) <= this.windowMs);
+
+    if (this.timestamps.length >= this.requiredPresses) {
+      this.timestamps = [];
+      if (typeof this.onTrigger === 'function') {
+        this.onTrigger(event);
+      }
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Attaches listener to window/element.
+   * @param {EventTarget} [target]
+   */
+  attach(target = (typeof window !== 'undefined' ? window : null)) {
+    if (target && target.addEventListener && !this.enabled) {
+      target.addEventListener('keydown', this._handler);
+      this.enabled = true;
+      this._currentTarget = target;
+    }
+  }
+
+  /**
+   * Detaches listener from window/element.
+   * @param {EventTarget} [target]
+   */
+  detach(target = this._currentTarget || (typeof window !== 'undefined' ? window : null)) {
+    if (target && target.removeEventListener && this.enabled) {
+      target.removeEventListener('keydown', this._handler);
+      this.enabled = false;
+      this._currentTarget = null;
+    }
+  }
+
+  /**
+   * Resets internal timestamp buffer.
+   */
+  reset() {
+    this.timestamps = [];
+  }
+}
+
+// =============================================================================
+// 2. Storage Helpers (Entities, Vines, Maps)
+// =============================================================================
+
+function _getEditorStorage(storage) {
+  if (storage) return storage;
+  if (typeof localStorage !== 'undefined') return localStorage;
+  return null;
+}
+
+/**
+ * Saves a custom snake entity to storage.
+ * @param {object} entity
+ * @param {Storage} [storage]
+ * @returns {Array<object>} Updated list of custom entities
+ */
+function saveCustomEntity(entity, storage = null) {
+  const store = _getEditorStorage(storage);
+  if (!store) return [];
+
+  const raw = store.getItem(STORAGE_KEYS.ENTITIES);
+  let entities = [];
+  try {
+    entities = raw ? JSON.parse(raw) : [];
+  } catch {
+    entities = [];
+  }
+
+  const newEntity = {
+    id: entity.id || ('ent_' + Date.now() + '_' + Math.random().toString(36).substring(2, 6)),
+    name: entity.name || 'Șarpe Personalizat',
+    color: entity.color || '#b4f287',
+    length: Math.max(1, Math.min(100, Math.round(entity.length || 5))),
+    speedFactor: Number((entity.speedFactor ?? 1.0).toFixed(2)),
+    collisionResistance: Math.max(0, Math.min(100, Math.round(entity.collisionResistance ?? 35))),
+    fertility: Math.max(0, Math.min(100, Math.round(entity.fertility ?? 20))),
+    foodGene: Math.max(-50, Math.min(50, Math.round(entity.foodGene ?? 0))),
+    emojiDesperationGene: Math.max(0, Math.min(100, Math.round(entity.emojiDesperationGene ?? 75))),
+    twinGene: Math.max(0, Math.min(100, Math.round(entity.twinGene ?? 10))),
+    hungerMultiplier: Number((entity.hungerMultiplier ?? 1.0).toFixed(2)),
+    createdAt: entity.createdAt || Date.now()
+  };
+
+  const existingIdx = entities.findIndex(e => e.id === newEntity.id);
+  if (existingIdx >= 0) {
+    entities[existingIdx] = newEntity;
+  } else {
+    entities.push(newEntity);
+  }
+
+  try {
+    store.setItem(STORAGE_KEYS.ENTITIES, JSON.stringify(entities));
+  } catch {}
+  return entities;
+}
+
+/**
+ * Loads all saved custom entities from storage.
+ * @param {Storage} [storage]
+ * @returns {Array<object>}
+ */
+function loadCustomEntities(storage = null) {
+  const store = _getEditorStorage(storage);
+  if (!store) return [];
+  try {
+    const raw = store.getItem(STORAGE_KEYS.ENTITIES);
+    return raw ? JSON.parse(raw) : [];
+  } catch {
+    return [];
+  }
+}
+
+/**
+ * Deletes a custom entity by ID.
+ * @param {string} entityId
+ * @param {Storage} [storage]
+ * @returns {Array<object>}
+ */
+function deleteCustomEntity(entityId, storage = null) {
+  const store = _getEditorStorage(storage);
+  if (!store) return [];
+  let entities = loadCustomEntities(store);
+  entities = entities.filter(e => e.id !== entityId);
+  try {
+    store.setItem(STORAGE_KEYS.ENTITIES, JSON.stringify(entities));
+  } catch {}
+  return entities;
+}
+
+/**
+ * Spawns a custom entity into the active game state.
+ * @param {object} entity
+ * @param {object} gameState
+ * @param {object} [position] - Optional { x, y }
+ * @returns {object|null}
+ */
+function spawnCustomEntity(entity, gameState, position = null) {
+  if (!entity || !gameState) return null;
+
+  const id = typeof gameState.nextId === 'number' ? ++gameState.nextId : (Date.now() % 100000);
+  const len = entity.length || 5;
+
+  let startX = 10;
+  let startY = 10;
+  if (position && typeof position.x === 'number') {
+    startX = position.x;
+    startY = position.y;
+  } else if (gameState.opts && typeof gameState.opts.cols === 'number') {
+    startX = Math.floor(gameState.opts.cols / 2);
+    startY = Math.floor(gameState.opts.rows / 2);
+  }
+
+  const body = [];
+  for (let i = 0; i < len; i++) {
+    body.push({ x: startX - i, y: startY });
+  }
+
+  const snake = {
+    id,
+    name: entity.name || 'Șarpe Personalizat #' + id,
+    body,
+    dir: { x: 1, y: 0 },
+    next: null,
+    control: 'ai',
+    color: entity.color || '#b4f287',
+    speedFactor: entity.speedFactor ?? 1.0,
+    speedDebt: 0,
+    collisionResistance: entity.collisionResistance ?? 35,
+    fertility: entity.fertility ?? 20,
+    foodGene: entity.foodGene ?? 0,
+    emojiDesperationGene: entity.emojiDesperationGene ?? 75,
+    twinGene: entity.twinGene ?? 10,
+    hungerMultiplier: entity.hungerMultiplier ?? 1.0,
+    generation: 1,
+    role: 'custom_entity',
+    toxicity: 0,
+    disorientationSteps: 0,
+    score: 0,
+    isSubpixel: false
+  };
+
+  if (Array.isArray(gameState.snakes)) {
+    gameState.snakes.push(snake);
+    if (typeof gameState.renderListNeedsUpdate !== 'undefined') {
+      gameState.renderListNeedsUpdate = true;
+    }
+  }
+
+  return snake;
+}
+
+/**
+ * Saves a custom special vine template to storage.
+ * @param {object} vine
+ * @param {Storage} [storage]
+ * @returns {Array<object>}
+ */
+function saveCustomVine(vine, storage = null) {
+  const store = _getEditorStorage(storage);
+  if (!store) return [];
+
+  const raw = store.getItem(STORAGE_KEYS.VINES);
+  let vines = [];
+  try {
+    vines = raw ? JSON.parse(raw) : [];
+  } catch {
+    vines = [];
+  }
+
+  const newVine = {
+    id: vine.id || ('vine_' + Date.now() + '_' + Math.random().toString(36).substring(2, 6)),
+    name: vine.name || ('Liană ' + (vine.shape === 'circle' ? 'Rotundă' : 'Pătrată') + ' ' + (vine.size || 3)),
+    shape: (vine.shape === 'circle') ? 'circle' : 'square',
+    size: Math.max(1, Math.min(25, Math.round(vine.size || 3))),
+    color: vine.color || '#2e7d32',
+    opacity: Number(Math.max(0.05, Math.min(1.0, vine.opacity ?? 0.8)).toFixed(2)),
+    spreadChance: Math.max(0, Math.min(100, Math.round(vine.spreadChance ?? 50))),
+    absorptionChance: Math.max(0, Math.min(100, Math.round(vine.absorptionChance ?? 75))),
+    harmful: Boolean(vine.harmful),
+    createdAt: vine.createdAt || Date.now()
+  };
+
+  const existingIdx = vines.findIndex(v => v.id === newVine.id);
+  if (existingIdx >= 0) {
+    vines[existingIdx] = newVine;
+  } else {
+    vines.push(newVine);
+  }
+
+  try {
+    store.setItem(STORAGE_KEYS.VINES, JSON.stringify(vines));
+  } catch {}
+  return vines;
+}
+
+/**
+ * Loads custom vines from storage.
+ * @param {Storage} [storage]
+ * @returns {Array<object>}
+ */
+function loadCustomVines(storage = null) {
+  const store = _getEditorStorage(storage);
+  if (!store) return [];
+  try {
+    const raw = store.getItem(STORAGE_KEYS.VINES);
+    return raw ? JSON.parse(raw) : [];
+  } catch {
+    return [];
+  }
+}
+
+/**
+ * Deletes a custom vine by ID.
+ * @param {string} vineId
+ * @param {Storage} [storage]
+ * @returns {Array<object>}
+ */
+function deleteCustomVine(vineId, storage = null) {
+  const store = _getEditorStorage(storage);
+  if (!store) return [];
+  let vines = loadCustomVines(store);
+  vines = vines.filter(v => v.id !== vineId);
+  try {
+    store.setItem(STORAGE_KEYS.VINES, JSON.stringify(vines));
+  } catch {}
+  return vines;
+}
+
+/**
+ * Creates an empty or default custom map structure.
+ * @param {object} [options]
+ * @returns {object}
+ */
+function createCustomMap(options = {}) {
+  return {
+    id: options.id || ('map_' + Date.now() + '_' + Math.random().toString(36).substring(2, 6)),
+    title: options.title || 'Hartă Personalizată Znake',
+    description: options.description || 'Hartă creată în editorul secret Znake',
+    author: options.author || 'Anonim',
+    version: 1,
+    createdAt: options.createdAt || Date.now(),
+    cols: options.cols || 30,
+    rows: options.rows || 22,
+    vines: Array.isArray(options.vines) ? options.vines.map(v => ({ ...v })) : [],
+    foods: Array.isArray(options.foods) ? options.foods.map(f => ({ ...f })) : [],
+    portals: Array.isArray(options.portals) ? options.portals.map(p => ({ ...p })) : [],
+    initialSnake: options.initialSnake ? { ...options.initialSnake } : {
+      x: 10,
+      y: 10,
+      length: 5,
+      dir: { x: 1, y: 0 },
+      color: '#b4f287',
+      name: 'Șarpe Jucător'
+    }
+  };
+}
+
+/**
+ * Saves a map to storage.
+ * @param {object} map
+ * @param {Storage} [storage]
+ * @returns {Array<object>}
+ */
+function saveCustomMap(map, storage = null) {
+  const store = _getEditorStorage(storage);
+  if (!store) return [];
+
+  const raw = store.getItem(STORAGE_KEYS.MAPS);
+  let maps = [];
+  try {
+    maps = raw ? JSON.parse(raw) : [];
+  } catch {
+    maps = [];
+  }
+
+  const newMap = createCustomMap(map);
+  const existingIdx = maps.findIndex(m => m.id === newMap.id);
+  if (existingIdx >= 0) {
+    maps[existingIdx] = newMap;
+  } else {
+    maps.push(newMap);
+  }
+
+  try {
+    store.setItem(STORAGE_KEYS.MAPS, JSON.stringify(maps));
+  } catch {}
+  return maps;
+}
+
+/**
+ * Loads all custom maps from storage.
+ * @param {Storage} [storage]
+ * @returns {Array<object>}
+ */
+function loadCustomMaps(storage = null) {
+  const store = _getEditorStorage(storage);
+  if (!store) return [];
+  try {
+    const raw = store.getItem(STORAGE_KEYS.MAPS);
+    return raw ? JSON.parse(raw) : [];
+  } catch {
+    return [];
+  }
+}
+
+/**
+ * Deletes a map by ID from storage.
+ * @param {string} mapId
+ * @param {Storage} [storage]
+ * @returns {Array<object>}
+ */
+function deleteCustomMap(mapId, storage = null) {
+  const store = _getEditorStorage(storage);
+  if (!store) return [];
+  let maps = loadCustomMaps(store);
+  maps = maps.filter(m => m.id !== mapId);
+  try {
+    store.setItem(STORAGE_KEYS.MAPS, JSON.stringify(maps));
+  } catch {}
+  return maps;
+}
+
+/**
+ * Exports a map to formatted JSON string.
+ * @param {object} map
+ * @returns {string}
+ */
+function exportMapToJSON(map) {
+  return JSON.stringify(createCustomMap(map), null, 2);
+}
+
+/**
+ * Imports a map from JSON string.
+ * @param {string} jsonString
+ * @returns {object|null}
+ */
+function importMapFromJSON(jsonString) {
+  if (!jsonString || typeof jsonString !== 'string') return null;
+  try {
+    const parsed = JSON.parse(jsonString);
+    if (!parsed || typeof parsed !== 'object') return null;
+    return createCustomMap(parsed);
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Loads a map directly into the current game state and starts the simulation.
+ * @param {object} map
+ * @param {object} gameState
+ * @param {object} [options]
+ * @returns {boolean}
+ */
+function loadMapIntoGameState(map, gameState, options = {}) {
+  if (!map || !gameState) return false;
+
+  // 1. Grid dimensions
+  if (gameState.opts) {
+    if (map.cols) gameState.opts.cols = map.cols;
+    if (map.rows) gameState.opts.rows = map.rows;
+  }
+
+  // 2. Clear previous entities
+  if (Array.isArray(gameState.snakes)) {
+    gameState.snakes.length = 0;
+  } else {
+    gameState.snakes = [];
+  }
+
+  if (Array.isArray(gameState.foods)) {
+    gameState.foods.length = 0;
+  } else {
+    gameState.foods = [];
+  }
+
+  // Clear contact marks and death heatmap if functions exist
+  if (gameState.contactMarks && typeof gameState.contactMarks.clear === 'function') {
+    gameState.contactMarks.clear();
+  }
+
+  // 3. Populate Foods
+  if (Array.isArray(map.foods)) {
+    map.foods.forEach(f => {
+      gameState.foods.push({
+        x: f.x,
+        y: f.y,
+        color: f.color || '#fbb77d',
+        type: f.type || 'berry',
+        age: 0
+      });
+    });
+  }
+
+  // 4. Populate Vines into gameState.customVines or vine nodes
+  gameState.customVines = Array.isArray(map.vines) ? map.vines.map(v => ({ ...v })) : [];
+
+  // 5. Populate Portals
+  gameState.portals = Array.isArray(map.portals) ? map.portals.map(p => ({ ...p })) : [];
+
+  // 6. Spawn Player Initial Snake
+  const init = map.initialSnake || { x: 10, y: 10, length: 5, dir: { x: 1, y: 0 }, color: '#b4f287' };
+  const playerLen = init.length || 5;
+  const playerDir = init.dir || { x: 1, y: 0 };
+  const playerBody = [];
+
+  for (let i = 0; i < playerLen; i++) {
+    playerBody.push({
+      x: init.x - playerDir.x * i,
+      y: init.y - playerDir.y * i
+    });
+  }
+
+  const playerSnake = {
+    id: 1,
+    name: init.name || 'Șarpe Jucător',
+    body: playerBody,
+    dir: { ...playerDir },
+    next: null,
+    control: 'manual',
+    color: init.color || '#b4f287',
+    speedFactor: init.speedFactor ?? 1.0,
+    speedDebt: 0,
+    collisionResistance: 35,
+    fertility: 20,
+    emojiDesperationGene: 75,
+    foodGene: 0,
+    twinGene: 10,
+    generation: 1,
+    role: 'fondator',
+    score: 0,
+    toxicity: 0,
+    disorientationSteps: 0,
+    isSubpixel: false
+  };
+
+  gameState.snakes.push(playerSnake);
+  if (gameState.selected && typeof gameState.selected.add === 'function') {
+    gameState.selected.clear();
+    gameState.selected.add(1);
+  }
+
+  // 7. Auto-spawn snakes from black portals if requested or available
+  const autoSpawnPortals = options.autoSpawnPortals !== false;
+  if (autoSpawnPortals && gameState.portals.length > 0) {
+    const portalSpawner = (BlackPortalModule && BlackPortalModule.spawnPortalSnakes) ||
+      (typeof window !== 'undefined' && window.BlackPortal && window.BlackPortal.spawnPortalSnakes);
+
+    if (portalSpawner) {
+      gameState.portals.forEach(portal => {
+        portalSpawner(portal, gameState);
+      });
+    }
+  }
+
+  // 8. Trigger simulation update
+  if (typeof gameState.renderListNeedsUpdate !== 'undefined') {
+    gameState.renderListNeedsUpdate = true;
+  }
+  if (typeof gameState.phase !== 'undefined') {
+    gameState.phase = 'running';
+  }
+
+  // If running in browser and game refresh/draw functions exist
+  if (typeof window !== 'undefined') {
+    if (typeof window.refresh === 'function') window.refresh();
+    if (typeof window.draw === 'function') window.draw();
+  }
+
+  return true;
+}
+
+// =============================================================================
+// 3. UI Modal & Tab Controllers
+// =============================================================================
+
+let _activeSecretModal = null;
+let _currentEditorMap = null;
+
+/**
+ * Checks if the secret menu modal is currently open.
+ * @returns {boolean}
+ */
+function isSecretMenuOpen() {
+  if (typeof document === 'undefined') return false;
+  return Boolean(_activeSecretModal && document.getElementById('znake_secret_menu_modal'));
+}
+
+/**
+ * Closes the secret menu modal.
+ */
+function closeSecretMenu() {
+  if (typeof document === 'undefined') return;
+  const modal = document.getElementById('znake_secret_menu_modal');
+  if (modal) {
+    modal.remove();
+  }
+  _activeSecretModal = null;
+}
+
+/**
+ * Opens or toggles the Secret Menu & Editors modal.
+ * @param {object} [gameState] - Active game state reference
+ * @param {object} [options]
+ */
+function openSecretMenu(gameState = null, options = {}) {
+  if (typeof document === 'undefined') return;
+
+  if (isSecretMenuOpen()) {
+    closeSecretMenu();
+    return;
+  }
+
+  const initialTab = options.tab || 'tab_entities';
+  _currentEditorMap = _currentEditorMap || createCustomMap();
+
+  // Create modal backdrop and container
+  const modal = document.createElement('div');
+  modal.id = 'znake_secret_menu_modal';
+  modal.className = 'znake-secret-modal-backdrop';
+
+  // Modal styles (Cyber Dark aesthetic)
+  modal.innerHTML = `
+    <style>
+      .znake-secret-modal-backdrop {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(8, 12, 18, 0.88);
+        backdrop-filter: blur(8px);
+        z-index: 99999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        color: #e0e6ed;
+        box-sizing: border-box;
+      }
+      .znake-secret-modal-window {
+        width: 92vw;
+        max-width: 920px;
+        max-height: 90vh;
+        background: #111822;
+        border: 1px solid #1e3a5f;
+        box-shadow: 0 0 32px rgba(0, 229, 255, 0.25), 0 20px 40px rgba(0,0,0,0.8);
+        border-radius: 12px;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+      .znake-secret-modal-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 20px;
+        background: #0b1118;
+        border-bottom: 1px solid #1c2b3d;
+      }
+      .znake-secret-title-badge {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 1.15rem;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        color: #00e5ff;
+        text-shadow: 0 0 8px rgba(0, 229, 255, 0.6);
+      }
+      .znake-secret-modal-close-btn {
+        background: transparent;
+        border: none;
+        color: #8899a6;
+        font-size: 1.5rem;
+        cursor: pointer;
+        transition: color 0.2s;
+      }
+      .znake-secret-modal-close-btn:hover {
+        color: #ff4757;
+      }
+      .znake-secret-tabs-bar {
+        display: flex;
+        background: #0d1520;
+        border-bottom: 1px solid #1c2b3d;
+        overflow-x: auto;
+      }
+      .znake-secret-tab-btn {
+        flex: 1;
+        padding: 12px 16px;
+        background: transparent;
+        border: none;
+        border-bottom: 2px solid transparent;
+        color: #8899a6;
+        font-size: 0.9rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-align: center;
+        white-space: nowrap;
+      }
+      .znake-secret-tab-btn:hover {
+        color: #c0d1e3;
+        background: rgba(255, 255, 255, 0.03);
+      }
+      .znake-secret-tab-btn.active {
+        color: #00e5ff;
+        border-bottom-color: #00e5ff;
+        background: rgba(0, 229, 255, 0.08);
+      }
+      .znake-secret-tab-content-area {
+        padding: 20px;
+        overflow-y: auto;
+        flex: 1;
+      }
+      .znake-secret-form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 16px;
+      }
+      .znake-secret-field {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .znake-secret-field label {
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: #8899a6;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+      .znake-secret-field input, .znake-secret-field select, .znake-secret-field textarea {
+        background: #0b1118;
+        border: 1px solid #223447;
+        color: #e0e6ed;
+        padding: 8px 12px;
+        border-radius: 6px;
+        font-size: 0.9rem;
+      }
+      .znake-secret-field input:focus, .znake-secret-field select:focus, .znake-secret-field textarea:focus {
+        border-color: #00e5ff;
+        outline: none;
+        box-shadow: 0 0 8px rgba(0, 229, 255, 0.3);
+      }
+      .znake-secret-color-row {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .znake-secret-btn-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 20px;
+      }
+      .znake-secret-btn {
+        padding: 10px 18px;
+        background: #1e3a5f;
+        border: 1px solid #00e5ff;
+        border-radius: 6px;
+        color: #00e5ff;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-size: 0.88rem;
+      }
+      .znake-secret-btn:hover {
+        background: #00e5ff;
+        color: #0b1118;
+        box-shadow: 0 0 12px rgba(0, 229, 255, 0.5);
+      }
+      .znake-secret-btn.danger {
+        border-color: #ff4757;
+        color: #ff4757;
+        background: #2a151b;
+      }
+      .znake-secret-btn.danger:hover {
+        background: #ff4757;
+        color: #fff;
+      }
+      .znake-secret-list-section {
+        margin-top: 24px;
+        border-top: 1px solid #1c2b3d;
+        padding-top: 16px;
+      }
+      .znake-secret-item-card {
+        background: #0b1118;
+        border: 1px solid #1c2b3d;
+        padding: 12px 16px;
+        border-radius: 6px;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .znake-secret-palette-bar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 16px;
+      }
+      .znake-secret-tool-btn {
+        padding: 8px 14px;
+        background: #0b1118;
+        border: 1px solid #223447;
+        border-radius: 6px;
+        color: #8899a6;
+        cursor: pointer;
+        font-size: 0.85rem;
+      }
+      .znake-secret-tool-btn.active {
+        border-color: #00e5ff;
+        color: #00e5ff;
+        background: rgba(0, 229, 255, 0.1);
+      }
+      .znake-editor-grid-preview {
+        width: 100%;
+        height: 240px;
+        background: #060a0f;
+        border: 1px solid #1c2b3d;
+        border-radius: 6px;
+        position: relative;
+        overflow: hidden;
+        cursor: crosshair;
+      }
+    </style>
+
+    <div class="znake-secret-modal-window">
+      <div class="znake-secret-modal-header">
+        <div class="znake-secret-title-badge">
+          <span>⚡ ZNAKE SECRET LAB & EDITORS</span>
+          <span style="font-size: 0.75rem; background: #00e5ff22; padding: 2px 8px; border-radius: 10px; border: 1px solid #00e5ff66;">
+            Triple-E Activated
+          </span>
+        </div>
+        <button class="znake-secret-modal-close-btn" id="znake_secret_close_btn" title="Închide (ESC)">✕</button>
+      </div>
+
+      <div class="znake-secret-tabs-bar">
+        <button class="znake-secret-tab-btn ${initialTab === 'tab_entities' ? 'active' : ''}" data-tab="tab_entities">
+          🐍 1. Entități & Gene Șarpe
+        </button>
+        <button class="znake-secret-tab-btn ${initialTab === 'tab_vines' ? 'active' : ''}" data-tab="tab_vines">
+          🌿 2. Editor Liane Speciale
+        </button>
+        <button class="znake-secret-tab-btn ${initialTab === 'tab_maps' ? 'active' : ''}" data-tab="tab_maps">
+          🗺️ 3. Editor Hartă & Portaluri
+        </button>
+      </div>
+
+      <div class="znake-secret-tab-content-area" id="znake_secret_tab_content">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+  _activeSecretModal = modal;
+
+  // ESC key listener to close modal
+  const escHandler = (e) => {
+    if (e.key === 'Escape') {
+      closeSecretMenu();
+      window.removeEventListener('keydown', escHandler);
+    }
+  };
+  window.addEventListener('keydown', escHandler);
+
+  modal.querySelector('#znake_secret_close_btn').onclick = () => {
+    closeSecretMenu();
+    window.removeEventListener('keydown', escHandler);
+  };
+
+  // Wire up tabs
+  const tabBtns = modal.querySelectorAll('.znake-secret-tab-btn');
+  tabBtns.forEach(btn => {
+    btn.onclick = () => {
+      tabBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderTabContent(btn.dataset.tab, gameState);
+    };
+  });
+
+  renderTabContent(initialTab, gameState);
+}
+
+/**
+ * Renders the content of the selected tab.
+ * @param {string} tabKey
+ * @param {object} gameState
+ */
+function renderTabContent(tabKey, gameState) {
+  const container = document.getElementById('znake_secret_tab_content');
+  if (!container) return;
+
+  if (tabKey === 'tab_entities') {
+    _renderTabEntities(container, gameState);
+  } else if (tabKey === 'tab_vines') {
+    _renderTabVines(container, gameState);
+  } else if (tabKey === 'tab_maps') {
+    _renderTabMaps(container, gameState);
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Tab 1 Renderer: Snake Entity & Gene Customizer
+// -----------------------------------------------------------------------------
+function _renderTabEntities(container, gameState) {
+  container.innerHTML = `
+    <div class="znake-secret-form-grid">
+      <div class="znake-secret-field">
+        <label>Nume Entitate</label>
+        <input type="text" id="ent_name" value="Titan Neon">
+      </div>
+      <div class="znake-secret-field">
+        <label>Culoare Entitate</label>
+        <div class="znake-secret-color-row">
+          <input type="color" id="ent_color_picker" value="#00e5ff" style="width:44px; height:36px; padding:2px; cursor:pointer;">
+          <input type="text" id="ent_color_hex" value="#00e5ff" style="flex:1;">
+        </div>
+      </div>
+      <div class="znake-secret-field">
+        <label>Lungime Segmente (1 - 50)</label>
+        <input type="number" id="ent_length" value="5" min="1" max="50">
+      </div>
+      <div class="znake-secret-field">
+        <label>Factor Viteză (Speed Factor)</label>
+        <input type="number" id="ent_speed" value="1.20" step="0.05" min="0.25" max="3.0">
+      </div>
+      <div class="znake-secret-field">
+        <label>Rezistență Coliziuni (0 - 100%)</label>
+        <input type="number" id="ent_collision" value="50" min="0" max="100">
+      </div>
+      <div class="znake-secret-field">
+        <label>Fertilitate (%)</label>
+        <input type="number" id="ent_fertility" value="25" min="0" max="100">
+      </div>
+      <div class="znake-secret-field">
+        <label>Gena Hrană (Food Gene: -50..+50)</label>
+        <input type="number" id="ent_food_gene" value="0" min="-50" max="50">
+      </div>
+      <div class="znake-secret-field">
+        <label>Gena Salvare Emoji (Desperation Gene: 0..100)</label>
+        <input type="number" id="ent_emoji_gene" value="85" min="0" max="100">
+      </div>
+      <div class="znake-secret-field">
+        <label>Gena Gemeni (Twin Gene: 0..100)</label>
+        <input type="number" id="ent_twin_gene" value="15" min="0" max="100">
+      </div>
+      <div class="znake-secret-field">
+        <label>Multiplicator Foame (Hunger Multiplier)</label>
+        <input type="number" id="ent_hunger" value="1.0" step="0.1" min="0.2" max="4.0">
+      </div>
+    </div>
+
+    <div class="znake-secret-btn-row">
+      <button class="znake-secret-btn" id="btn_save_entity">💾 Salvează în LocalStorage</button>
+      <button class="znake-secret-btn" id="btn_spawn_immediate" style="border-color:#b4f287; color:#b4f287;">⚡ Spawnează Acum în Joc</button>
+    </div>
+
+    <div class="znake-secret-list-section">
+      <h3 style="font-size:0.95rem; color:#00e5ff; margin-bottom:12px;">📂 Entități Salvate (LocalStorage)</h3>
+      <div id="ent_saved_list"></div>
+    </div>
+  `;
+
+  // Color sync
+  const picker = container.querySelector('#ent_color_picker');
+  const hex = container.querySelector('#ent_color_hex');
+  picker.oninput = () => { hex.value = picker.value; };
+  hex.oninput = () => { picker.value = hex.value; };
+
+  const readEntityForm = () => ({
+    name: container.querySelector('#ent_name').value.trim() || 'Șarpe Custom',
+    color: hex.value.trim() || '#00e5ff',
+    length: parseInt(container.querySelector('#ent_length').value, 10) || 5,
+    speedFactor: parseFloat(container.querySelector('#ent_speed').value) || 1.0,
+    collisionResistance: parseInt(container.querySelector('#ent_collision').value, 10) || 35,
+    fertility: parseInt(container.querySelector('#ent_fertility').value, 10) || 20,
+    foodGene: parseInt(container.querySelector('#ent_food_gene').value, 10) || 0,
+    emojiDesperationGene: parseInt(container.querySelector('#ent_emoji_gene').value, 10) || 75,
+    twinGene: parseInt(container.querySelector('#ent_twin_gene').value, 10) || 10,
+    hungerMultiplier: parseFloat(container.querySelector('#ent_hunger').value) || 1.0
+  });
+
+  const refreshList = () => {
+    const listEl = container.querySelector('#ent_saved_list');
+    const entities = loadCustomEntities();
+    if (entities.length === 0) {
+      listEl.innerHTML = `<div style="color:#5f738a; font-size:0.85rem;">Nicio entitate salvată încă. Creează una mai sus!</div>`;
+      return;
+    }
+
+    listEl.innerHTML = entities.map(e => `
+      <div class="znake-secret-item-card" data-id="${e.id}">
+        <div style="display:flex; align-items:center; gap:12px;">
+          <div style="width:20px; height:20px; border-radius:4px; background:${e.color}; border:1px solid #fff;"></div>
+          <div>
+            <div style="font-weight:600; color:#e0e6ed;">${e.name}</div>
+            <div style="font-size:0.75rem; color:#8899a6;">
+              Len: ${e.length} | Spd: ${e.speedFactor}x | ColRes: ${e.collisionResistance}% | Fert: ${e.fertility}% | EmojiGene: ${e.emojiDesperationGene}%
+            </div>
+          </div>
+        </div>
+        <div style="display:flex; gap:8px;">
+          <button class="znake-secret-btn btn-spawn-item" data-id="${e.id}" style="padding:4px 10px; font-size:0.8rem;">Spawnează</button>
+          <button class="znake-secret-btn danger btn-del-item" data-id="${e.id}" style="padding:4px 10px; font-size:0.8rem;">Șterge</button>
+        </div>
+      </div>
+    `).join('');
+
+    listEl.querySelectorAll('.btn-spawn-item').forEach(btn => {
+      btn.onclick = () => {
+        const ent = entities.find(x => x.id === btn.dataset.id);
+        if (ent && gameState) {
+          spawnCustomEntity(ent, gameState);
+          closeSecretMenu();
+        }
+      };
+    });
+
+    listEl.querySelectorAll('.btn-del-item').forEach(btn => {
+      btn.onclick = () => {
+        deleteCustomEntity(btn.dataset.id);
+        refreshList();
+      };
+    });
+  };
+
+  container.querySelector('#btn_save_entity').onclick = () => {
+    const ent = readEntityForm();
+    saveCustomEntity(ent);
+    refreshList();
+  };
+
+  container.querySelector('#btn_spawn_immediate').onclick = () => {
+    const ent = readEntityForm();
+    if (gameState) {
+      spawnCustomEntity(ent, gameState);
+      closeSecretMenu();
+    }
+  };
+
+  refreshList();
+}
+
+// -----------------------------------------------------------------------------
+// Tab 2 Renderer: Special Vine Editor
+// -----------------------------------------------------------------------------
+function _renderTabVines(container, gameState) {
+  container.innerHTML = `
+    <div class="znake-secret-form-grid">
+      <div class="znake-secret-field">
+        <label>Formă Liană (Shape)</label>
+        <select id="vine_shape">
+          <option value="square">Pătrată (Square)</option>
+          <option value="circle">Rotundă (Circle)</option>
+        </select>
+      </div>
+      <div class="znake-secret-field">
+        <label>Dimensiune / Rază (1, 3, 5, 9)</label>
+        <input type="number" id="vine_size" value="3" min="1" max="25">
+      </div>
+      <div class="znake-secret-field">
+        <label>Culoare Liană</label>
+        <div class="znake-secret-color-row">
+          <input type="color" id="vine_color_picker" value="#2e7d32" style="width:44px; height:36px; padding:2px; cursor:pointer;">
+          <input type="text" id="vine_color_hex" value="#2e7d32" style="flex:1;">
+        </div>
+      </div>
+      <div class="znake-secret-field">
+        <label>Opacitate (0.1 - 1.0)</label>
+        <input type="number" id="vine_opacity" value="0.80" step="0.05" min="0.1" max="1.0">
+      </div>
+      <div class="znake-secret-field">
+        <label>Șansă Răspândire (Spread Chance %)</label>
+        <input type="number" id="vine_spread" value="50" min="0" max="100">
+      </div>
+      <div class="znake-secret-field">
+        <label>Șansă Absorbție (Absorption Chance %)</label>
+        <input type="number" id="vine_absorb" value="75" min="0" max="100">
+      </div>
+      <div class="znake-secret-field" style="justify-content:center;">
+        <label style="display:flex; align-items:center; gap:8px; cursor:pointer; color:#ff7675; text-transform:none;">
+          <input type="checkbox" id="vine_harmful" style="width:18px; height:18px; cursor:pointer;">
+          Toxic / Nociv pentru Șerpi (Harmful Poisonous)
+        </label>
+      </div>
+    </div>
+
+    <div class="znake-secret-btn-row">
+      <button class="znake-secret-btn" id="btn_save_vine">🌿 Salvează Vine Personalizat</button>
+    </div>
+
+    <div class="znake-secret-list-section">
+      <h3 style="font-size:0.95rem; color:#00e5ff; margin-bottom:12px;">📂 Liane Salvate (LocalStorage)</h3>
+      <div id="vine_saved_list"></div>
+    </div>
+  `;
+
+  const picker = container.querySelector('#vine_color_picker');
+  const hex = container.querySelector('#vine_color_hex');
+  picker.oninput = () => { hex.value = picker.value; };
+  hex.oninput = () => { picker.value = hex.value; };
+
+  const readVineForm = () => ({
+    shape: container.querySelector('#vine_shape').value,
+    size: parseInt(container.querySelector('#vine_size').value, 10) || 3,
+    color: hex.value.trim() || '#2e7d32',
+    opacity: parseFloat(container.querySelector('#vine_opacity').value) || 0.8,
+    spreadChance: parseInt(container.querySelector('#vine_spread').value, 10) || 50,
+    absorptionChance: parseInt(container.querySelector('#vine_absorb').value, 10) || 75,
+    harmful: container.querySelector('#vine_harmful').checked
+  });
+
+  const refreshList = () => {
+    const listEl = container.querySelector('#vine_saved_list');
+    const vines = loadCustomVines();
+    if (vines.length === 0) {
+      listEl.innerHTML = `<div style="color:#5f738a; font-size:0.85rem;">Nicio liană salvată încă.</div>`;
+      return;
+    }
+
+    listEl.innerHTML = vines.map(v => `
+      <div class="znake-secret-item-card" data-id="${v.id}">
+        <div style="display:flex; align-items:center; gap:12px;">
+          <div style="width:20px; height:20px; border-radius:${v.shape === 'circle' ? '50%' : '2px'}; background:${v.color}; border:1px solid #fff; opacity:${v.opacity};"></div>
+          <div>
+            <div style="font-weight:600; color:#e0e6ed;">
+              ${v.name} ${v.harmful ? '<span style="color:#ff7675; font-size:0.75rem;">(TOXIC)</span>' : ''}
+            </div>
+            <div style="font-size:0.75rem; color:#8899a6;">
+              Formă: ${v.shape} | Dim: ${v.size} | Opacitate: ${v.opacity} | Spread: ${v.spreadChance}% | Absorb: ${v.absorptionChance}%
+            </div>
+          </div>
+        </div>
+        <div style="display:flex; gap:8px;">
+          <button class="znake-secret-btn danger btn-del-vine" data-id="${v.id}" style="padding:4px 10px; font-size:0.8rem;">Șterge</button>
+        </div>
+      </div>
+    `).join('');
+
+    listEl.querySelectorAll('.btn-del-vine').forEach(btn => {
+      btn.onclick = () => {
+        deleteCustomVine(btn.dataset.id);
+        refreshList();
+      };
+    });
+  };
+
+  container.querySelector('#btn_save_vine').onclick = () => {
+    const v = readVineForm();
+    saveCustomVine(v);
+    refreshList();
+  };
+
+  refreshList();
+}
+
+// -----------------------------------------------------------------------------
+// Tab 3 Renderer: Map Editor & 2-Square Black Portals
+// -----------------------------------------------------------------------------
+function _renderTabMaps(container, gameState) {
+  _currentEditorMap = _currentEditorMap || createCustomMap();
+
+  container.innerHTML = `
+    <div style="display:flex; flex-direction:column; gap:14px;">
+      <div style="display:flex; gap:12px; align-items:center;">
+        <input type="text" id="map_title_input" value="${_currentEditorMap.title}" placeholder="Titlu Hartă..." style="flex:1; background:#0b1118; border:1px solid #223447; color:#00e5ff; padding:8px 12px; border-radius:6px; font-weight:700;">
+        <button class="znake-secret-btn" id="btn_test_map" style="border-color:#b4f287; color:#b4f287; font-weight:700;">▶ Testează Harta</button>
+        <button class="znake-secret-btn" id="btn_save_map">💾 Salvează Hartă</button>
+      </div>
+
+      <div class="znake-secret-palette-bar">
+        <span style="font-size:0.8rem; color:#8899a6; display:flex; align-items:center; margin-right:6px;">PALETĂ:</span>
+        <button class="znake-secret-tool-btn active" data-tool="vine">🌿 Liană (Vine)</button>
+        <button class="znake-secret-tool-btn" data-tool="food">🍎 Fruct (Berry)</button>
+        <button class="znake-secret-tool-btn" data-tool="snake">🐍 Șarpe Jucător</button>
+        <button class="znake-secret-tool-btn" data-tool="portal">🕳️ Portal Negru (2-Sq)</button>
+        <button class="znake-secret-tool-btn danger" data-tool="erase">🧹 Șterge (Erase)</button>
+      </div>
+
+      <!-- Tool Options Bar -->
+      <div id="palette_sub_options" style="background:#0b1118; border:1px solid #1c2b3d; padding:10px 14px; border-radius:6px; font-size:0.85rem; display:flex; gap:16px; align-items:center; flex-wrap:wrap;">
+        <!-- Dynamic options for selected tool -->
+      </div>
+
+      <!-- Visual Grid Editor Preview -->
+      <div style="position:relative;">
+        <canvas id="znake_map_editor_canvas" width="800" height="320" style="width:100%; height:320px; background:#060a0f; border:1px solid #1c2b3d; border-radius:6px; cursor:crosshair;"></canvas>
+        <div id="editor_coords_overlay" style="position:absolute; bottom:8px; right:12px; font-family:monospace; font-size:0.75rem; color:#8899a6; background:rgba(0,0,0,0.6); padding:2px 8px; border-radius:4px;">x: 0 | y: 0</div>
+      </div>
+
+      <div class="znake-secret-btn-row" style="margin-top:6px;">
+        <button class="znake-secret-btn" id="btn_export_json">📤 Exportă JSON</button>
+        <button class="znake-secret-btn" id="btn_import_json">📥 Importă JSON</button>
+        <button class="znake-secret-btn danger" id="btn_clear_map">🗑️ Curăță Harta</button>
+      </div>
+
+      <!-- JSON Import/Export Drawer (hidden by default) -->
+      <div id="json_drawer" style="display:none; flex-direction:column; gap:8px; margin-top:10px;">
+        <textarea id="json_io_text" rows="6" style="width:100%; background:#070b10; border:1px solid #1c2b3d; color:#8899a6; font-family:monospace; font-size:0.8rem; padding:8px; border-radius:6px;"></textarea>
+        <div style="display:flex; gap:8px;">
+          <button class="znake-secret-btn" id="btn_apply_import">Aplică JSON Importat</button>
+          <button class="znake-secret-btn danger" id="btn_close_json">Închide</button>
+        </div>
+      </div>
+
+      <div class="znake-secret-list-section">
+        <h3 style="font-size:0.95rem; color:#00e5ff; margin-bottom:12px;">🗺️ Hărți Salvate în LocalStorage</h3>
+        <div id="maps_saved_list"></div>
+      </div>
+    </div>
+  `;
+
+  let currentTool = 'vine';
+  let portalOrientation = 'horizontal';
+  let portalCustomColor = 'random';
+
+  const toolBtns = container.querySelectorAll('.znake-secret-tool-btn');
+  const subOptionsEl = container.querySelector('#palette_sub_options');
+  const canvas = container.querySelector('#znake_map_editor_canvas');
+  const coordsOverlay = container.querySelector('#editor_coords_overlay');
+  const ctx = canvas ? canvas.getContext('2d') : null;
+
+  const updateSubOptions = () => {
+    if (currentTool === 'portal') {
+      subOptionsEl.innerHTML = `
+        <span style="color:#00e5ff; font-weight:600;">2-Square Black Portal Options:</span>
+        <label>Orientare: 
+          <select id="portal_orient_select" style="background:#070b10; border:1px solid #223447; color:#e0e6ed; padding:3px 8px; border-radius:4px;">
+            <option value="horizontal" ${portalOrientation === 'horizontal' ? 'selected' : ''}>Orizontal (2x1)</option>
+            <option value="vertical" ${portalOrientation === 'vertical' ? 'selected' : ''}>Vertical (1x2)</option>
+          </select>
+        </label>
+        <label>Culoare Șerpi Emerge:
+          <select id="portal_color_select" style="background:#070b10; border:1px solid #223447; color:#e0e6ed; padding:3px 8px; border-radius:4px;">
+            <option value="random" ${portalCustomColor === 'random' ? 'selected' : ''}>Aleatoriu (Random)</option>
+            <option value="#00e5ff" ${portalCustomColor === '#00e5ff' ? 'selected' : ''}>Cian Neon (#00e5ff)</option>
+            <option value="#ff00ff" ${portalCustomColor === '#ff00ff' ? 'selected' : ''}>Purpuriu (#ff00ff)</option>
+            <option value="#ffff00" ${portalCustomColor === '#ffff00' ? 'selected' : ''}>Galben Solar (#ffff00)</option>
+            <option value="#ff4757" ${portalCustomColor === '#ff4757' ? 'selected' : ''}>Roșu Rubin (#ff4757)</option>
+          </select>
+        </label>
+      `;
+      const orientSel = subOptionsEl.querySelector('#portal_orient_select');
+      if (orientSel) orientSel.onchange = (e) => { portalOrientation = e.target.value; };
+      const colorSel = subOptionsEl.querySelector('#portal_color_select');
+      if (colorSel) colorSel.onchange = (e) => { portalCustomColor = e.target.value; };
+    } else if (currentTool === 'vine') {
+      subOptionsEl.innerHTML = `
+        <span style="color:#2e7d32; font-weight:600;">Opțiuni Liană:</span>
+        <span>Click pe grilă pentru a plasa liană (dimensiune 3). Modifică detalii în Tab 2.</span>
+      `;
+    } else if (currentTool === 'food') {
+      subOptionsEl.innerHTML = `
+        <span style="color:#fbb77d; font-weight:600;">Opțiuni Hrană:</span>
+        <span>Click pe grilă pentru a plasa boabe de hrană.</span>
+      `;
+    } else if (currentTool === 'snake') {
+      subOptionsEl.innerHTML = `
+        <span style="color:#b4f287; font-weight:600;">Opțiuni Șarpe Jucător:</span>
+        <span>Click pe grilă pentru a seta capul șarpelui fondator.</span>
+      `;
+    } else if (currentTool === 'erase') {
+      subOptionsEl.innerHTML = `
+        <span style="color:#ff4757; font-weight:600;">Radieră:</span>
+        <span>Click pe orice element pentru a-l șterge.</span>
+      `;
+    }
+  };
+
+  toolBtns.forEach(b => {
+    b.onclick = () => {
+      toolBtns.forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+      currentTool = b.dataset.tool;
+      updateSubOptions();
+    };
+  });
+  updateSubOptions();
+
+  // Draw preview grid on canvas
+  const drawEditorCanvas = () => {
+    if (!ctx) return;
+    const w = canvas.width;
+    const h = canvas.height;
+    ctx.fillStyle = '#060a0f';
+    ctx.fillRect(0, 0, w, h);
+
+    const cols = _currentEditorMap.cols || 30;
+    const rows = _currentEditorMap.rows || 22;
+    const cellW = w / cols;
+    const cellH = h / rows;
+
+    // Draw subtle grid
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+    ctx.lineWidth = 1;
+    for (let c = 0; c <= cols; c++) {
+      ctx.beginPath();
+      ctx.moveTo(c * cellW, 0);
+      ctx.lineTo(c * cellW, h);
+      ctx.stroke();
+    }
+    for (let r = 0; r <= rows; r++) {
+      ctx.beginPath();
+      ctx.moveTo(0, r * cellH);
+      ctx.lineTo(w, r * cellH);
+      ctx.stroke();
+    }
+
+    // 1. Draw Vines
+    (_currentEditorMap.vines || []).forEach(v => {
+      ctx.fillStyle = v.color || '#2e7d32';
+      ctx.globalAlpha = v.opacity || 0.7;
+      const size = v.size || 3;
+      const half = Math.floor(size / 2);
+      if (v.shape === 'circle') {
+        ctx.beginPath();
+        ctx.arc((v.x + 0.5) * cellW, (v.y + 0.5) * cellH, (size / 2) * cellW, 0, Math.PI * 2);
+        ctx.fill();
+      } else {
+        ctx.fillRect((v.x - half) * cellW, (v.y - half) * cellH, size * cellW, size * cellH);
+      }
+      ctx.globalAlpha = 1.0;
+    });
+
+    // 2. Draw Foods
+    (_currentEditorMap.foods || []).forEach(f => {
+      ctx.fillStyle = f.color || '#fbb77d';
+      ctx.beginPath();
+      ctx.arc((f.x + 0.5) * cellW, (f.y + 0.5) * cellH, cellW * 0.4, 0, Math.PI * 2);
+      ctx.fill();
+    });
+
+    // 3. Draw Portals (2-Square Pitch-Black Rectangles)
+    (_currentEditorMap.portals || []).forEach(p => {
+      const pW = (p.width ?? (p.orientation === 'vertical' ? 1 : 2)) * cellW;
+      const pH = (p.height ?? (p.orientation === 'vertical' ? 2 : 1)) * cellH;
+      ctx.fillStyle = '#000000';
+      ctx.fillRect(p.x * cellW, p.y * cellH, pW, pH);
+
+      // Border glow
+      ctx.strokeStyle = (p.customColor && p.customColor !== 'random') ? p.customColor : '#00e5ff';
+      ctx.lineWidth = 2;
+      ctx.strokeRect(p.x * cellW + 1, p.y * cellH + 1, pW - 2, pH - 2);
+    });
+
+    // 4. Draw Initial Player Snake
+    if (_currentEditorMap.initialSnake) {
+      const s = _currentEditorMap.initialSnake;
+      const len = s.length || 5;
+      const dir = s.dir || { x: 1, y: 0 };
+      ctx.fillStyle = s.color || '#b4f287';
+      for (let i = 0; i < len; i++) {
+        const segX = s.x - dir.x * i;
+        const segY = s.y - dir.y * i;
+        ctx.fillRect(segX * cellW + 1, segY * cellH + 1, cellW - 2, cellH - 2);
+      }
+    }
+  };
+
+  if (canvas) {
+    canvas.onmousemove = (e) => {
+      const rect = canvas.getBoundingClientRect();
+      const cols = _currentEditorMap.cols || 30;
+      const rows = _currentEditorMap.rows || 22;
+      const x = Math.floor(((e.clientX - rect.left) / rect.width) * cols);
+      const y = Math.floor(((e.clientY - rect.top) / rect.height) * rows);
+      if (coordsOverlay) coordsOverlay.textContent = `x: ${x} | y: ${y}`;
+    };
+
+    canvas.onclick = (e) => {
+      const rect = canvas.getBoundingClientRect();
+      const cols = _currentEditorMap.cols || 30;
+      const rows = _currentEditorMap.rows || 22;
+      const x = Math.floor(((e.clientX - rect.left) / rect.width) * cols);
+      const y = Math.floor(((e.clientY - rect.top) / rect.height) * rows);
+
+      if (currentTool === 'vine') {
+        _currentEditorMap.vines.push({
+          x, y, shape: 'square', size: 3, color: '#2e7d32', opacity: 0.8, harmful: false
+        });
+      } else if (currentTool === 'food') {
+        _currentEditorMap.foods.push({ x, y, color: '#fbb77d', type: 'berry' });
+      } else if (currentTool === 'snake') {
+        _currentEditorMap.initialSnake.x = x;
+        _currentEditorMap.initialSnake.y = y;
+      } else if (currentTool === 'portal') {
+        const pCreator = (BlackPortalModule && BlackPortalModule.createBlackPortal) ||
+          (typeof window !== 'undefined' && window.BlackPortal && window.BlackPortal.createBlackPortal) ||
+          createBlackPortal;
+        const portal = pCreator({
+          x,
+          y,
+          orientation: portalOrientation,
+          customColor: portalCustomColor === 'random' ? null : portalCustomColor
+        });
+        _currentEditorMap.portals.push(portal);
+      } else if (currentTool === 'erase') {
+        // Erase nearest portal, food, or vine
+        _currentEditorMap.foods = _currentEditorMap.foods.filter(f => f.x !== x || f.y !== y);
+        _currentEditorMap.portals = _currentEditorMap.portals.filter(p => {
+          const w = p.width ?? (p.orientation === 'vertical' ? 1 : 2);
+          const h = p.height ?? (p.orientation === 'vertical' ? 2 : 1);
+          return !(x >= p.x && x < p.x + w && y >= p.y && y < p.y + h);
+        });
+        _currentEditorMap.vines = _currentEditorMap.vines.filter(v => {
+          const half = Math.floor((v.size || 3) / 2);
+          return !(Math.abs(v.x - x) <= half && Math.abs(v.y - y) <= half);
+        });
+      }
+
+      drawEditorCanvas();
+    };
+
+    drawEditorCanvas();
+  }
+
+  // Map Actions
+  const titleInput = container.querySelector('#map_title_input');
+  if (titleInput) {
+    titleInput.oninput = () => {
+      _currentEditorMap.title = titleInput.value.trim() || 'Hartă Personalizată';
+    };
+  }
+
+  container.querySelector('#btn_save_map').onclick = () => {
+    _currentEditorMap.title = titleInput.value.trim() || 'Hartă Personalizată';
+    saveCustomMap(_currentEditorMap);
+    refreshMapList();
+  };
+
+  container.querySelector('#btn_test_map').onclick = () => {
+    _currentEditorMap.title = titleInput.value.trim() || 'Hartă Personalizată';
+    if (gameState) {
+      loadMapIntoGameState(_currentEditorMap, gameState);
+      closeSecretMenu();
+    }
+  };
+
+  container.querySelector('#btn_clear_map').onclick = () => {
+    _currentEditorMap = createCustomMap({ title: _currentEditorMap.title });
+    drawEditorCanvas();
+  };
+
+  // JSON Import / Export
+  const jsonDrawer = container.querySelector('#json_drawer');
+  const jsonText = container.querySelector('#json_io_text');
+
+  container.querySelector('#btn_export_json').onclick = () => {
+    jsonDrawer.style.display = 'flex';
+    jsonText.value = exportMapToJSON(_currentEditorMap);
+  };
+
+  container.querySelector('#btn_import_json').onclick = () => {
+    jsonDrawer.style.display = 'flex';
+    jsonText.value = '';
+    jsonText.placeholder = 'Lipește aici structura JSON a hărții...';
+  };
+
+  container.querySelector('#btn_apply_import').onclick = () => {
+    const imported = importMapFromJSON(jsonText.value);
+    if (imported) {
+      _currentEditorMap = imported;
+      titleInput.value = imported.title || 'Hartă Importată';
+      drawEditorCanvas();
+      jsonDrawer.style.display = 'none';
+    } else {
+      alert('Format JSON invalid!');
+    }
+  };
+
+  container.querySelector('#btn_close_json').onclick = () => {
+    jsonDrawer.style.display = 'none';
+  };
+
+  // Saved maps list
+  const refreshMapList = () => {
+    const listEl = container.querySelector('#maps_saved_list');
+    const maps = loadCustomMaps();
+    if (maps.length === 0) {
+      listEl.innerHTML = `<div style="color:#5f738a; font-size:0.85rem;">Nicio hartă salvată în memorie.</div>`;
+      return;
+    }
+
+    listEl.innerHTML = maps.map(m => `
+      <div class="znake-secret-item-card" data-id="${m.id}">
+        <div>
+          <div style="font-weight:600; color:#e0e6ed;">${m.title}</div>
+          <div style="font-size:0.75rem; color:#8899a6;">
+            Portals: ${m.portals ? m.portals.length : 0} | Vines: ${m.vines ? m.vines.length : 0} | Foods: ${m.foods ? m.foods.length : 0}
+          </div>
+        </div>
+        <div style="display:flex; gap:8px;">
+          <button class="znake-secret-btn btn-load-map" data-id="${m.id}" style="padding:4px 10px; font-size:0.8rem;">Încarcă</button>
+          <button class="znake-secret-btn btn-play-map" data-id="${m.id}" style="border-color:#b4f287; color:#b4f287; padding:4px 10px; font-size:0.8rem;">Joacă</button>
+          <button class="znake-secret-btn danger btn-del-map" data-id="${m.id}" style="padding:4px 10px; font-size:0.8rem;">Șterge</button>
+        </div>
+      </div>
+    `).join('');
+
+    listEl.querySelectorAll('.btn-load-map').forEach(b => {
+      b.onclick = () => {
+        const m = maps.find(x => x.id === b.dataset.id);
+        if (m) {
+          _currentEditorMap = createCustomMap(m);
+          titleInput.value = m.title;
+          drawEditorCanvas();
+        }
+      };
+    });
+
+    listEl.querySelectorAll('.btn-play-map').forEach(b => {
+      b.onclick = () => {
+        const m = maps.find(x => x.id === b.dataset.id);
+        if (m && gameState) {
+          loadMapIntoGameState(m, gameState);
+          closeSecretMenu();
+        }
+      };
+    });
+
+    listEl.querySelectorAll('.btn-del-map').forEach(b => {
+      b.onclick = () => {
+        deleteCustomMap(b.dataset.id);
+        refreshMapList();
+      };
+    });
+  };
+
+  refreshMapList();
+}
+
+// =============================================================================
+// Exports
+// =============================================================================
+
+
+
+/**
+ * Mode P: Community & GitHub Map Browser for Znake.
+ *
+ * Implements:
+ * 1. Key 'P' press handler toggles Mode P.
+ * 2. Full-screen restyled Community / GitHub Map Browser:
+ *    - Displays available maps: built-in community maps + custom maps from localStorage['znake_custom_maps'].
+ *    - Allows playing any community map directly.
+ *    - Maintains state in localStorage['znake_mode_p_instance'] as a unique instance per user.
+ *    - Clean exit restores normal cockpit/sandbox view.
+ *
+ * Coordinator: RC-Znk-01 [uncle of RC03-Wisly]
+ * Architect: Subagent Arch-Portal
+ */
+
+'use strict';
+
+var SecretMenuModule = (typeof SecretMenuModule !== 'undefined') ? SecretMenuModule : null;
+var BlackPortalModule = (typeof BlackPortalModule !== 'undefined') ? BlackPortalModule : null;
+
+if (typeof require !== 'undefined') {
+  if (!SecretMenuModule) {
+    try {
+      SecretMenuModule = require('./secret_menu_and_editors');
+    } catch {}
+  }
+  if (!BlackPortalModule) {
+    try {
+      BlackPortalModule = require('./black_portal');
+    } catch {}
+  }
+}
+if (!SecretMenuModule && typeof window !== 'undefined' && window.SecretMenuAndEditors) {
+  SecretMenuModule = window.SecretMenuAndEditors;
+}
+if (!BlackPortalModule && typeof window !== 'undefined' && window.BlackPortal) {
+  BlackPortalModule = window.BlackPortal;
+}
+
+const MODE_P_STORAGE_KEY = 'znake_mode_p_instance';
+const CUSTOM_MAPS_STORAGE_KEY = 'znake_custom_maps';
+
+// =============================================================================
+// Built-in Community Curated Maps
+// =============================================================================
+
+const BUILTIN_COMMUNITY_MAPS = [
+  {
+    id: 'comm_golden_spiral',
+    title: 'The Golden Spiral (Fibonacci Sanctuary)',
+    author: '@FibonacciSage',
+    description: 'A sacred sanctuary organized along the golden ratio spiral, surrounded by ancient square vines and twin black portals.',
+    stars: 128,
+    tags: ['fibonacci', 'portals', 'zen'],
+    cols: 32,
+    rows: 24,
+    vines: [
+      { x: 16, y: 12, shape: 'square', size: 3, color: '#2e7d32', opacity: 0.85, harmful: false },
+      { x: 19, y: 14, shape: 'square', size: 3, color: '#388e3c', opacity: 0.8, harmful: false },
+      { x: 14, y: 17, shape: 'square', size: 5, color: '#1b5e20', opacity: 0.75, harmful: false },
+      { x: 8, y: 10, shape: 'square', size: 5, color: '#2e7d32', opacity: 0.7, harmful: false }
+    ],
+    foods: [
+      { x: 16, y: 10, color: '#f1c40f', type: 'golden_berry' },
+      { x: 20, y: 12, color: '#f39c12', type: 'golden_berry' },
+      { x: 15, y: 15, color: '#e67e22', type: 'golden_berry' },
+      { x: 10, y: 12, color: '#f1c40f', type: 'golden_berry' }
+    ],
+    portals: [
+      {
+        id: 'portal_spiral_h',
+        x: 6,
+        y: 6,
+        width: 2,
+        height: 1,
+        orientation: 'horizontal',
+        customColor: '#00e5ff',
+        color: '#000000'
+      },
+      {
+        id: 'portal_spiral_v',
+        x: 25,
+        y: 18,
+        width: 1,
+        height: 2,
+        orientation: 'vertical',
+        customColor: '#f27ba8',
+        color: '#000000'
+      }
+    ],
+    initialSnake: {
+      x: 16,
+      y: 12,
+      length: 5,
+      dir: { x: 1, y: 0 },
+      color: '#b4f287',
+      name: 'Pelerinul Fibonacci'
+    }
+  },
+  {
+    id: 'comm_twin_void_nexus',
+    title: 'Twin Void Nexus (Opposite Emergence)',
+    author: '@VoidWalker99',
+    description: 'Dual pitch-black 2-square portals crossing dimensions. Two pairs of snakes burst from the void along horizontal and vertical axes in opposite directions!',
+    stars: 256,
+    tags: ['portals', 'action', 'void'],
+    cols: 30,
+    rows: 22,
+    vines: [
+      { x: 5, y: 5, shape: 'circle', size: 3, color: '#4a148c', opacity: 0.8, harmful: false },
+      { x: 24, y: 16, shape: 'circle', size: 3, color: '#4a148c', opacity: 0.8, harmful: false }
+    ],
+    foods: [
+      { x: 15, y: 6, color: '#00e5ff', type: 'void_berry' },
+      { x: 15, y: 16, color: '#ff00ff', type: 'void_berry' },
+      { x: 7, y: 11, color: '#b4f287', type: 'void_berry' },
+      { x: 22, y: 11, color: '#b4f287', type: 'void_berry' }
+    ],
+    portals: [
+      {
+        id: 'portal_nexus_h',
+        x: 14,
+        y: 11,
+        width: 2,
+        height: 1,
+        orientation: 'horizontal',
+        customColor: '#00e5ff',
+        color: '#000000'
+      },
+      {
+        id: 'portal_nexus_v',
+        x: 15,
+        y: 10,
+        width: 1,
+        height: 2,
+        orientation: 'vertical',
+        customColor: '#ff00ff',
+        color: '#000000'
+      }
+    ],
+    initialSnake: {
+      x: 8,
+      y: 4,
+      length: 5,
+      dir: { x: 1, y: 0 },
+      color: '#50e3c2',
+      name: 'Călătorul Nexus'
+    }
+  },
+  {
+    id: 'comm_poison_labyrinth',
+    title: 'Poison Labyrinth & Emerald Oasis',
+    author: '@ArborVenom',
+    description: 'A treacherous maze of toxic circular vines enclosing a high-fertility emerald glade in the center.',
+    stars: 89,
+    tags: ['hardcore', 'toxic', 'survival'],
+    cols: 30,
+    rows: 22,
+    vines: [
+      { x: 8, y: 6, shape: 'circle', size: 5, color: '#8e44ad', opacity: 0.85, harmful: true },
+      { x: 22, y: 6, shape: 'circle', size: 5, color: '#8e44ad', opacity: 0.85, harmful: true },
+      { x: 8, y: 16, shape: 'circle', size: 5, color: '#8e44ad', opacity: 0.85, harmful: true },
+      { x: 22, y: 16, shape: 'circle', size: 5, color: '#8e44ad', opacity: 0.85, harmful: true },
+      { x: 15, y: 11, shape: 'circle', size: 3, color: '#27ae60', opacity: 0.9, harmful: false }
+    ],
+    foods: [
+      { x: 15, y: 10, color: '#2ecc71', type: 'vital_berry' },
+      { x: 15, y: 12, color: '#2ecc71', type: 'vital_berry' },
+      { x: 14, y: 11, color: '#2ecc71', type: 'vital_berry' },
+      { x: 16, y: 11, color: '#2ecc71', type: 'vital_berry' }
+    ],
+    portals: [
+      {
+        id: 'portal_poison_escape',
+        x: 14,
+        y: 2,
+        width: 2,
+        height: 1,
+        orientation: 'horizontal',
+        customColor: 'random',
+        color: '#000000'
+      }
+    ],
+    initialSnake: {
+      x: 15,
+      y: 11,
+      length: 3,
+      dir: { x: 0, y: -1 },
+      color: '#2ecc71',
+      name: 'Supraviețuitor Smarald'
+    }
+  },
+  {
+    id: 'comm_colosseum_basin',
+    title: 'Colossal Serpents Colosseum',
+    author: '@TitanMaster',
+    description: 'Massive armored serpents clash in a sprawling arena flanked by pitch-black gates and energy-restoring berries.',
+    stars: 174,
+    tags: ['colossal', 'pvp', 'arena'],
+    cols: 36,
+    rows: 26,
+    vines: [
+      { x: 6, y: 13, shape: 'square', size: 5, color: '#2c3e50', opacity: 0.8, harmful: false },
+      { x: 30, y: 13, shape: 'square', size: 5, color: '#2c3e50', opacity: 0.8, harmful: false }
+    ],
+    foods: [
+      { x: 18, y: 6, color: '#e74c3c', type: 'power_berry' },
+      { x: 18, y: 20, color: '#e74c3c', type: 'power_berry' }
+    ],
+    portals: [
+      {
+        id: 'portal_arena_west',
+        x: 4,
+        y: 13,
+        width: 1,
+        height: 2,
+        orientation: 'vertical',
+        customColor: '#e74c3c',
+        color: '#000000'
+      },
+      {
+        id: 'portal_arena_east',
+        x: 31,
+        y: 13,
+        width: 1,
+        height: 2,
+        orientation: 'vertical',
+        customColor: '#3498db',
+        color: '#000000'
+      }
+    ],
+    initialSnake: {
+      x: 18,
+      y: 13,
+      length: 13,
+      dir: { x: 1, y: 0 },
+      color: '#e67e22',
+      name: 'Gladiatorul Colosal'
+    }
+  },
+  {
+    id: 'comm_quantum_void_cross',
+    title: 'Quantum Bifurcation Gateway',
+    author: '@GitHubZnakeDev',
+    description: 'Community benchmark map designed to test instantaneous 2-axis opposite emergence through pitch-black space.',
+    stars: 310,
+    tags: ['benchmark', 'quantum', 'community'],
+    cols: 30,
+    rows: 22,
+    vines: [],
+    foods: [
+      { x: 5, y: 5, color: '#f39c12' },
+      { x: 25, y: 5, color: '#f39c12' },
+      { x: 5, y: 17, color: '#f39c12' },
+      { x: 25, y: 17, color: '#f39c12' }
+    ],
+    portals: [
+      {
+        id: 'portal_quantum_1',
+        x: 10,
+        y: 11,
+        width: 2,
+        height: 1,
+        orientation: 'horizontal',
+        customColor: '#00e5ff',
+        color: '#000000'
+      },
+      {
+        id: 'portal_quantum_2',
+        x: 18,
+        y: 11,
+        width: 2,
+        height: 1,
+        orientation: 'horizontal',
+        customColor: '#ff00ff',
+        color: '#000000'
+      }
+    ],
+    initialSnake: {
+      x: 14,
+      y: 4,
+      length: 5,
+      dir: { x: 0, y: 1 },
+      color: '#9fc4fd',
+      name: 'Pilotul Cuantic'
+    }
+  }
+];
+
+// =============================================================================
+// Mode P Instance & State Persistence
+// =============================================================================
+
+function _getModePStorage(storage) {
+  if (storage) return storage;
+  if (typeof localStorage !== 'undefined') return localStorage;
+  return null;
+}
+
+/**
+ * Gets or initializes a unique Mode P instance for this user.
+ * Stored in localStorage['znake_mode_p_instance'].
+ * @param {Storage} [storage]
+ * @returns {object}
+ */
+function getOrInitModePInstance(storage = null) {
+  const store = _getModePStorage(storage);
+  if (!store) {
+    return {
+      instanceId: 'p_inst_ephemeral_' + Date.now(),
+      userAlias: 'ZnakeGuest_001',
+      createdAt: Date.now(),
+      lastOpenedAt: Date.now(),
+      favorites: [],
+      playedMaps: []
+    };
+  }
+
+  const raw = store.getItem(MODE_P_STORAGE_KEY);
+  if (raw) {
+    try {
+      const parsed = JSON.parse(raw);
+      if (parsed && parsed.instanceId) {
+        return parsed;
+      }
+    } catch {}
+  }
+
+  // Create fresh unique instance
+  const instance = {
+    instanceId: 'p_inst_' + Date.now() + '_' + Math.random().toString(36).substring(2, 8),
+    userAlias: 'ZnakeExplorer_' + Math.floor(1000 + Math.random() * 9000),
+    createdAt: Date.now(),
+    lastOpenedAt: Date.now(),
+    favorites: [],
+    playedMaps: []
+  };
+
+  try {
+    store.setItem(MODE_P_STORAGE_KEY, JSON.stringify(instance));
+  } catch {}
+
+  return instance;
+}
+
+/**
+ * Updates Mode P instance data in storage.
+ * @param {object} instance
+ * @param {Storage} [storage]
+ */
+function saveModePInstance(instance, storage = null) {
+  const store = _getModePStorage(storage);
+  if (!store || !instance) return;
+  try {
+    store.setItem(MODE_P_STORAGE_KEY, JSON.stringify(instance));
+  } catch {}
+}
+
+/**
+ * Toggles a map's favorite status.
+ * @param {string} mapId
+ * @param {Storage} [storage]
+ * @returns {boolean} Whether the map is now favorited
+ */
+function toggleFavoriteMap(mapId, storage = null) {
+  const inst = getOrInitModePInstance(storage);
+  const idx = inst.favorites.indexOf(mapId);
+  let isFav = false;
+  if (idx >= 0) {
+    inst.favorites.splice(idx, 1);
+  } else {
+    inst.favorites.push(mapId);
+    isFav = true;
+  }
+  saveModePInstance(inst, storage);
+  return isFav;
+}
+
+/**
+ * Records that a map was played.
+ * @param {string} mapId
+ * @param {Storage} [storage]
+ */
+function recordPlayedMap(mapId, storage = null) {
+  const inst = getOrInitModePInstance(storage);
+  if (!inst.playedMaps.includes(mapId)) {
+    inst.playedMaps.push(mapId);
+  }
+  inst.lastPlayedMapId = mapId;
+  inst.lastPlayedAt = Date.now();
+  saveModePInstance(inst, storage);
+}
+
+/**
+ * Retrieves all available maps (curated built-in + custom from localStorage).
+ * @param {Storage} [storage]
+ * @returns {Array<object>}
+ */
+function getAllAvailableMaps(storage = null) {
+  const store = _getModePStorage(storage);
+  let customMaps = [];
+  if (store) {
+    try {
+      const raw = store.getItem(CUSTOM_MAPS_STORAGE_KEY);
+      customMaps = raw ? JSON.parse(raw) : [];
+      if (!Array.isArray(customMaps)) customMaps = [];
+    } catch {
+      customMaps = [];
+    }
+  }
+
+  // Tag sources
+  const builtins = BUILTIN_COMMUNITY_MAPS.map(m => ({
+    ...m,
+    isBuiltin: true,
+    source: 'github_community'
+  }));
+
+  const customs = customMaps.map(m => ({
+    ...m,
+    isBuiltin: false,
+    source: 'local_storage',
+    author: m.author || 'Local Creator',
+    stars: m.stars || 1,
+    tags: m.tags || ['custom', 'local']
+  }));
+
+  return [...builtins, ...customs];
+}
+
+// =============================================================================
+// Mode P Controller & UI
+// =============================================================================
+
+let _activeModePOverlay = null;
+let _modePActive = false;
+let _cachedPreviousDisplay = null;
+
+/**
+ * Checks whether Mode P is currently active.
+ * @returns {boolean}
+ */
+function isModePActive() {
+  return _modePActive;
+}
+
+/**
+ * Enters Mode P Community Map Browser.
+ * Restyles and replaces view with full-screen GitHub/Community Map browser.
+ * @param {object} [gameState]
+ * @param {Storage} [storage]
+ */
+function enterModeP(gameState = null, storage = null) {
+  if (typeof document === 'undefined') {
+    _modePActive = true;
+    return;
+  }
+
+  if (_modePActive) return;
+  _modePActive = true;
+
+  const instance = getOrInitModePInstance(storage);
+  instance.lastOpenedAt = Date.now();
+  saveModePInstance(instance, storage);
+
+  // If game is running, temporarily pause
+  if (gameState && gameState.phase === 'running') {
+    gameState.phase = 'paused';
+    if (typeof window !== 'undefined' && typeof window.refresh === 'function') {
+      window.refresh();
+    }
+  }
+
+  // Build Mode P UI
+  const overlay = document.createElement('div');
+  overlay.id = 'znake_mode_p_overlay';
+  overlay.className = 'znake-mode-p-browser';
+
+  overlay.innerHTML = `
+    <style>
+      .znake-mode-p-browser {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: #090d13;
+        color: #e6edf3;
+        z-index: 100000;
+        display: flex;
+        flex-direction: column;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+        box-sizing: border-box;
+        overflow: hidden;
+      }
+      .znake-p-header {
+        background: #161b22;
+        border-bottom: 1px solid #30363d;
+        padding: 12px 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+      }
+      .znake-p-logo {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .znake-p-badge {
+        background: #238636;
+        color: #ffffff;
+        font-size: 0.72rem;
+        font-weight: 700;
+        padding: 3px 8px;
+        border-radius: 12px;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+      }
+      .znake-p-user-pill {
+        background: #21262d;
+        border: 1px solid #30363d;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        color: #58a6ff;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .znake-p-btn-exit {
+        background: #21262d;
+        border: 1px solid #30363d;
+        color: #f85149;
+        font-weight: 600;
+        padding: 8px 16px;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-size: 0.85rem;
+      }
+      .znake-p-btn-exit:hover {
+        background: #b62324;
+        color: #fff;
+        border-color: #f85149;
+      }
+      .znake-p-subnav {
+        background: #0d1117;
+        border-bottom: 1px solid #21262d;
+        padding: 12px 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+      .znake-p-search {
+        background: #161b22;
+        border: 1px solid #30363d;
+        color: #c9d1d9;
+        padding: 8px 14px;
+        border-radius: 6px;
+        font-size: 0.85rem;
+        width: 320px;
+        max-width: 100%;
+      }
+      .znake-p-search:focus {
+        border-color: #58a6ff;
+        outline: none;
+      }
+      .znake-p-filters {
+        display: flex;
+        gap: 8px;
+      }
+      .znake-p-chip {
+        padding: 6px 12px;
+        background: #21262d;
+        border: 1px solid #30363d;
+        border-radius: 16px;
+        font-size: 0.8rem;
+        color: #8b949e;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      .znake-p-chip.active {
+        background: #388bfd26;
+        border-color: #58a6ff;
+        color: #58a6ff;
+        font-weight: 600;
+      }
+      .znake-p-grid-container {
+        padding: 24px;
+        overflow-y: auto;
+        flex: 1;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 20px;
+        align-content: start;
+      }
+      .znake-p-card {
+        background: #161b22;
+        border: 1px solid #30363d;
+        border-radius: 8px;
+        padding: 18px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 14px;
+        transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+      }
+      .znake-p-card:hover {
+        border-color: #58a6ff;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+      }
+      .znake-p-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 8px;
+      }
+      .znake-p-card-title {
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: #58a6ff;
+        margin: 0;
+      }
+      .znake-p-card-author {
+        font-size: 0.78rem;
+        color: #8b949e;
+        margin-top: 2px;
+      }
+      .znake-p-card-desc {
+        font-size: 0.83rem;
+        color: #c9d1d9;
+        line-height: 1.4;
+      }
+      .znake-p-card-metrics {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        font-size: 0.75rem;
+      }
+      .znake-p-metric-tag {
+        background: #21262d;
+        padding: 2px 8px;
+        border-radius: 4px;
+        color: #8b949e;
+      }
+      .znake-p-card-actions {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        border-top: 1px solid #21262d;
+        padding-top: 12px;
+      }
+      .znake-p-btn-play {
+        flex: 1;
+        background: #238636;
+        border: 1px solid rgba(240, 246, 252, 0.1);
+        color: #ffffff;
+        font-weight: 600;
+        padding: 8px 14px;
+        border-radius: 6px;
+        cursor: pointer;
+        text-align: center;
+        font-size: 0.85rem;
+        transition: background 0.2s;
+      }
+      .znake-p-btn-play:hover {
+        background: #2ea043;
+      }
+      .znake-p-btn-fav {
+        background: #21262d;
+        border: 1px solid #30363d;
+        color: #e3b341;
+        padding: 8px 12px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 0.9rem;
+      }
+      .znake-p-btn-fav:hover {
+        background: #30363d;
+      }
+      .znake-p-footer-bar {
+        background: #0d1117;
+        border-top: 1px solid #21262d;
+        padding: 10px 24px;
+        font-size: 0.78rem;
+        color: #8b949e;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+    </style>
+
+    <div class="znake-p-header">
+      <div class="znake-p-logo">
+        <svg height="28" viewBox="0 0 16 16" width="28" fill="#58a6ff"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path></svg>
+        <span style="font-weight: 700; font-size: 1.1rem; letter-spacing: 0.5px;">ZNAKE COMMUNITY HUB</span>
+        <span class="znake-p-badge">MODE P</span>
+      </div>
+
+      <div style="display:flex; align-items:center; gap:16px;">
+        <div class="znake-p-user-pill">
+          <span>👤 ${instance.userAlias}</span>
+          <span style="color:#8b949e; font-size:0.75rem;">(${instance.instanceId.slice(0, 14)})</span>
+        </div>
+        <button class="znake-p-btn-exit" id="znake_p_exit_btn">✕ Ieșire din Mode P ('P' sau ESC)</button>
+      </div>
+    </div>
+
+    <div class="znake-p-subnav">
+      <input type="text" id="znake_p_search_input" class="znake-p-search" placeholder="Caută hărți, creatori sau tag-uri...">
+      <div class="znake-p-filters">
+        <button class="znake-p-chip active" data-filter="all">Toate</button>
+        <button class="znake-p-chip" data-filter="builtin">GitHub Community</button>
+        <button class="znake-p-chip" data-filter="custom">Hărți Locale (Custom)</button>
+        <button class="znake-p-chip" data-filter="favorites">⭐ Favorite</button>
+      </div>
+    </div>
+
+    <div class="znake-p-grid-container" id="znake_p_cards_grid">
+      <!-- Cards rendered here -->
+    </div>
+
+    <div class="znake-p-footer-bar">
+      <span>Znake Community Explorer v2.0 · Instanță Persistentă LocalStorage</span>
+      <span>Apasă tasta <strong>'P'</strong> sau butonul de ieșire pentru a reveni la simulator</span>
+    </div>
+  `;
+
+  document.body.appendChild(overlay);
+  _activeModePOverlay = overlay;
+
+  // Setup interactions
+  const exitBtn = overlay.querySelector('#znake_p_exit_btn');
+  if (exitBtn) {
+    exitBtn.onclick = () => exitModeP(gameState);
+  }
+
+  let activeFilter = 'all';
+  let searchQuery = '';
+
+  const renderCards = () => {
+    const grid = overlay.querySelector('#znake_p_cards_grid');
+    if (!grid) return;
+
+    const allMaps = getAllAvailableMaps(storage);
+    const inst = getOrInitModePInstance(storage);
+
+    let filtered = allMaps.filter(m => {
+      // Filter tab
+      if (activeFilter === 'builtin' && !m.isBuiltin) return false;
+      if (activeFilter === 'custom' && m.isBuiltin) return false;
+      if (activeFilter === 'favorites' && !inst.favorites.includes(m.id)) return false;
+
+      // Search query
+      if (searchQuery) {
+        const q = searchQuery.toLowerCase();
+        const inTitle = (m.title || '').toLowerCase().includes(q);
+        const inDesc = (m.description || '').toLowerCase().includes(q);
+        const inAuthor = (m.author || '').toLowerCase().includes(q);
+        const inTags = Array.isArray(m.tags) && m.tags.some(t => t.toLowerCase().includes(q));
+        if (!inTitle && !inDesc && !inAuthor && !inTags) return false;
+      }
+      return true;
+    });
+
+    if (filtered.length === 0) {
+      grid.innerHTML = `
+        <div style="grid-column: 1/-1; text-align: center; color: #8b949e; padding: 60px 20px;">
+          <div style="font-size: 2rem; margin-bottom: 8px;">🔍</div>
+          <div style="font-weight: 600; font-size: 1.1rem;">Nicio hartă găsită</div>
+          <div style="font-size: 0.85rem; margin-top: 4px;">Încearcă să schimbi termenul de căutare sau filtrul activ.</div>
+        </div>
+      `;
+      return;
+    }
+
+    grid.innerHTML = filtered.map(m => {
+      const isFav = inst.favorites.includes(m.id);
+      const portalsCount = m.portals ? m.portals.length : 0;
+      const vinesCount = m.vines ? m.vines.length : 0;
+      const foodsCount = m.foods ? m.foods.length : 0;
+
+      return `
+        <div class="znake-p-card" data-id="${m.id}">
+          <div>
+            <div class="znake-p-card-header">
+              <div>
+                <h3 class="znake-p-card-title">${m.title}</h3>
+                <div class="znake-p-card-author">de <strong>${m.author}</strong> · ${m.isBuiltin ? '🌐 GitHub Hub' : '💾 Local Storage'}</div>
+              </div>
+              <span style="font-size: 0.8rem; color: #e3b341;">★ ${m.stars || 1}</span>
+            </div>
+            <p class="znake-p-card-desc" style="margin-top: 10px;">${m.description || 'Fără descriere.'}</p>
+            <div class="znake-p-card-metrics" style="margin-top: 10px;">
+              <span class="znake-p-metric-tag">🕳️ ${portalsCount} Portal${portalsCount === 1 ? '' : 'uri'} Negre</span>
+              <span class="znake-p-metric-tag">🌿 ${vinesCount} Liane</span>
+              <span class="znake-p-metric-tag">🍎 ${foodsCount} Hrană</span>
+              <span class="znake-p-metric-tag">📐 ${m.cols || 30}×${m.rows || 22}</span>
+            </div>
+          </div>
+
+          <div class="znake-p-card-actions">
+            <button class="znake-p-btn-play btn-play-map" data-id="${m.id}">▶ Joacă Harta</button>
+            <button class="znake-p-btn-fav btn-fav-map" data-id="${m.id}" title="${isFav ? 'Elimină din Favorite' : 'Adaugă la Favorite'}">
+              ${isFav ? '★' : '☆'}
+            </button>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    grid.querySelectorAll('.btn-play-map').forEach(btn => {
+      btn.onclick = () => {
+        const mapId = btn.dataset.id;
+        const targetMap = allMaps.find(m => m.id === mapId);
+        if (targetMap && gameState) {
+          const mapLoader = (SecretMenuModule && SecretMenuModule.loadMapIntoGameState) ||
+            (typeof window !== 'undefined' && window.SecretMenuAndEditors && window.SecretMenuAndEditors.loadMapIntoGameState);
+          if (mapLoader) {
+            mapLoader(targetMap, gameState);
+          }
+          recordPlayedMap(mapId, storage);
+          exitModeP(gameState);
+        }
+      };
+    });
+
+    grid.querySelectorAll('.btn-fav-map').forEach(btn => {
+      btn.onclick = () => {
+        const mapId = btn.dataset.id;
+        toggleFavoriteMap(mapId, storage);
+        renderCards();
+      };
+    });
+  };
+
+  // Filter chips
+  const chips = overlay.querySelectorAll('.znake-p-chip');
+  chips.forEach(chip => {
+    chip.onclick = () => {
+      chips.forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      activeFilter = chip.dataset.filter;
+      renderCards();
+    };
+  });
+
+  // Search input
+  const searchInput = overlay.querySelector('#znake_p_search_input');
+  if (searchInput) {
+    searchInput.oninput = (e) => {
+      searchQuery = e.target.value.trim();
+      renderCards();
+    };
+  }
+
+  renderCards();
+}
+
+/**
+ * Exits Mode P and cleans up UI, restoring normal cockpit/sandbox view.
+ * @param {object} [gameState]
+ */
+function exitModeP(gameState = null) {
+  _modePActive = false;
+  if (typeof document !== 'undefined') {
+    const overlay = document.getElementById('znake_mode_p_overlay');
+    if (overlay) {
+      overlay.remove();
+    }
+  }
+  _activeModePOverlay = null;
+
+  // Unpause simulation if it was paused
+  if (gameState && gameState.phase === 'paused') {
+    gameState.phase = 'running';
+    if (typeof window !== 'undefined' && typeof window.refresh === 'function') {
+      window.refresh();
+    }
+  }
+}
+
+/**
+ * Toggles Mode P on or off.
+ * @param {object} [gameState]
+ * @param {Storage} [storage]
+ * @returns {boolean} Whether Mode P is now active
+ */
+function toggleModeP(gameState = null, storage = null) {
+  if (isModePActive()) {
+    exitModeP(gameState);
+    return false;
+  } else {
+    enterModeP(gameState, storage);
+    return true;
+  }
+}
+
+// =============================================================================
+// Mode P Global Key Controller
+// =============================================================================
+
+class ModePController {
+  constructor(gameState = null, options = {}) {
+    this.gameState = gameState;
+    this.storage = options.storage || null;
+    this._handler = this.handleKeyDown.bind(this);
+    this.enabled = false;
+
+    if (options.autoAttach && typeof window !== 'undefined') {
+      this.attach();
+    }
+  }
+
+  handleKeyDown(event) {
+    if (!event) return;
+    const key = (event.key || '').toLowerCase();
+    const code = (event.code || '').toLowerCase();
+
+    // Check if key is 'p'
+    if (key === 'p' || code === 'keyp') {
+      // Ignore if user is currently typing inside an input/textarea/select
+      if (event.target) {
+        const tag = (event.target.tagName || '').toUpperCase();
+        if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || event.target.isContentEditable) {
+          return;
+        }
+      }
+
+      event.preventDefault();
+      toggleModeP(this.gameState, this.storage);
+    } else if (event.key === 'Escape' && isModePActive()) {
+      event.preventDefault();
+      exitModeP(this.gameState);
+    }
+  }
+
+  attach(target = (typeof window !== 'undefined' ? window : null)) {
+    if (target && target.addEventListener && !this.enabled) {
+      target.addEventListener('keydown', this._handler);
+      this.enabled = true;
+      this._target = target;
+    }
+  }
+
+  detach(target = this._target || (typeof window !== 'undefined' ? window : null)) {
+    if (target && target.removeEventListener && this.enabled) {
+      target.removeEventListener('keydown', this._handler);
+      this.enabled = false;
+      this._target = null;
+    }
+  }
+}
+
+// =============================================================================
+// Exports
+// =============================================================================
 
 
 
@@ -3934,6 +7400,27 @@ $('stopLatched').addEventListener('click',stopAllLatched);
     } else if(e.key === 'd' || e.key === 'D'){
       opts.dpadVisible = !opts.dpadVisible;
       updateDpadVisibility();
+    } else if(e.key === 'o' || e.key === 'O'){
+      const activeSnake = (typeof owner === 'function' && selected && selected.size) ? owner([...selected][0]) : (snakes && snakes[0]);
+      if(activeSnake && typeof handleKeyOPress === 'function'){
+        const res = handleKeyOPress(activeSnake, { snakes, eggs: window.__eggs || (window.__eggs = []) });
+        if(res && res.action === 'escort'){
+          if(typeof info === 'function') info(res.active ? '🛡️ MOD ESCORTĂ ACTIVAT! Șarpele părinte protejează puii.' : '🛡️ Mod escortă dezactivat.');
+        } else if(res && res.action === 'trample_or_laid'){
+          if(res.status === 'trampling' && typeof info === 'function') info('🐾 Bătătorire teren... (' + res.trampleTicks + '/10)');
+          else if(res.status === 'egg_laid' && typeof info === 'function') info('🥚 OU DEPUS! Cuibul a fost pregătit la (' + res.egg.x + ', ' + res.egg.y + ').');
+        } else if(res && res.action === 'egg_eaten'){
+          if(typeof info === 'function') info('🍳 OU MÂNCAT! #' + activeSnake.id + ' a obținut +' + res.segmentsGained + ' segmente bonus!');
+        }
+        if(typeof renderListNeedsUpdate !== 'undefined') renderListNeedsUpdate = true;
+        if(typeof refresh === 'function') refresh();
+      }
+    } else if(e.key === 'p' || e.key === 'P'){
+      if(window._modePController){
+        window._modePController.toggle();
+      } else if(typeof toggleModeP === 'function'){
+        toggleModeP({ opts, snakes, foods, selected, nextId, contactMarks, renderListNeedsUpdate, phase });
+      }
     }
   });
 
@@ -4622,8 +8109,8 @@ function advanceSimulation(realDt){
 }
 function frame(now){if(!lastFrame)lastFrame=now;const dt=Math.min(85,Math.max(0,now-lastFrame));lastFrame=now;advanceSimulation(dt);updateMoonUI();if(renderListNeedsUpdate)updateList();draw(now);requestAnimationFrame(frame);}
 window.addEventListener('resize',resize);if(typeof ResizeObserver!=='undefined')new ResizeObserver(resize).observe(board);
-restoreSettings();restoreHeatmap();restoreVines();if(typeof applyThemeMode==='function')applyThemeMode(opts.currentTheme);if(typeof applyLayoutMode==='function')applyLayoutMode(opts.currentLayout);initialize();resize();updateMoonUI(true);requestAnimationFrame(frame);
-window.__snakeLab={debugWireframe:()=>({camera,opts,computeMiddleOpacity,getReferenceEmoji,inBoard,advance,dist,setWorldMode:(m)=>{opts.worldMode=m;draw();},setFaux3D:(f)=>{opts.enableFaux3D=!!f;draw();},setTopScale:(s)=>{opts.topScale=s;draw();},setTopAlpha:(a)=>{opts.topAlpha=a;draw();},setMiddleK:(k)=>{opts.middleK=k;draw();},setTheme:applyThemeMode,setLayout:applyLayoutMode,getLayout:()=>opts.currentLayout,updateTelemetry:updateTelemetryBar,draw:()=>draw()}),debugMaternalTransfer:calculateMaternalTransfer,debugEmojiEatChance:calculateEmojiEatChance,debugAttemptEmojiEat:attemptEmergencyEmojiConsumption,debugDisorientation:applyDisorientation,debugCleanseToxicity:cleanseToxicityOnBerry,debugGetStarters:getStarterSnakes,debugStartSurvival:startSurvivalRun,debugExitSurvival:exitSurvivalRun,debugSetVineShape:(s)=>{opts.vineShape=s;cachedVineCells=null;vineMixCache.clear();draw();},getUI:()=>({immersive:document.body.classList.contains('immersive'),menuOpen:!document.body.classList.contains('menu-closed'),showAll:document.body.classList.contains('menu-all'),canvasWidth:canvas.clientWidth,canvasHeight:canvas.clientHeight,boardHeight:board.clientHeight,sidebarScrollHeight:$('settingsPanel').scrollHeight,sidebarHeight:$('settingsPanel').clientHeight}),enterImmersive,exitImmersive,toggleMenu,getState:()=>({phase,opts:{...opts},snakes:snakes.map(s=>({id:s.id,length:s.body.length,pending:s.pending,parentId:s.parentId,dependent:s.dependent,familySafe:s.familySafe,control:s.control,speedFactor:s.speedFactor,color:s.color,fertility:s.fertility,collisionResistance:s.collisionResistance,twinGene:s.twinGene,subpixel:snakeSubcell(s),foodGene:s.foodGene,foodSeekingGene:s.foodSeekingGene,vineSusceptibility:s.vineSusceptibility,moonSpeedGene:s.moonSpeedGene,berrySlowFactor:s.berrySlowFactor||1,head:{...s.body[0]}})),foods:foods.length,nodes:foodNodes.length,nodePositions:foodNodes.map(n=>({...n})),births,eaten,selected:[...selected],moonPhase:lunarPhase(),moonClockMs}),select:exclusiveSelect,steer:(id,d)=>{steer(owner(id),d);refresh();},tick:stepAll,advanceSimulation,setTimeScale,setPreset,reset,feed:addFood,
+restoreSettings();restoreHeatmap();restoreVines();if(typeof applyThemeMode==='function')applyThemeMode(opts.currentTheme);if(typeof applyLayoutMode==='function')applyLayoutMode(opts.currentLayout);initialize();resize();if(typeof TripleEPressDetector==='function')window._tripleEDetector=new TripleEPressDetector(()=>{if(typeof openSecretMenu==='function')openSecretMenu({opts,snakes,foods,selected,nextId,contactMarks,renderListNeedsUpdate,phase});},{autoAttach:true});if(typeof ModePController==='function')window._modePController=new ModePController({opts,snakes,foods,selected,nextId,contactMarks,renderListNeedsUpdate,phase},{autoAttach:true});updateMoonUI(true);requestAnimationFrame(frame);
+window.__snakeLab={debugWireframe:()=>({camera,opts,computeMiddleOpacity,getReferenceEmoji,inBoard,advance,dist,setWorldMode:(m)=>{opts.worldMode=m;draw();},setFaux3D:(f)=>{opts.enableFaux3D=!!f;draw();},setTopScale:(s)=>{opts.topScale=s;draw();},setTopAlpha:(a)=>{opts.topAlpha=a;draw();},setMiddleK:(k)=>{opts.middleK=k;draw();},setTheme:applyThemeMode,setLayout:applyLayoutMode,getLayout:()=>opts.currentLayout,updateTelemetry:updateTelemetryBar,draw:()=>draw()}),debugMaternalTransfer:calculateMaternalTransfer,debugEmojiEatChance:calculateEmojiEatChance,debugAttemptEmojiEat:attemptEmergencyEmojiConsumption,debugDisorientation:applyDisorientation,debugCleanseToxicity:cleanseToxicityOnBerry,debugGetStarters:getStarterSnakes,debugStartSurvival:startSurvivalRun,debugExitSurvival:exitSurvivalRun,debugSetVineShape:(s)=>{opts.vineShape=s;cachedVineCells=null;vineMixCache.clear();draw();},debugBlackPortal:{createBlackPortal,spawnPortalSnakes,renderBlackPortal},debugSecretMenu:{openSecretMenu,closeSecretMenu,isSecretMenuOpen,saveCustomEntity,loadCustomEntities,saveCustomMap,loadCustomMaps},debugModeP:{enterModeP,exitModeP,toggleModeP,isModePActive,getAllAvailableMaps},getUI:()=>({immersive:document.body.classList.contains('immersive'),menuOpen:!document.body.classList.contains('menu-closed'),showAll:document.body.classList.contains('menu-all'),canvasWidth:canvas.clientWidth,canvasHeight:canvas.clientHeight,boardHeight:board.clientHeight,sidebarScrollHeight:$('settingsPanel').scrollHeight,sidebarHeight:$('settingsPanel').clientHeight}),enterImmersive,exitImmersive,toggleMenu,getState:()=>({phase,opts:{...opts},snakes:snakes.map(s=>({id:s.id,length:s.body.length,pending:s.pending,parentId:s.parentId,dependent:s.dependent,familySafe:s.familySafe,control:s.control,speedFactor:s.speedFactor,color:s.color,fertility:s.fertility,collisionResistance:s.collisionResistance,twinGene:s.twinGene,subpixel:snakeSubcell(s),foodGene:s.foodGene,foodSeekingGene:s.foodSeekingGene,vineSusceptibility:s.vineSusceptibility,moonSpeedGene:s.moonSpeedGene,berrySlowFactor:s.berrySlowFactor||1,head:{...s.body[0]}})),foods:foods.length,nodes:foodNodes.length,nodePositions:foodNodes.map(n=>({...n})),births,eaten,selected:[...selected],moonPhase:lunarPhase(),moonClockMs}),select:exclusiveSelect,steer:(id,d)=>{steer(owner(id),d);refresh();},tick:stepAll,advanceSimulation,setTimeScale,setPreset,reset,feed:addFood,
  debugCollisionProbability:(a,b,resistance=0)=>collisionProbability(a,b,resistance),debugMutateColor:mutateColor,debugResistanceMutation:(id)=>{const s=owner(id);return s?mutateCollisionResistance(s):null;},debugResistanceRates:resistanceMutationRates,inspectSnake,closeInspector,
  debugFoodMismatchRisk:foodMismatchRisk,debugFoodFatality:(id,color)=>foodFatalityChance(owner(id),color),
  debugGetVines:()=>foodNodes.map(n=>({...n,pulses:n.pulses.map(p=>({...p}))})),
