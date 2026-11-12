@@ -163,9 +163,29 @@ When a snake segments (via self-cut or pressing the opposite movement key):
   - Șarpe solitar (N_clan = 1): menține valorile triviale/de bază (1.0x).
   - Clan extins: forța de atracție pentru culori similare și repulsia pentru culori diferite cresc direct proporțional cu numărul de membri vii înlănțuiți în acea ramură (N_clan * lunarFactor).
   - Repulsia colectivă a grupurilor mari este un fenomen emergent natural al mecanicii de steering vectorial.
-- Protecție Robustă Dimensiune Grid / Web View:
-  - Rezolvat definitiv bug-ul în care canvas-ul se micșora la 2px x 2px la refresh:
-  - Adăugate limite defensive minime (min-height: 240px pe frame, min-height: 180px pe canvas, Math.max(180, ...) la calculul buffer-ului).
+
+--------------------------------------------------------------------------------
+11. MATURIZAREA PUILOR & REFACTORIZARE SLIDERE ATRACTIE/RESPINGERE (0% - 100%)
+--------------------------------------------------------------------------------
+- Reguli de Tranziție Pui (Subpixel) -> Șarpe Mare (Adult 1x1):
+  Un pui subpixel devine adult cu pătrate întregi de 1×1 dacă și NUMAI dacă:
+  1. Fără Lider Viu: Nici mama/matriarhul și nici fratele mai mare nu mai sunt în viață deasupra lui. Șarpele este liderul absolut al ramurii sale (cap de clan).
+  2. Cel Puțin un Urmăritor: Trebuie să aibă cel puțin un pui / membru înlănțuit în subordinea sa directă (followersCount >= 1). Fără adepți, nu poate deveni mare.
+  3. Lungime Minimă de 5 Segmente: Corpul său are cel puțin 5 pătrățele (s.body.length >= 5).
+  4. Gating Lunar Proporțional & Liniar:
+     - La Lună Plină (🌕 faza = 0.5): 100% șansă instantanee (1.0).
+     - La Lună Nouă (🌑 faza = 0.0 sau 1.0): 0% șansă (amânare 100% până când luna crește).
+     - Scalare proporțională și liniară între Lună Nouă și Lună Plină:
+       P_lunar = 1.0 - 2 * |faza - 0.5|.
+  5. Alegere Exclusivă pentru Utilizatorii Umani:
+     - Jucătorii umani (control manual) nu sunt forțați niciodată să se maturizeze automat.
+     - Utilizatorul are control deplin și alege voluntar maturizarea apăsând tasta [+] (sau NumpadAdd / =).
+- Slidere Atracție și Respingere Cromatică în Procente (0% – 100%):
+  - Parametrii 'sameColorAttraction' și 'differentColorRepulsion' au fost convertiți de la scala 0–40 la procente curate 0% – 100% cu unitate '%'.
+  - Valoarea implicită 20% corespunde cu precizie valorii anterioare de 8.0, păstrând echilibrul dinamic al simulării.
+- Diagnosticare și Corectare Definitivă a Viewport-ului (2px x 2px):
+  - Corectat containerul `.layout` din `src/layouts.js` pentru a utiliza `align-items: stretch` și `min-height: calc(100vh - 124px)`.
+  - Pătratul tablei de joc își păstrează proporțiile perfecte și nu se mai restrânge niciodată la 2px la refresh în vizualizarea desktop/cockpit.
 
 ================================================================================
 Signed: RC-Znk-01 [uncle of RC03-Wisly]

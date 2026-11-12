@@ -991,7 +991,8 @@ body.layout-desktop-cockpit .layout, body.layout-cockpit .layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 340px;
   gap: 16px;
-  align-items: start;
+  align-items: stretch;
+  min-height: calc(100vh - 124px);
 }
 body.layout-desktop-cockpit .sidebar, body.layout-cockpit .sidebar {
   max-height: calc(100vh - 120px);
@@ -1000,6 +1001,24 @@ body.layout-desktop-cockpit .sidebar, body.layout-cockpit .sidebar {
 }
 body.layout-desktop-cockpit main.card, body.layout-cockpit main.card {
   min-width: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 480px;
+}
+body.layout-desktop-cockpit .board-pad, body.layout-cockpit .board-pad {
+  flex: 1 1 auto;
+  min-height: 280px;
+  display: flex;
+  flex-direction: column;
+}
+body.layout-desktop-cockpit .board-frame, body.layout-cockpit .board-frame {
+  flex: 1 1 auto;
+  min-height: 260px;
+  width: 100%;
+}
+body.layout-desktop-cockpit .board-frame canvas, body.layout-cockpit .board-frame canvas {
+  min-height: 220px;
+  width: 100%;
 }
 .cockpit-telemetry-bar {
   display: flex;
@@ -1455,7 +1474,7 @@ body.layout-arcade-deck .btn.primary, body.layout-arcade .btn.primary {
 </section>
 <section><h2 class="sideheading">02 / Grilă & mutații</h2>
 <p class="eco-note">Grila se schimbă <b>în timpul jocului</b>, fără restart. Butonul + poate extinde capătul sliderului (roz). Alege pasul între 1 și 0.000001; introdu direct valori exacte, indiferent de pas.</p><div class="tune" id="tune-cols"><div class="tune-title"><span>Coloane</span><output id="colsValue">30</output></div><div class="tune-line"><button class="nudge" type="button" data-tune="cols" data-sign="-1" aria-label="Micșorează Coloane">−</button><input id="cols" type="range" min="5" max="72" step="1" value="30" data-base-max="72" aria-label="Coloane"><button class="nudge plus" type="button" data-tune="cols" data-sign="1" aria-label="Mărește Coloane">+</button><input class="direct" type="number" id="colsDirect" min="5" step="1" value="30" aria-label="Valoare exactă: Coloane"></div><div class="tune-meta"><span id="colsRange">0–72</span><span id="colsExtend" class="extension"></span></div></div><div class="tune" id="tune-rows"><div class="tune-title"><span>Rânduri</span><output id="rowsValue">22</output></div><div class="tune-line"><button class="nudge" type="button" data-tune="rows" data-sign="-1" aria-label="Micșorează Rânduri">−</button><input id="rows" type="range" min="5" max="52" step="1" value="22" data-base-max="52" aria-label="Rânduri"><button class="nudge plus" type="button" data-tune="rows" data-sign="1" aria-label="Mărește Rânduri">+</button><input class="direct" type="number" id="rowsDirect" min="5" step="1" value="22" aria-label="Valoare exactă: Rânduri"></div><div class="tune-meta"><span id="rowsRange">0–52</span><span id="rowsExtend" class="extension"></span></div></div><label class="setting"><span>Afișează liniile grilei</span><input id="showGrid" type="checkbox" checked/></label><label class="setting"><span>Light Mode · fundal deschis</span><input id="lightMode" type="checkbox"/></label><label class="setting"><span>Numerotează celulele</span><input id="numbers" type="checkbox"/></label><div class="tune" id="tune-speed"><div class="tune-title"><span>Viteza de bază · celule/s</span><output id="speedValue">5</output></div><div class="tune-line"><button class="nudge" type="button" data-tune="speed" data-sign="-1" aria-label="Micșorează Viteza de bază · celule/s">−</button><input id="speed" type="range" min="0" max="15" step="0.1" value="5" data-base-max="15" aria-label="Viteza de bază · celule/s"><button class="nudge plus" type="button" data-tune="speed" data-sign="1" aria-label="Mărește Viteza de bază · celule/s">+</button><input class="direct" type="number" id="speedDirect" min="0" step="0.1" value="5" aria-label="Valoare exactă: Viteza de bază · celule/s"></div><div class="tune-meta"><span id="speedRange">0–15</span><span id="speedExtend" class="extension"></span></div></div><div class="tune" id="tune-mutation"><div class="tune-title"><span>Mutații · viteză &amp; rezistență (%)</span><output id="mutationValue">35</output></div><div class="tune-line"><button class="nudge" type="button" data-tune="mutation" data-sign="-1" aria-label="Micșorează Mutație viteză · amplitudine (%)">−</button><input id="mutation" type="range" min="0" max="90" step="0.1" value="35" data-base-max="90" aria-label="Mutație viteză · amplitudine (%)"><button class="nudge plus" type="button" data-tune="mutation" data-sign="1" aria-label="Mărește Mutație viteză · amplitudine (%)">+</button><input class="direct" type="number" id="mutationDirect" min="0" step="0.1" value="35" aria-label="Valoare exactă: Mutație viteză · amplitudine (%)"></div><div class="tune-meta"><span id="mutationRange">0–90</span><span id="mutationExtend" class="extension"></span></div></div><p class="note">Viteza de bază se aplică proporțional tuturor șerpilor. <b>Time ×</b> (lângă Start) accelerează și mișcarea, și hrana, și scurtarea, păstrând mutațiile relative. Pentru observare automată folosește «Toți AI».</p><p class="note"><b>Genă rezistență coliziune:</b> moștenită de pui și modificată la naștere de faza lunară. Sliderul de mutație de viteză reglează și această mutație: la lună plină creșterea are până la 99% din șansa setată; la lună nouă creșterea e 0%, iar scăderea are jumătate din acea șansă. Mutațiile sunt în puncte procentuale, fără să afecteze formula RGB 3:2:1.</p>
-<p class="note">La naștere: pui mai mic → doar accelerare; pui mai mare → ⅔ încetinire, ⅓ accelerare; egal → 50/50. Comparația se face după despărțire.</p><div class="tune" id="tune-colorMutation"><div class="tune-title"><span>Mutație culoare · max Δ pe un canal RGB</span><output id="colorMutationValue">8 RGB</output></div><div class="tune-line"><button class="nudge" type="button" data-tune="colorMutation" data-sign="-1" aria-label="Micșorează mutația de culoare">−</button><input id="colorMutation" type="range" min="0" max="64" step="any" value="8" data-base-max="64" aria-label="Mutație de culoare RGB"><button class="nudge plus" type="button" data-tune="colorMutation" data-sign="1" aria-label="Mărește mutația de culoare">+</button><input class="direct" type="number" id="colorMutationDirect" min="0" step="any" value="8" aria-label="Mutație de culoare exactă"></div><div class="tune-meta"><span id="colorMutationRange">0–64</span><span id="colorMutationExtend" class="extension"></span></div><p class="note">Un singur canal RGB se modifică la naștere, în limita ±Δ. 0 = moștenire identică. Riscul RGB de bază: 1% + distanța cromatică ponderată 3:2:1 până la 100%; Collision Risk × îl scalează.</p></div><div class="tune" id="tune-sameColorAttraction"><div class="tune-title"><span>Atracție către culori similare</span><output id="sameColorAttractionValue">8</output></div><div class="tune-line"><button class="nudge" type="button" data-tune="sameColorAttraction" data-sign="-1" aria-label="Micșorează atracția către culori similare">−</button><input id="sameColorAttraction" type="range" min="0" max="40" step="any" value="8" data-base-max="40" aria-label="Atracție către culori similare"><button class="nudge plus" type="button" data-tune="sameColorAttraction" data-sign="1" aria-label="Mărește atracția către culori similare">+</button><input class="direct" type="number" id="sameColorAttractionDirect" min="0" step="any" value="8" aria-label="Atracție culori similare exactă"></div><div class="tune-meta"><span id="sameColorAttractionRange">0–40</span><span id="sameColorAttractionExtend" class="extension"></span></div></div><div class="tune" id="tune-differentColorRepulsion"><div class="tune-title"><span>Respingere față de culori diferite</span><output id="differentColorRepulsionValue">8</output></div><div class="tune-line"><button class="nudge" type="button" data-tune="differentColorRepulsion" data-sign="-1" aria-label="Micșorează respingerea față de culori diferite">−</button><input id="differentColorRepulsion" type="range" min="0" max="40" step="any" value="8" data-base-max="40" aria-label="Respingere față de culori diferite"><button class="nudge plus" type="button" data-tune="differentColorRepulsion" data-sign="1" aria-label="Mărește respingerea față de culori diferite">+</button><input class="direct" type="number" id="differentColorRepulsionDirect" min="0" step="any" value="8" aria-label="Respingere culori diferite exactă"></div><div class="tune-meta"><span id="differentColorRepulsionRange">0–40</span><span id="differentColorRepulsionExtend" class="extension"></span></div></div><label class="setting"><span>Aplică aceste preferințe și asupra culorii hranei</span><input id="foodColorPreference" type="checkbox"/></label><p class="note">AI-ul poate căuta șerpi cu culori similare și evita șerpii foarte diferiți. Opțional, aceeași logică se aplică și atunci când alege între bucăți de hrană de culori diferite.</p><div class="tune" id="tune-foodGeneMutation"><div class="tune-title"><span>Food intolerance gene · mutation chance / birth</span><output id="foodGeneMutationValue">5%</output></div><div class="tune-line"><button class="nudge" type="button" data-tune="foodGeneMutation" data-sign="-1" aria-label="Decrease Food intolerance gene · mutation chance / birth">−</button><input id="foodGeneMutation" type="range" min="0" max="100" step="any" value="5" data-base-max="100" aria-label="Food intolerance gene · mutation chance / birth"><button class="nudge plus" type="button" data-tune="foodGeneMutation" data-sign="1" aria-label="Increase Food intolerance gene · mutation chance / birth">+</button><input class="direct" type="number" id="foodGeneMutationDirect" min="0" step="any" value="5" aria-label="Exact Food intolerance gene · mutation chance / birth"></div><div class="tune-meta"><span id="foodGeneMutationRange">0–100</span><span id="foodGeneMutationExtend" class="extension"></span></div></div><div class="tune" id="tune-founderSusceptibility"><div class="tune-title"><span>Founder susceptibility to vine genes & color</span><output id="founderSusceptibilityValue">50%</output></div><div class="tune-line"><button class="nudge" type="button" data-tune="founderSusceptibility" data-sign="-1" aria-label="Decrease Founder susceptibility to vine genes & color">−</button><input id="founderSusceptibility" type="range" min="0" max="100" step="any" value="50" data-base-max="100" aria-label="Founder susceptibility to vine genes & color"><button class="nudge plus" type="button" data-tune="founderSusceptibility" data-sign="1" aria-label="Increase Founder susceptibility to vine genes & color">+</button><input class="direct" type="number" id="founderSusceptibilityDirect" min="0" step="any" value="50" aria-label="Exact Founder susceptibility to vine genes & color"></div><div class="tune-meta"><span id="founderSusceptibilityRange">0–100</span><span id="founderSusceptibilityExtend" class="extension"></span></div></div><p class="note">AI food-distance gene: −100 = avoid eating; 0 = prefer the nearest berry; +100 = seek the farthest visible berry. Offspring may inherit or mutate this gene. Dead snakes transfer it through vine-covered body segments; repeated berries from one vine increase genetic exposure.</p><p class="note">Food intolerance is a signed gene (−100…+100), starting at 0. Positive values scale food-color toxicity and can pass to offspring with a probability equal to the gene value. Negative values increase collision survival but are never passed directly to offspring; dead snakes can transmit either sign through vines. Susceptibility controls whether vines can alter a snake when it eats.</p><div class="tune" id="tune-decay"><div class="tune-title"><span>Scurtare șerpi · interval (s); 0 = oprit</span><output id="decayValue">20</output></div><div class="tune-line"><button class="nudge" type="button" data-tune="decay" data-sign="-1" aria-label="Micșorează Scurtare șerpi · interval (s); 0 = oprit">−</button><input id="decay" type="range" min="0" max="120" step="0.1" value="20" data-base-max="120" aria-label="Scurtare șerpi · interval (s); 0 = oprit"><button class="nudge plus" type="button" data-tune="decay" data-sign="1" aria-label="Mărește Scurtare șerpi · interval (s); 0 = oprit">+</button><input class="direct" type="number" id="decayDirect" min="0" step="0.1" value="20" aria-label="Valoare exactă: Scurtare șerpi · interval (s); 0 = oprit"></div><div class="tune-meta"><span id="decayRange">0–120</span><span id="decayExtend" class="extension"></span></div></div><div class="tune" id="tune-radius"><div class="tune-title"><span>Raza hranei pentru pui · celule</span><output id="radiusValue">5</output></div><div class="tune-line"><button class="nudge" type="button" data-tune="radius" data-sign="-1" aria-label="Micșorează Raza hranei pentru pui · celule">−</button><input id="radius" type="range" min="0" max="12" step="0.1" value="5" data-base-max="12" aria-label="Raza hranei pentru pui · celule"><button class="nudge plus" type="button" data-tune="radius" data-sign="1" aria-label="Mărește Raza hranei pentru pui · celule">+</button><input class="direct" type="number" id="radiusDirect" min="0" step="0.1" value="5" aria-label="Valoare exactă: Raza hranei pentru pui · celule"></div><div class="tune-meta"><span id="radiusRange">0–12</span><span id="radiusExtend" class="extension"></span></div></div><label class="setting"><span>Fade coadă înainte de scurtare</span><input id="fade" type="checkbox" checked/></label></section><section class="food-section"><h2 class="sideheading">03 / Hrană · două moduri</h2>
+<p class="note">La naștere: pui mai mic → doar accelerare; pui mai mare → ⅔ încetinire, ⅓ accelerare; egal → 50/50. Comparația se face după despărțire.</p><div class="tune" id="tune-colorMutation"><div class="tune-title"><span>Mutație culoare · max Δ pe un canal RGB</span><output id="colorMutationValue">8 RGB</output></div><div class="tune-line"><button class="nudge" type="button" data-tune="colorMutation" data-sign="-1" aria-label="Micșorează mutația de culoare">−</button><input id="colorMutation" type="range" min="0" max="64" step="any" value="8" data-base-max="64" aria-label="Mutație de culoare RGB"><button class="nudge plus" type="button" data-tune="colorMutation" data-sign="1" aria-label="Mărește mutația de culoare">+</button><input class="direct" type="number" id="colorMutationDirect" min="0" step="any" value="8" aria-label="Mutație de culoare exactă"></div><div class="tune-meta"><span id="colorMutationRange">0–64</span><span id="colorMutationExtend" class="extension"></span></div><p class="note">Un singur canal RGB se modifică la naștere, în limita ±Δ. 0 = moștenire identică. Riscul RGB de bază: 1% + distanța cromatică ponderată 3:2:1 până la 100%; Collision Risk × îl scalează.</p></div><div class="tune" id="tune-sameColorAttraction"><div class="tune-title"><span>Atracție către culori similare</span><output id="sameColorAttractionValue">20%</output></div><div class="tune-line"><button class="nudge" type="button" data-tune="sameColorAttraction" data-sign="-1" aria-label="Micșorează atracția către culori similare">−</button><input id="sameColorAttraction" type="range" min="0" max="100" step="any" value="20" data-base-max="100" aria-label="Atracție către culori similare"><button class="nudge plus" type="button" data-tune="sameColorAttraction" data-sign="1" aria-label="Mărește atracția către culori similare">+</button><input class="direct" type="number" id="sameColorAttractionDirect" min="0" max="100" step="any" value="20" aria-label="Atracție culori similare exactă"></div><div class="tune-meta"><span id="sameColorAttractionRange">0–100</span><span id="sameColorAttractionExtend" class="extension"></span></div></div><div class="tune" id="tune-differentColorRepulsion"><div class="tune-title"><span>Respingere față de culori diferite</span><output id="differentColorRepulsionValue">20%</output></div><div class="tune-line"><button class="nudge" type="button" data-tune="differentColorRepulsion" data-sign="-1" aria-label="Micșorează respingerea față de culori diferite">−</button><input id="differentColorRepulsion" type="range" min="0" max="100" step="any" value="20" data-base-max="100" aria-label="Respingere față de culori diferite"><button class="nudge plus" type="button" data-tune="differentColorRepulsion" data-sign="1" aria-label="Mărește respingerea față de culori diferite">+</button><input class="direct" type="number" id="differentColorRepulsionDirect" min="0" max="100" step="any" value="20" aria-label="Respingere culori diferite exactă"></div><div class="tune-meta"><span id="differentColorRepulsionRange">0–100</span><span id="differentColorRepulsionExtend" class="extension"></span></div></div><label class="setting"><span>Aplică aceste preferințe și asupra culorii hranei</span><input id="foodColorPreference" type="checkbox"/></label><p class="note">AI-ul poate căuta șerpi cu culori similare și evita șerpii foarte diferiți. Opțional, aceeași logică se aplică și atunci când alege între bucăți de hrană de culori diferite.</p><div class="tune" id="tune-foodGeneMutation"><div class="tune-title"><span>Food intolerance gene · mutation chance / birth</span><output id="foodGeneMutationValue">5%</output></div><div class="tune-line"><button class="nudge" type="button" data-tune="foodGeneMutation" data-sign="-1" aria-label="Decrease Food intolerance gene · mutation chance / birth">−</button><input id="foodGeneMutation" type="range" min="0" max="100" step="any" value="5" data-base-max="100" aria-label="Food intolerance gene · mutation chance / birth"><button class="nudge plus" type="button" data-tune="foodGeneMutation" data-sign="1" aria-label="Increase Food intolerance gene · mutation chance / birth">+</button><input class="direct" type="number" id="foodGeneMutationDirect" min="0" step="any" value="5" aria-label="Exact Food intolerance gene · mutation chance / birth"></div><div class="tune-meta"><span id="foodGeneMutationRange">0–100</span><span id="foodGeneMutationExtend" class="extension"></span></div></div><div class="tune" id="tune-founderSusceptibility"><div class="tune-title"><span>Founder susceptibility to vine genes & color</span><output id="founderSusceptibilityValue">50%</output></div><div class="tune-line"><button class="nudge" type="button" data-tune="founderSusceptibility" data-sign="-1" aria-label="Decrease Founder susceptibility to vine genes & color">−</button><input id="founderSusceptibility" type="range" min="0" max="100" step="any" value="50" data-base-max="100" aria-label="Founder susceptibility to vine genes & color"><button class="nudge plus" type="button" data-tune="founderSusceptibility" data-sign="1" aria-label="Increase Founder susceptibility to vine genes & color">+</button><input class="direct" type="number" id="founderSusceptibilityDirect" min="0" step="any" value="50" aria-label="Exact Founder susceptibility to vine genes & color"></div><div class="tune-meta"><span id="founderSusceptibilityRange">0–100</span><span id="founderSusceptibilityExtend" class="extension"></span></div></div><p class="note">AI food-distance gene: −100 = avoid eating; 0 = prefer the nearest berry; +100 = seek the farthest visible berry. Offspring may inherit or mutate this gene. Dead snakes transfer it through vine-covered body segments; repeated berries from one vine increase genetic exposure.</p><p class="note">Food intolerance is a signed gene (−100…+100), starting at 0. Positive values scale food-color toxicity and can pass to offspring with a probability equal to the gene value. Negative values increase collision survival but are never passed directly to offspring; dead snakes can transmit either sign through vines. Susceptibility controls whether vines can alter a snake when it eats.</p><div class="tune" id="tune-decay"><div class="tune-title"><span>Scurtare șerpi · interval (s); 0 = oprit</span><output id="decayValue">20</output></div><div class="tune-line"><button class="nudge" type="button" data-tune="decay" data-sign="-1" aria-label="Micșorează Scurtare șerpi · interval (s); 0 = oprit">−</button><input id="decay" type="range" min="0" max="120" step="0.1" value="20" data-base-max="120" aria-label="Scurtare șerpi · interval (s); 0 = oprit"><button class="nudge plus" type="button" data-tune="decay" data-sign="1" aria-label="Mărește Scurtare șerpi · interval (s); 0 = oprit">+</button><input class="direct" type="number" id="decayDirect" min="0" step="0.1" value="20" aria-label="Valoare exactă: Scurtare șerpi · interval (s); 0 = oprit"></div><div class="tune-meta"><span id="decayRange">0–120</span><span id="decayExtend" class="extension"></span></div></div><div class="tune" id="tune-radius"><div class="tune-title"><span>Raza hranei pentru pui · celule</span><output id="radiusValue">5</output></div><div class="tune-line"><button class="nudge" type="button" data-tune="radius" data-sign="-1" aria-label="Micșorează Raza hranei pentru pui · celule">−</button><input id="radius" type="range" min="0" max="12" step="0.1" value="5" data-base-max="12" aria-label="Raza hranei pentru pui · celule"><button class="nudge plus" type="button" data-tune="radius" data-sign="1" aria-label="Mărește Raza hranei pentru pui · celule">+</button><input class="direct" type="number" id="radiusDirect" min="0" step="0.1" value="5" aria-label="Valoare exactă: Raza hranei pentru pui · celule"></div><div class="tune-meta"><span id="radiusRange">0–12</span><span id="radiusExtend" class="extension"></span></div></div><label class="setting"><span>Fade coadă înainte de scurtare</span><input id="fade" type="checkbox" checked/></label></section><section class="food-section"><h2 class="sideheading">03 / Hrană · două moduri</h2>
 <div class="food-mode-choice" role="group" aria-label="Modul de generare a hranei">
  <button type="button" data-food-mode="ecology" class="active" aria-pressed="true">◎ Ecology · vines</button>
  <button type="button" data-food-mode="timed" aria-pressed="false">◷ Interval aleatoriu</button>
@@ -1532,7 +1551,7 @@ const $=id=>document.getElementById(id),canvas=$('game'),ctx=canvas.getContext('
 const DIR={up:{x:0,y:-1},down:{x:0,y:1},left:{x:-1,y:0},right:{x:1,y:0}},DIRECTIONS=Object.values(DIR);
 const FOOD_BASE_COLOR='#b4f287'; // same RGB as the founder at initial creation
 const COLORS=['#b4f287','#b4a1ff','#6cd4f7','#fbb77d','#f27ba8','#ebdf78','#78e2b9','#f58d88','#9fc4fd','#cb9ee5','#ead1a4'];
-let opts={currentTheme:'cyber-slate',currentLayout:'cockpit',dpadVisible:false,worldMode:'finite',worldSeed:'12345',enableFaux3D:false,topScale:0.70,topAlpha:0.50,middleK:0.50,bottomAlpha:1.0,wireframeGrid:true,wireframeSnakes:true,initialVineSize:3,vineShape:'square',emojiOpacity:0.70,emojiPalette:['🔷', '🔹', '💠', '❄️', '💎', '🔶', '🔸', '🔆', '⭐', '✨'],gameMode:'sandbox',currentSurvivalStarter:'green',duplication:{grid:true,snakes:true,heads:true,berries:true,emojis:false,vineFootprints:false,vineLabels:false,heatmap:false,contactMarks:false,parentChildLinks:false,coordinates:false,editor:false},eternalBond:false,mode3x:false,zoom:1.0,cols:30,rows:22,speed:5,timeScale:1,mode3x:false,zoom:1.0,moonCycle:60,lunarReproduction:true,mutation:.35,colorMutation:8,moonBerryEffect:50,foodGeneMutation:5,founderSusceptibility:50,vineSpreadChance:25,vineAbsorbChance:100,sameColorAttraction:8,differentColorRepulsion:8,foodColorPreference:false,tailStealing:false,subpixel:false,subdivisions:4,collisionScale:100,decay:20,radius:5,eternalBond:false,foodDecay:.4,foodDensity:2.5,foodSpawn:.8,foodNodes:10,foodRadius:6,initialFood:2,baseFertility:1,corpseImpact:0.8,corpseLifetime:25,corpseRadius:1.5,showContactMarks:true,showDeathHeatmap:false,showNodes:false,numbers:false,showGrid:true,lightMode:false,fib:true,selfCut:false,family:false,noCollision:false,walls:false,fade:true,foodMode:"ecology",spawnMin:2,spawnMax:6,lifeMin:4,lifeMax:12};
+let opts={currentTheme:'cyber-slate',currentLayout:'cockpit',dpadVisible:false,worldMode:'finite',worldSeed:'12345',enableFaux3D:false,topScale:0.70,topAlpha:0.50,middleK:0.50,bottomAlpha:1.0,wireframeGrid:true,wireframeSnakes:true,initialVineSize:3,vineShape:'square',emojiOpacity:0.70,emojiPalette:['🔷', '🔹', '💠', '❄️', '💎', '🔶', '🔸', '🔆', '⭐', '✨'],gameMode:'sandbox',currentSurvivalStarter:'green',duplication:{grid:true,snakes:true,heads:true,berries:true,emojis:false,vineFootprints:false,vineLabels:false,heatmap:false,contactMarks:false,parentChildLinks:false,coordinates:false,editor:false},eternalBond:false,mode3x:false,zoom:1.0,cols:30,rows:22,speed:5,timeScale:1,mode3x:false,zoom:1.0,moonCycle:60,lunarReproduction:true,mutation:.35,colorMutation:8,moonBerryEffect:50,foodGeneMutation:5,founderSusceptibility:50,vineSpreadChance:25,vineAbsorbChance:100,sameColorAttraction:20,differentColorRepulsion:20,foodColorPreference:false,tailStealing:false,subpixel:false,subdivisions:4,collisionScale:100,decay:20,radius:5,eternalBond:false,foodDecay:.4,foodDensity:2.5,foodSpawn:.8,foodNodes:10,foodRadius:6,initialFood:2,baseFertility:1,corpseImpact:0.8,corpseLifetime:25,corpseRadius:1.5,showContactMarks:true,showDeathHeatmap:false,showNodes:false,numbers:false,showGrid:true,lightMode:false,fib:true,selfCut:false,family:false,noCollision:false,walls:false,fade:true,foodMode:"ecology",spawnMin:2,spawnMax:6,lifeMin:4,lifeMax:12};
 let nodeSlots=0,nextVineId=1,cachedVineCells=null,vineCacheTime=0;
 let microFoods=[],contactMarks=new Map(),deathHeatmap=new Map(),heatmapDirty=false,heatSegments=0,nutrientStatsClock=0,foodNodes=[],foodNodesById=new Map(),ecoClock=0,nodeFlashUntil=0,ecoNote='—',snakes=[],foods=[],selected=new Set([1]),nextId=1,births=0,eaten=0,phase='ready',lastFrame=0,decayClock=0,hover=null,renderListNeedsUpdate=true,logItems=[],lastLog='',modePreset=1;
 let persistedSnakeControls={};
@@ -6219,6 +6238,308 @@ if (typeof window !== 'undefined') {
 }
 
 
+/**
+ * Child Maturity & Clan Leadership Engine.
+ *
+ * Requirements:
+ * - A small snake (child / subpixel segments) matures into a BIG adult (1×1 segments) ONLY IF:
+ *   1. NO LIVING LEADER: Neither mother/matriarch nor older brother alive above it.
+ *      It must be the clan head with no living superior authority.
+ *   2. AT LEAST ONE FOLLOWER: Must have at least one living follower / younger child
+ *      chained to its leadership. If followers == 0, it cannot become big.
+ *   3. MINIMUM LENGTH OF 5: Body length >= 5 segments.
+ *   4. LUNAR PROPORTIONAL GATING:
+ *      - At Full Moon (🌕 phase = 0.5): 100% instant maturity chance (1.0).
+ *      - At New Moon (🌑 phase = 0.0 or 1.0): 0% chance (100% delayed until moon grows).
+ *      - Linear proportional scaling between new moon and full moon:
+ *        chance = 1.0 - 2 * |phase - 0.5|.
+ *   5. HUMAN PLAYER CHOICE: Human users (manual snakes / selected) have the choice
+ *      to mature by pressing the '+' key!
+ *
+ * Coordinator: RC-Znk-01 [uncle of RC03-Wisly]
+ */
+
+'use strict';
+
+/**
+ * Calculates linear proportional maturity chance based on lunar phase.
+ * @param {number} moonPhaseOrClock - Normalized phase [0, 1) or moonClockMs
+ * @param {number} [moonCycle=60] - Moon cycle duration in seconds
+ * @returns {number} Chance in range [0.0, 1.0] (0 at new moon, 1 at full moon)
+ */
+function calculateLunarMaturityChance(moonPhaseOrClock, moonCycle = 60) {
+  let phase;
+  if (typeof moonPhaseOrClock === 'number') {
+    if (moonPhaseOrClock >= 0 && moonPhaseOrClock <= 1) {
+      phase = moonPhaseOrClock;
+    } else {
+      const cycleMs = Math.max(1, moonCycle * 1000);
+      phase = ((moonPhaseOrClock % cycleMs) + cycleMs) % cycleMs / cycleMs;
+    }
+  } else {
+    phase = 0.5;
+  }
+
+  // phase: 0 = new moon, 0.5 = full moon, 1 = new moon
+  // Linear distance from new moon to full moon:
+  // At phase = 0.5 -> 1.0 - 2 * 0 = 1.0 (100% instant)
+  // At phase = 0.0 -> 1.0 - 2 * 0.5 = 0.0 (0% delayed)
+  // At phase = 0.25 -> 1.0 - 2 * 0.25 = 0.5 (50%)
+  // At phase = 0.75 -> 1.0 - 2 * 0.25 = 0.5 (50%)
+  const chance = Math.max(0, Math.min(1.0, 1.0 - 2 * Math.abs(phase - 0.5)));
+  return Number(chance.toFixed(4));
+}
+
+/**
+ * Finds all active living followers of a given snake.
+ * @param {object} snake - Candidate snake
+ * @param {Array<object>} allSnakes - All living snakes
+ * @param {Map|object} [clanHierarchy] - Clan hierarchy map
+ * @returns {Array<object>} Array of follower snakes
+ */
+function getSnakeFollowers(snake, allSnakes = [], clanHierarchy = null) {
+  if (!snake || !Array.isArray(allSnakes)) return [];
+  const followers = [];
+
+  for (const other of allSnakes) {
+    if (!other || other.id === snake.id) continue;
+
+    // Direct parentId linkage
+    if (other.parentId === snake.id) {
+      followers.push(other);
+      continue;
+    }
+
+    // Active authority linkage via clan hierarchy
+    if (clanHierarchy) {
+      const h = (typeof clanHierarchy.get === 'function')
+        ? clanHierarchy.get(other.id)
+        : clanHierarchy[other.id];
+      if (h && h.activeAuthority && h.activeAuthority.id === snake.id) {
+        followers.push(other);
+        continue;
+      }
+    }
+
+    // Direct authority object reference
+    if (other.activeAuthority && other.activeAuthority.id === snake.id) {
+      followers.push(other);
+    }
+  }
+
+  return followers;
+}
+
+/**
+ * Checks if a snake satisfies all core prerequisites to mature into a big adult (1x1).
+ * @param {object} snake - Candidate snake
+ * @param {Array<object>} allSnakes - All living snakes
+ * @param {Map|object} [clanHierarchy] - Clan hierarchy
+ * @returns {object} { eligible: boolean, reasons: string[], followers: Array, followersCount: number }
+ */
+function isSnakeEligibleForMaturity(snake, allSnakes = [], clanHierarchy = null) {
+  if (!snake) {
+    return { eligible: false, reasons: ['No snake provided'], followers: [], followersCount: 0 };
+  }
+
+  const reasons = [];
+
+  // Must currently be a child / subpixel / dependent snake
+  const isChild = snake.isSubpixel === true || snake.dependent === true || (snake.parentId != null && allSnakes.some(s => s.id === snake.parentId));
+  if (!isChild) {
+    reasons.push('Already adult (not a child or subpixel snake)');
+  }
+
+  // 1. Length requirement: at least 5 segments
+  const len = Array.isArray(snake.body) ? snake.body.length : (snake.length || 0);
+  if (len < 5) {
+    reasons.push(`Length is ${len} < 5 segments`);
+  }
+
+  // 2. Leader requirement: No living leader (no living mother/matriarch, no living older brother above it)
+  let hasLivingLeader = false;
+  if (clanHierarchy) {
+    const h = (typeof clanHierarchy.get === 'function')
+      ? clanHierarchy.get(snake.id)
+      : clanHierarchy[snake.id];
+
+    if (h) {
+      if (!h.isClanHead || (h.activeAuthority && h.activeAuthority.id !== snake.id && allSnakes.some(s => s.id === h.activeAuthority.id))) {
+        hasLivingLeader = true;
+        const leaderId = h.activeAuthority ? h.activeAuthority.id : (h.matriarch ? h.matriarch.id : 'clan_head');
+        reasons.push(`Has living authority/leader: #${leaderId}`);
+      }
+    }
+  } else {
+    // Fallback: check direct parent or older brother
+    if (snake.parentId != null) {
+      const parentAlive = allSnakes.some(s => s.id === snake.parentId);
+      if (parentAlive) {
+        hasLivingLeader = true;
+        reasons.push(`Living parent active: #${snake.parentId}`);
+      } else {
+        // Parent is dead: check if an older brother exists (same parentId, smaller id)
+        const olderBrotherAlive = allSnakes.some(s => s.parentId === snake.parentId && s.id < snake.id);
+        if (olderBrotherAlive) {
+          hasLivingLeader = true;
+          reasons.push(`Living older brother active for parent: #${snake.parentId}`);
+        }
+      }
+    }
+  }
+
+  // 3. Followers requirement: at least one follower
+  const followers = getSnakeFollowers(snake, allSnakes, clanHierarchy);
+  if (followers.length < 1) {
+    reasons.push('No followers (requires at least 1 follower to become big)');
+  }
+
+  const eligible = reasons.length === 0;
+  return {
+    eligible,
+    reasons,
+    followers,
+    followersCount: followers.length
+  };
+}
+
+/**
+ * Physically transforms a small subpixel child snake into a full-sized 1x1 adult.
+ * @param {object} snake - Snake to mature
+ * @param {Function} [adaptGeometryFn] - adaptChildGeometry function reference
+ * @returns {object} { success: boolean, snake }
+ */
+function matureChildToAdult(snake, adaptGeometryFn = null) {
+  if (!snake) return { success: false, snake: null };
+
+  snake.dependent = false;
+  snake.familySafe = false;
+  snake.parentId = null;
+  snake.isSubpixel = false;
+  snake.hasReachedMother = true;
+
+  // Adapt physical coordinates to whole integer grid (1x1 cells)
+  if (typeof adaptGeometryFn === 'function') {
+    adaptGeometryFn(snake);
+  } else if (typeof adaptChildGeometry === 'function') {
+    adaptChildGeometry(snake);
+  } else if (Array.isArray(snake.body)) {
+    snake.body = snake.body.map(p => ({
+      x: Math.round(p.x),
+      y: Math.round(p.y)
+    }));
+  }
+
+  return { success: true, snake };
+}
+
+/**
+ * Evaluates whether an eligible snake should mature this tick (accounting for lunar gating and human choice).
+ * @param {object} snake - Candidate snake
+ * @param {Array<object>} allSnakes - All living snakes
+ * @param {number} moonPhase - Normalized lunar phase
+ * @param {Map|object} [clanHierarchy] - Clan hierarchy
+ * @param {boolean} [isManualTrigger=false] - Whether triggered manually via '+' key
+ * @param {Function} [adaptGeometryFn] - adaptChildGeometry function reference
+ * @returns {object} Result object { matured: boolean, eligible: boolean, lunarChance: number, reason: string }
+ */
+function evaluateAndApplyMaturity(
+  snake,
+  allSnakes = [],
+  moonPhase = 0.5,
+  clanHierarchy = null,
+  isManualTrigger = false,
+  adaptGeometryFn = null
+) {
+  const check = isSnakeEligibleForMaturity(snake, allSnakes, clanHierarchy);
+  const lunarChance = calculateLunarMaturityChance(moonPhase);
+
+  if (!check.eligible) {
+    return {
+      matured: false,
+      eligible: false,
+      lunarChance,
+      reason: check.reasons.join(', ')
+    };
+  }
+
+  const isHuman = snake.control === 'manual';
+
+  // Case 1: Manual trigger by user pressing '+' key
+  if (isManualTrigger) {
+    // If at absolute new moon (0% chance), maturation is blocked until moon progresses
+    if (lunarChance <= 0) {
+      return {
+        matured: false,
+        eligible: true,
+        lunarChance,
+        reason: 'new_moon_delayed'
+      };
+    }
+    // Player chosen maturation!
+    matureChildToAdult(snake, adaptGeometryFn);
+    return {
+      matured: true,
+      eligible: true,
+      lunarChance,
+      reason: 'manual_plus_key'
+    };
+  }
+
+  // Case 2: Human snake without manual trigger -> user has the choice, don't force auto-maturation
+  if (isHuman) {
+    return {
+      matured: false,
+      eligible: true,
+      lunarChance,
+      reason: 'human_choice_pending'
+    };
+  }
+
+  // Case 3: AI snake -> lunar gated probability roll
+  // At full moon (1.0), it is instant!
+  // At new moon (0.0), it is 0% chance (100% delayed).
+  if (lunarChance <= 0) {
+    return {
+      matured: false,
+      eligible: true,
+      lunarChance,
+      reason: 'new_moon_delayed'
+    };
+  }
+
+  const roll = Math.random();
+  if (roll < lunarChance) {
+    matureChildToAdult(snake, adaptGeometryFn);
+    return {
+      matured: true,
+      eligible: true,
+      lunarChance,
+      reason: 'ai_lunar_roll_success'
+    };
+  }
+
+  return {
+    matured: false,
+    eligible: true,
+    lunarChance,
+    reason: 'ai_lunar_roll_failed'
+  };
+}
+
+const ChildMaturityEngine = {
+  calculateLunarMaturityChance,
+  getSnakeFollowers,
+  isSnakeEligibleForMaturity,
+  matureChildToAdult,
+  evaluateAndApplyMaturity
+};
+
+if (typeof window !== 'undefined') {
+  window.ChildMaturityEngine = ChildMaturityEngine;
+}
+
+
 function checkEmergencyEmojiConsumption(snake, cell){
   if(!snake || snake.body.length > 3) return false;
   const ref = typeof getReferenceEmoji === 'function' ? getReferenceEmoji(cell.x, cell.y, opts.worldSeed) : null;
@@ -7086,8 +7407,8 @@ function chooseAI(s){if(s.fleeSteps>0&&inBoard(advance(s.body[0],s.dir,s)))retur
   let score=d*(1-2*farthestPreference);
   if(opts.foodColorPreference){
    const sim=colorSimilarity(s.color,colorOfFood(f));
-   score-=opts.sameColorAttraction*sim*.35;
-   score+=opts.differentColorRepulsion*(1-sim)*.35;
+   score-=(opts.sameColorAttraction*0.4)*sim*.35;
+   score+=(opts.differentColorRepulsion*0.4)*(1-sim)*.35;
   }
   if(score<bestFoodScore){bestFoodScore=score;target=f;}
  }
@@ -7122,10 +7443,10 @@ function chooseAI(s){if(s.fleeSteps>0&&inBoard(advance(s.body[0],s.dir,s)))retur
    if(other===s)continue;
    const dd=dist(p,other.body[0]);
    const sim=colorSimilarity(s.color,other.color);
-   let effAttr=opts.sameColorAttraction,effRep=opts.differentColorRepulsion;
+   let effAttr=(opts.sameColorAttraction*0.4),effRep=(opts.differentColorRepulsion*0.4);
    if(typeof calculateEffectiveClanColorResonance==='function'){
      const hMap=typeof Mode3XEngine!=='undefined'?Mode3XEngine.buildClanHierarchy(snakes):null;
-     const res=calculateEffectiveClanColorResonance(s,opts.sameColorAttraction,opts.differentColorRepulsion,moonClockMs,opts.moonCycle,hMap,snakes);
+     const res=calculateEffectiveClanColorResonance(s,(opts.sameColorAttraction*0.4),(opts.differentColorRepulsion*0.4),moonClockMs,opts.moonCycle,hMap,snakes);
      if(res&&res.isActive){effAttr=res.effectiveAttraction;effRep=res.effectiveRepulsion;}
    }
    colorField+=effAttr*sim*inverseDistanceWeight(dd);
@@ -7168,7 +7489,25 @@ function spawnSelfCut(s,candidate,idx){const old=s.body;const childBody=old.slic
  if(opts.family&&child.body.length>s.body.length){child.dependent=false;child.familySafe=false;info('Noul pui #'+child.id+' este deja mai lung decât părintele #'+s.id+' — independent.');}
  else info('Auto-mușcare: #'+s.id+' desprinde #'+child.id+' ('+child.body.length+' segmente).');
  return true;}
-function updateDependents(){for(const s of snakes){if(!s.dependent){adaptChildGeometry(s);continue;}const parent=owner(s.parentId);if(!parent||s.body.length>parent.body.length){s.dependent=false;s.familySafe=false;renderListNeedsUpdate=true;info('Șarpele #'+s.id+' a devenit independent'+(parent?' (mai lung decât #'+parent.id+')':' (părintele nu mai trăiește)')+'.');}adaptChildGeometry(s);}}
+function updateDependents(){
+ const hMap=(typeof Mode3XEngine!=='undefined')?Mode3XEngine.buildClanHierarchy(snakes):null;
+ const lPhase=typeof lunarPhase==='function'?lunarPhase():0.5;
+ for(const s of snakes){
+  if(!s.dependent&&!s.isSubpixel){adaptChildGeometry(s);continue;}
+  if(typeof ChildMaturityEngine!=='undefined'){
+   const res=ChildMaturityEngine.evaluateAndApplyMaturity(s,snakes,lPhase,hMap,false,adaptChildGeometry);
+   if(res&&res.matured){
+    renderListNeedsUpdate=true;
+    info('🎉 MATURIZARE! Puiul #'+s.id+' a devenit adult mare (1×1)!');
+   }
+  }else{
+   const parent=owner(s.parentId);
+   const stayDep=typeof shouldChildRemainDependent==='function'?shouldChildRemainDependent(s,parent,opts):(opts.eternalBond?true:(parent?s.body.length<=parent.body.length:false));
+   if(!stayDep){s.dependent=false;s.familySafe=false;renderListNeedsUpdate=true;info('Șarpele #'+s.id+' a devenit independent'+(parent?' (mai lung decât #'+parent.id+')':' (părintele nu mai trăiește)')+'.');}
+   adaptChildGeometry(s);
+  }
+ }
+}
 function stepAll(dt){if(phase!=='running')return;
  moonClockMs+=dt;
  advanceNutrients(dt);ageBerries(dt);if(opts.foodMode==='timed')timedFoodTick(dt);else ecoTick(dt);if(opts.decay>0)decayClock+=dt;else decayClock=0;const decayMs=opts.decay*1000;if(opts.decay>0&&decayClock>=decayMs){const times=Math.floor(decayClock/decayMs);decayClock%=decayMs;for(const s of [...snakes]){if(s.body.length<=times)kill(s,'a devenit hrană (epuizat)');else{s.body.splice(-times,times);renderListNeedsUpdate=true;}}updateDependents();}
@@ -7772,8 +8111,8 @@ const TUNES={cols:{integer:true,min:5,unit:'',apply:v=>{opts.cols=v;gridChanged(
  founderSusceptibility:{min:0,max:100,unit:'%',apply:v=>{opts.founderSusceptibility=v;}},
  vineSpreadChance:{min:0,max:100,unit:'%',apply:v=>{opts.vineSpreadChance=v;for(const n of foodNodes)n.spreadChance=v;}},
  vineAbsorbChance:{min:0,max:100,unit:'%',apply:v=>{opts.vineAbsorbChance=v;for(const n of foodNodes)n.absorbChance=v;refreshVinePicker();}},
- sameColorAttraction:{min:0,unit:'',apply:v=>{opts.sameColorAttraction=v;}},
- differentColorRepulsion:{min:0,unit:'',apply:v=>{opts.differentColorRepulsion=v;}},
+ sameColorAttraction:{min:0,max:100,unit:'%',apply:v=>{opts.sameColorAttraction=v;}},
+ differentColorRepulsion:{min:0,max:100,unit:'%',apply:v=>{opts.differentColorRepulsion=v;}},
  collisionScale:{min:0,unit:'%',apply:v=>{opts.collisionScale=v;}},
  moonCycle:{min:0,unit:' s',apply:v=>{opts.moonCycle=v;updateMoonUI(true);}},
  decay:{min:0,unit:' s',apply:v=>{opts.decay=v;}},radius:{min:0,unit:'',apply:v=>{opts.radius=v;}},
@@ -8926,6 +9265,31 @@ window.addEventListener('keydown',e=>{if(e.key==='Enter'&&(latchedSliders.size||
   else changePrecision(plusKey?-1:1);
   return;
  }
+ if(!e.shiftKey&&plusKey&&!isEditing){
+  let maturedCount=0;
+  const hMap=(typeof Mode3XEngine!=='undefined')?Mode3XEngine.buildClanHierarchy(snakes):null;
+  const lPhase=typeof lunarPhase==='function'?lunarPhase():0.5;
+  for(const id of selected){
+   const s=owner(id);
+   if(s&&(s.dependent||s.isSubpixel)){
+    if(typeof ChildMaturityEngine!=='undefined'){
+     const res=ChildMaturityEngine.evaluateAndApplyMaturity(s,snakes,lPhase,hMap,true,adaptChildGeometry);
+     if(res&&res.matured){
+      maturedCount++;
+      renderListNeedsUpdate=true;
+      info('🎉 ALEGERE JUCĂTOR: Șarpele #'+s.id+' a crescut la mărime adultă (1×1)!');
+     }else if(res&&res.reason==='new_moon_delayed'){
+      info('🌑 Creșterea șarpelui #'+s.id+' este temporar amânată de Luna Nouă.');
+     }else if(res&&!res.eligible){
+      info('ℹ️ Șarpele #'+s.id+' nu poate deveni mare încă: '+(res.reason||'condiții neîndeplinite'));
+     }
+    }
+   }
+  }
+  if(maturedCount>0){
+   refresh();draw();e.preventDefault();return;
+  }
+ }
  if(isEditing)return;
  let k=e.key.toLowerCase();
  if(e.shiftKey&&/^Digit[1-9]$/.test(e.code)){e.preventDefault();exclusiveSelect(Number(e.code.slice(5)));return;}
@@ -8960,7 +9324,7 @@ function advanceSimulation(realDt){
 function frame(now){if(!lastFrame)lastFrame=now;const dt=Math.min(85,Math.max(0,now-lastFrame));lastFrame=now;advanceSimulation(dt);updateMoonUI();if(renderListNeedsUpdate)updateList();draw(now);requestAnimationFrame(frame);}
 window.addEventListener('resize',resize);if(typeof ResizeObserver!=='undefined')new ResizeObserver(resize).observe(board);
 restoreSettings();restoreHeatmap();restoreVines();if(typeof applyThemeMode==='function')applyThemeMode(opts.currentTheme);if(typeof applyLayoutMode==='function')applyLayoutMode(opts.currentLayout);initialize();resize();if(typeof TripleEPressDetector==='function')window._tripleEDetector=new TripleEPressDetector(()=>{if(typeof openSecretMenu==='function')openSecretMenu({opts,snakes,foods,selected,nextId,contactMarks,renderListNeedsUpdate,phase});},{autoAttach:true});if(typeof ModePController==='function')window._modePController=new ModePController({opts,snakes,foods,selected,nextId,contactMarks,renderListNeedsUpdate,phase},{autoAttach:true});updateMoonUI(true);requestAnimationFrame(frame);
-window.__snakeLab={debugIndividualistGene:typeof IndividualistGeneEngine!=='undefined'?IndividualistGeneEngine:null,debugMode3X:typeof Mode3XEngine!=='undefined'?Mode3XEngine:null,debugMaternalBond:{calculateEffectiveAdventureRadius,mutateAdventureGene,shouldChildRemainDependent,absorbAdventureGeneInNode,advanceAdventureGeneFromVine},debugWireframe:()=>({camera,opts,computeMiddleOpacity,getReferenceEmoji,inBoard,advance,dist,setWorldMode:(m)=>{opts.worldMode=m;draw();},setFaux3D:(f)=>{opts.enableFaux3D=!!f;draw();},setTopScale:(s)=>{opts.topScale=s;draw();},setTopAlpha:(a)=>{opts.topAlpha=a;draw();},setMiddleK:(k)=>{opts.middleK=k;draw();},setTheme:applyThemeMode,setLayout:applyLayoutMode,getLayout:()=>opts.currentLayout,updateTelemetry:updateTelemetryBar,draw:()=>draw()}),debugMaternalTransfer:calculateMaternalTransfer,debugEmojiEatChance:calculateEmojiEatChance,debugAttemptEmojiEat:attemptEmergencyEmojiConsumption,debugDisorientation:applyDisorientation,debugCleanseToxicity:cleanseToxicityOnBerry,debugGetStarters:getStarterSnakes,debugStartSurvival:startSurvivalRun,debugExitSurvival:exitSurvivalRun,debugSetVineShape:(s)=>{opts.vineShape=s;cachedVineCells=null;vineMixCache.clear();draw();},debugBlackPortal:{createBlackPortal,spawnPortalSnakes,renderBlackPortal},debugSecretMenu:{openSecretMenu,closeSecretMenu,isSecretMenuOpen,saveCustomEntity,loadCustomEntities,saveCustomMap,loadCustomMaps},debugModeP:{enterModeP,exitModeP,toggleModeP,isModePActive,getAllAvailableMaps},getUI:()=>({immersive:document.body.classList.contains('immersive'),menuOpen:!document.body.classList.contains('menu-closed'),showAll:document.body.classList.contains('menu-all'),canvasWidth:canvas.clientWidth,canvasHeight:canvas.clientHeight,boardHeight:board.clientHeight,sidebarScrollHeight:$('settingsPanel').scrollHeight,sidebarHeight:$('settingsPanel').clientHeight}),enterImmersive,exitImmersive,toggleMenu,getState:()=>({phase,opts:{...opts},snakes:snakes.map(s=>({id:s.id,length:s.body.length,pending:s.pending,parentId:s.parentId,dependent:s.dependent,familySafe:s.familySafe,control:s.control,speedFactor:s.speedFactor,color:s.color,fertility:s.fertility,collisionResistance:s.collisionResistance,twinGene:s.twinGene,subpixel:snakeSubcell(s),foodGene:s.foodGene,foodSeekingGene:s.foodSeekingGene,adventureGene:s.adventureGene||0,vineSusceptibility:s.vineSusceptibility,moonSpeedGene:s.moonSpeedGene,berrySlowFactor:s.berrySlowFactor||1,head:{...s.body[0]}})),foods:foods.length,nodes:foodNodes.length,nodePositions:foodNodes.map(n=>({...n})),births,eaten,selected:[...selected],moonPhase:lunarPhase(),moonClockMs}),select:exclusiveSelect,steer:(id,d)=>{steer(owner(id),d);refresh();},tick:stepAll,advanceSimulation,setTimeScale,setPreset,reset,feed:addFood,
+window.__snakeLab={debugChildMaturity:typeof ChildMaturityEngine!=='undefined'?ChildMaturityEngine:null,debugIndividualistGene:typeof IndividualistGeneEngine!=='undefined'?IndividualistGeneEngine:null,debugMode3X:typeof Mode3XEngine!=='undefined'?Mode3XEngine:null,debugMaternalBond:{calculateEffectiveAdventureRadius,mutateAdventureGene,shouldChildRemainDependent,absorbAdventureGeneInNode,advanceAdventureGeneFromVine},debugWireframe:()=>({camera,opts,computeMiddleOpacity,getReferenceEmoji,inBoard,advance,dist,setWorldMode:(m)=>{opts.worldMode=m;draw();},setFaux3D:(f)=>{opts.enableFaux3D=!!f;draw();},setTopScale:(s)=>{opts.topScale=s;draw();},setTopAlpha:(a)=>{opts.topAlpha=a;draw();},setMiddleK:(k)=>{opts.middleK=k;draw();},setTheme:applyThemeMode,setLayout:applyLayoutMode,getLayout:()=>opts.currentLayout,updateTelemetry:updateTelemetryBar,draw:()=>draw()}),debugMaternalTransfer:calculateMaternalTransfer,debugEmojiEatChance:calculateEmojiEatChance,debugAttemptEmojiEat:attemptEmergencyEmojiConsumption,debugDisorientation:applyDisorientation,debugCleanseToxicity:cleanseToxicityOnBerry,debugGetStarters:getStarterSnakes,debugStartSurvival:startSurvivalRun,debugExitSurvival:exitSurvivalRun,debugSetVineShape:(s)=>{opts.vineShape=s;cachedVineCells=null;vineMixCache.clear();draw();},debugBlackPortal:{createBlackPortal,spawnPortalSnakes,renderBlackPortal},debugSecretMenu:{openSecretMenu,closeSecretMenu,isSecretMenuOpen,saveCustomEntity,loadCustomEntities,saveCustomMap,loadCustomMaps},debugModeP:{enterModeP,exitModeP,toggleModeP,isModePActive,getAllAvailableMaps},getUI:()=>({immersive:document.body.classList.contains('immersive'),menuOpen:!document.body.classList.contains('menu-closed'),showAll:document.body.classList.contains('menu-all'),canvasWidth:canvas.clientWidth,canvasHeight:canvas.clientHeight,boardHeight:board.clientHeight,sidebarScrollHeight:$('settingsPanel').scrollHeight,sidebarHeight:$('settingsPanel').clientHeight}),enterImmersive,exitImmersive,toggleMenu,getState:()=>({phase,opts:{...opts},snakes:snakes.map(s=>({id:s.id,length:s.body.length,pending:s.pending,parentId:s.parentId,dependent:s.dependent,familySafe:s.familySafe,control:s.control,speedFactor:s.speedFactor,color:s.color,fertility:s.fertility,collisionResistance:s.collisionResistance,twinGene:s.twinGene,subpixel:snakeSubcell(s),foodGene:s.foodGene,foodSeekingGene:s.foodSeekingGene,adventureGene:s.adventureGene||0,vineSusceptibility:s.vineSusceptibility,moonSpeedGene:s.moonSpeedGene,berrySlowFactor:s.berrySlowFactor||1,head:{...s.body[0]}})),foods:foods.length,nodes:foodNodes.length,nodePositions:foodNodes.map(n=>({...n})),births,eaten,selected:[...selected],moonPhase:lunarPhase(),moonClockMs}),select:exclusiveSelect,steer:(id,d)=>{steer(owner(id),d);refresh();},tick:stepAll,advanceSimulation,setTimeScale,setPreset,reset,feed:addFood,
  debugCollisionProbability:(a,b,resistance=0)=>collisionProbability(a,b,resistance),debugMutateColor:mutateColor,debugResistanceMutation:(id)=>{const s=owner(id);return s?mutateCollisionResistance(s):null;},debugResistanceRates:resistanceMutationRates,inspectSnake,closeInspector,
  debugFoodMismatchRisk:foodMismatchRisk,debugFoodFatality:(id,color)=>foodFatalityChance(owner(id),color),
  debugGetVines:()=>foodNodes.map(n=>({...n,pulses:n.pulses.map(p=>({...p}))})),
