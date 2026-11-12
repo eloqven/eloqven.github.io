@@ -973,21 +973,17 @@ body.layout-desktop-cockpit .wrap, body.layout-cockpit .wrap {
 }
 body.layout-desktop-cockpit .layout, body.layout-cockpit .layout {
   display: grid;
-  grid-template-columns: 340px minmax(0, 1fr);
-  grid-template-areas:
-    "sidebar main"
-    "telemetry telemetry";
+  grid-template-columns: minmax(0, 1fr) 340px;
   gap: 16px;
   align-items: start;
 }
 body.layout-desktop-cockpit .sidebar, body.layout-cockpit .sidebar {
-  grid-area: sidebar;
   max-height: calc(100vh - 120px);
   position: sticky;
   top: 14px;
 }
 body.layout-desktop-cockpit main.card, body.layout-cockpit main.card {
-  grid-area: main;
+  min-width: 0;
 }
 .cockpit-telemetry-bar {
   display: flex;
@@ -1003,10 +999,11 @@ body.layout-desktop-cockpit main.card, body.layout-cockpit main.card {
   font-size: 12px;
   color: #72a4cb;
   margin-top: 14px;
+  width: 100%;
 }
-body.layout-desktop-cockpit .cockpit-telemetry-bar, body.layout-cockpit .cockpit-telemetry-bar {
-  grid-area: telemetry;
-  margin-top: 0;
+body.layout-mobile-sheet .cockpit-telemetry-bar, body.layout-bottom-sheet .cockpit-telemetry-bar,
+body.layout-zen-overlay .cockpit-telemetry-bar, body.layout-zen .cockpit-telemetry-bar {
+  display: none;
 }
 
 /* ==========================================================================
@@ -1383,22 +1380,6 @@ body.layout-arcade-deck .btn.primary, body.layout-arcade .btn.primary {
 <div class="touch"><div class="touch-group"><b>Săgeți · selecția multiplă</b><div class="dpad" data-target="selected"><button class="dir up" data-dir="up">↑</button><button class="dir left" data-dir="left">←</button><button class="dir down" data-dir="down">↓</button><button class="dir right" data-dir="right">→</button></div></div><div class="touch-group"><b>Șarpe #1 · WASD</b><div class="dpad" data-target="1"><button class="dir up" data-dir="up">↑</button><button class="dir left" data-dir="left">←</button><button class="dir down" data-dir="down">↓</button><button class="dir right" data-dir="right">→</button></div></div><div class="touch-group"><b>Șarpe #2 · IJKL</b><div class="dpad" data-target="2"><button class="dir up" data-dir="up">↑</button><button class="dir left" data-dir="left">←</button><button class="dir down" data-dir="down">↓</button><button class="dir right" data-dir="right">→</button></div></div></div>
 <div class="inline-info"><span><span class="kbd">Shift</span> + <span class="kbd">2–9</span> selectează șarpele · <span class="kbd">Alt</span> + <span class="kbd">Shift</span> + <span class="kbd">+</span>/<span class="kbd">−</span> schimbă selecția · <span class="kbd">Shift</span> + <span class="kbd">+</span>/<span class="kbd">−</span> schimbă pasul sliderelor</span><span><span class="kbd">Space</span> pauză</span></div>
 </main>
-
-<div class="cockpit-telemetry-bar" id="cockpitTelemetry" aria-label="Telemetrie Desktop Cockpit">
-  <span id="telemetryWorld">LUMEA: FINITE 30×22</span>
-  <span id="telemetryCamera">CAM: (15, 11) ×1.0</span>
-  <span id="telemetryPopulation">ȘERPI: 1</span>
-  <span id="telemetryPhase">STARE: READY</span>
-  <span id="telemetryLayout">MOD: COCKPIT 🎛️</span>
-</div>
-<div class="floating-quick-bar" id="floatingQuickBar" aria-label="Acțiuni rapide mobile">
-  <button type="button" class="quick-btn primary" id="quickPlay">▶ Start</button>
-  <button type="button" class="quick-btn" id="quickAdd">+ Șarpe</button>
-  <button type="button" class="quick-btn" id="quickFeed">+ Hrană</button>
-  <button type="button" class="quick-btn" id="quickDPad">🕹️ D-Pad</button>
-  <button type="button" class="quick-btn" id="quickLayout">⇄ Layout</button>
-</div>
-
 <aside class="card sidebar sheet-collapsed" id="settingsPanel" aria-label="Configurare joc">
 <div class="sheet-drag-handle" id="sheetDragHandle" title="Glisează sau apasă pentru a deschide/închide setările"><span class="sheet-drag-pill"></span><span class="sheet-handle-text">▲ Panou Setări · Glisează sau apasă</span></div>
 <div class="panel-tools" id="panelTools"><div><b>CATEGORII · LIVE</b><small>Derulează separat · grila rămâne vizibilă</small></div><div class="panel-buttons"><button id="panelSliders" type="button" class="active">Slidere</button><button id="panelAll" type="button">Tot</button><button id="panelClose" type="button" aria-label="Ascunde panoul">×</button></div></div>
@@ -1478,7 +1459,24 @@ body.layout-arcade-deck .btn.primary, body.layout-arcade .btn.primary {
 <div id="snakeList" class="snake-list"></div><div class="select-actions"><button id="selectAll">Selectează toți</button><button id="selectNone">Deselectează</button><button id="allAi">Toți AI</button><button id="allManual">Toți manual</button></div></section>
 <section><h2 class="sideheading">05 / Editor & jurnal</h2><label class="field"><span>Click pe tablă pentru:</span><select id="editor"><option value="none">Inspectare</option><option value="food">Plasează hrană</option><option value="snake">Mută capul șarpelui selectat</option></select></label>
 <p class="note">Mutarea în editor este disponibilă în pauză. În modul Familie, puii devin independenți imediat ce depășesc lungimea părintelui.</p><div id="log" class="log" aria-live="polite"></div></section>
-</aside></div></div>
+</aside></div>
+
+<div class="cockpit-telemetry-bar" id="cockpitTelemetry" aria-label="Telemetrie Desktop Cockpit">
+  <span id="telemetryWorld">LUMEA: FINITE 30×22</span>
+  <span id="telemetryCamera">CAM: (15, 11) ×1.0</span>
+  <span id="telemetryPopulation">ȘERPI: 1</span>
+  <span id="telemetryPhase">STARE: READY</span>
+  <span id="telemetryLayout">MOD: COCKPIT 🎛️</span>
+</div>
+<div class="floating-quick-bar" id="floatingQuickBar" aria-label="Acțiuni rapide mobile">
+  <button type="button" class="quick-btn primary" id="quickPlay">▶ Start</button>
+  <button type="button" class="quick-btn" id="quickAdd">+ Șarpe</button>
+  <button type="button" class="quick-btn" id="quickFeed">+ Hrană</button>
+  <button type="button" class="quick-btn" id="quickDPad">🕹️ D-Pad</button>
+  <button type="button" class="quick-btn" id="quickLayout">⇄ Layout</button>
+</div>
+
+</div>
 <script>
 (()=>{'use strict';
 const $=id=>document.getElementById(id),canvas=$('game'),ctx=canvas.getContext('2d'),board=$('boardFrame');
@@ -2895,7 +2893,7 @@ function draw(now=performance.now()){
 function resize(){
  canvas.style.aspectRatio=opts.cols+'/'+opts.rows;
  // Make the physical canvas match its visible rectangle (also keeps click-to-cell mapping correct).
- const fit=document.body.classList.contains('immersive')||window.matchMedia('(min-width:981px)').matches;
+ const fit=document.body.classList.contains('immersive');
  if(fit&&board.clientWidth>0&&board.clientHeight>0){
   const ratio=opts.cols/opts.rows,pad=2;
   const w=Math.max(1,Math.min(board.clientWidth-pad,(board.clientHeight-pad)*ratio));
@@ -3404,11 +3402,13 @@ $('stopLatched').addEventListener('click',stopAllLatched);
     updateDpadVisibility();
   });
 
-  // Auto-enable D-Pad and bottom-sheet layout on mobile screens
+  // Auto-enable D-Pad and bottom-sheet layout on mobile screens, else desktop cockpit
   if(window.innerWidth <= 768){
     opts.dpadVisible = true;
     applyLayoutMode('bottom-sheet');
     updateDpadVisibility();
+  } else {
+    applyLayoutMode(opts.currentLayout || 'cockpit');
   }
 
   // Keyboard Shortcuts (T: cycle theme, L: cycle layout, D: toggle D-Pad)
