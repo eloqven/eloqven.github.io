@@ -6192,13 +6192,11 @@ function adaptChildGeometry(s){
  if(should===was)return;
  const head=s.body[0];if(!head)return;
  const size=should?(()=>{const sh=subShape();return {x:1/sh.cols,y:1/sh.rows};})():{x:1,y:1};
- const x=Math.max(0,Math.min(opts.cols-size.x,snapPosition(head.x,size.x)));
- const y=Math.max(0,Math.min(opts.rows-size.y,snapPosition(head.y,size.y)));
  s.isSubpixel=should;
- s.body=Array.from({length:s.body.length},(_,i)=>{
-  const xx=x-s.dir.x*i*size.x,yy=y-s.dir.y*i*size.y;
-  return {x:Number(((xx%opts.cols+opts.cols)%opts.cols).toFixed(6)),y:Number(((yy%opts.rows+opts.rows)%opts.rows).toFixed(6))};
- });
+ s.body=s.body.map(p=>({
+  x:Number(Math.max(0,Math.min(opts.cols-size.x,snapPosition(p.x,size.x))).toFixed(6)),
+  y:Number(Math.max(0,Math.min(opts.rows-size.y,snapPosition(p.y,size.y))).toFixed(6))
+ }));
 }
 function adaptAllChildren(){for(const s of snakes)adaptChildGeometry(s);renderListNeedsUpdate=true;refresh();}
 function advance(p,d,s=null){const sz=segmentSize(s);let q={x:Number((p.x+d.x*sz.x).toFixed(6)),y:Number((p.y+d.y*sz.y).toFixed(6))};if(opts.worldMode==='free-roam')return q;if(!opts.walls||opts.noCollision)q={x:Number((((q.x%opts.cols)+opts.cols)%opts.cols).toFixed(6)),y:Number((((q.y%opts.rows)+opts.rows)%opts.rows).toFixed(6))};return q;}
@@ -6717,8 +6715,8 @@ function speedForNew(parent,childLength){
  else shift=(r*2-1)*m;
  return clamp(parent.speedFactor*(1+shift),.35,2.8);
 }
-function born(body,dir,parent=null,role='pui',forceAI=null,isTwinBirth=false){const id=++nextId;const s={id,body:body.map(p=>({...p})),dir:{...dir},next:null,control:(persistedSnakeControls[id]??(forceAI===null?(parent?'ai':'manual'):(forceAI?'ai':'manual'))),parentId:parent?.id??null,dependent:!!(opts.family&&parent),familySafe:!!(opts.family&&parent),generation:parent?parent.generation+1:1,color:parent?mutateColor(parent.color):COLORS[(id-1)%COLORS.length],speedFactor:speedForNew(parent,body.length),speedDebt:0,fertility:lunarBirthMutation(parent),collisionResistance:mutateCollisionResistance(parent),twinGene:mutateTwinGene(parent),moonSpeedGene:mutateMoonSpeedGene(parent),foodGene:mutateFoodGene(parent),foodSeekingGene:mutateFoodSeekingGene(parent),vineMeals:Object.create(null),vineSusceptibility:bornSusceptibility(parent),adventureGene:parent?(typeof mutateAdventureGene==='function'?mutateAdventureGene(parent.adventureGene,opts.mutation):Math.max(-100,Math.min(100,Math.round((parent.adventureGene||0)+(Math.random()-0.5)*16)))):0,emojiDesperationGene:typeof mutateEmojiDesperationGene==='function'?mutateEmojiDesperationGene(parent,opts.mutation):75,toxicity:0,disorientationSteps:0,emojisEaten:0,isSubpixel:false,elapsed:0,pending:0,score:0,role,fleeSteps:role==='auto-mușcare'?3:0};if(parent&&typeof applyMaternalBirthDeduction==='function')applyMaternalBirthDeduction(parent,s);if(parent&&opts.family)s.elapsed=1000/(opts.speed*s.speedFactor);snakes.push(s);adaptChildGeometry(s);births++;renderListNeedsUpdate=true;if(parent&&!isTwinBirth)maybeSpawnTwin(parent,s,role+' · geamăn',forceAI);return s;}
-function initialize(){closeInspector();const firstX=Math.max(4,Math.floor(opts.cols*.31)),firstY=Math.floor(opts.rows*.47),len=5;snakes=[];foods=[];selected=new Set([1]);nextId=0;births=0;eaten=0;decayClock=0;simCarryMs=0;moonClockMs=0;phase='ready';contactMarks.clear();logItems=[];lastLog='';born(Array.from({length:len},(_,i)=>({x:firstX-i,y:firstY})),DIR.right,null,'fondator',false);ecoClock=0;ecoNote='—';rebuildNodes(true);scheduleNextFood();if(opts.foodMode==='ecology')seedNodeFood();else for(let i=0;i<(opts.family?12:3);i++)addFood();renderEcoStats();info('Un șarpe fondator (#1). Crește, se divide și formează o familie.');renderListNeedsUpdate=true;refresh();}
+function born(body,dir,parent=null,role='pui',forceAI=null,isTwinBirth=false){const id=++nextId;const s={id,body:body.map(p=>({...p})),dir:{...dir},next:null,control:(persistedSnakeControls[id]??(forceAI===null?(parent?'ai':'manual'):(forceAI?'ai':'manual'))),parentId:parent?.id??null,dependent:!!(opts.family&&parent),familySafe:!!(opts.family&&parent),generation:parent?parent.generation+1:1,color:parent?mutateColor(parent.color):COLORS[(id-1)%COLORS.length],speedFactor:speedForNew(parent,body.length),speedDebt:0,fertility:lunarBirthMutation(parent),collisionResistance:mutateCollisionResistance(parent),twinGene:mutateTwinGene(parent),moonSpeedGene:mutateMoonSpeedGene(parent),foodGene:mutateFoodGene(parent),foodSeekingGene:mutateFoodSeekingGene(parent),vineMeals:Object.create(null),vineSusceptibility:bornSusceptibility(parent),adventureGene:parent?(typeof mutateAdventureGene==='function'?mutateAdventureGene(parent.adventureGene,opts.mutation):Math.max(-100,Math.min(100,Math.round((parent.adventureGene||0)+(Math.random()-0.5)*16)))):0,emojiDesperationGene:typeof mutateEmojiDesperationGene==='function'?mutateEmojiDesperationGene(parent,opts.mutation):75,toxicity:0,disorientationSteps:0,hasReachedMother:parent?false:true,emojisEaten:0,isSubpixel:false,elapsed:0,pending:0,score:0,role,fleeSteps:role==='auto-mușcare'?3:0};if(parent&&typeof applyMaternalBirthDeduction==='function')applyMaternalBirthDeduction(parent,s);if(parent&&opts.family)s.elapsed=1000/(opts.speed*s.speedFactor);snakes.push(s);adaptChildGeometry(s);births++;renderListNeedsUpdate=true;if(parent&&!isTwinBirth)maybeSpawnTwin(parent,s,role+' · geamăn',forceAI);return s;}
+function initialize(){closeInspector();const firstX=Math.max(4,Math.floor(opts.cols*.31)),firstY=Math.floor(opts.rows*.47),len=5;snakes=[];foods=[];selected=new Set([1]);nextId=0;births=0;eaten=0;decayClock=0;simCarryMs=0;moonClockMs=0;phase='ready';contactMarks.clear();clearHeatmap();logItems=[];lastLog='';born(Array.from({length:len},(_,i)=>({x:firstX-i,y:firstY})),DIR.right,null,'fondator',false);ecoClock=0;ecoNote='—';rebuildNodes(true);scheduleNextFood();if(opts.foodMode==='ecology')seedNodeFood();else for(let i=0;i<(opts.family?12:3);i++)addFood();renderEcoStats();info('Un șarpe fondator (#1). Crește, se divide și formează o familie.');renderListNeedsUpdate=true;refresh();}
 function reset(resume=false){initialize();if(resume)phase='running';refresh();}
 function splitOnReverse(s,automatic=false){const len=s.body.length;if(!opts.fib&&!automatic)return false;let a=2,b=3;while(a+b<len){[a,b]=[b,a+b];}if(a+b!==len||len<5){info('#'+s.id+' are '+len+' segmente. Divizarea necesită o lungime Fibonacci ≥ 5.');return false;}
  const parentLength=Math.max(a,b),childLength=Math.min(a,b),tail=s.body.slice(parentLength).reverse(),dir=tail.length>1?directionAway(tail[0],tail[1]):{x:-s.dir.x,y:-s.dir.y};
@@ -6836,7 +6834,7 @@ function chooseAI(s){if(s.fleeSteps>0&&inBoard(advance(s.body[0],s.dir,s)))retur
   }
   if(score<bestFoodScore){bestFoodScore=score;target=f;}
  }
- if(opts.family&&s.dependent){const parent=owner(s.parentId);if(parent){const stayDep=typeof shouldChildRemainDependent==='function'?shouldChildRemainDependent(s,parent,opts):(opts.eternalBond?true:(s.body.length<=parent.body.length));if(!stayDep){s.dependent=false;s.familySafe=false;renderListNeedsUpdate=true;info('Puiul #'+s.id+' l-a depășit pe #'+parent.id+' — este independent și poate deveni părinte.');}else{const effRadius=typeof calculateEffectiveAdventureRadius==='function'?calculateEffectiveAdventureRadius(s,opts.radius):Math.max(1,Math.round(opts.radius*Math.max(0.2,Math.min(2.0,1+((s.adventureGene||0)/100)))));if(typeof Mode3XEngine!=='undefined'&&opts.mode3x){
+ if(opts.family&&s.dependent){const parent=owner(s.parentId);if(parent){const effRadius=typeof calculateEffectiveAdventureRadius==='function'?calculateEffectiveAdventureRadius(s,opts.radius):Math.max(1,Math.round(opts.radius*Math.max(0.2,Math.min(2.0,1+((s.adventureGene||0)/100)))));const dMom=dist(head,parent.body[0]);if(!s.hasReachedMother&&dMom<=effRadius){s.hasReachedMother=true;}if(!s.hasReachedMother){if(nearFood<=Math.min(1.5,effRadius)){/* opportunistic food on way */}else{target=parent.body[0];focus='parent';}}else{const stayDep=typeof shouldChildRemainDependent==='function'?shouldChildRemainDependent(s,parent,opts):(opts.eternalBond?true:(s.body.length<=parent.body.length));if(!stayDep){s.dependent=false;s.familySafe=false;renderListNeedsUpdate=true;info('Puiul #'+s.id+' l-a depășit pe #'+parent.id+' — este independent și poate deveni părinte.');}else{if(typeof Mode3XEngine!=='undefined'&&opts.mode3x){
       const clanHierarchy=Mode3XEngine.buildClanHierarchy(snakes);
       const h=clanHierarchy.get(s.id);
       const authority=h?.activeAuthority||parent;
@@ -6856,7 +6854,7 @@ function chooseAI(s){if(s.fleeSteps>0&&inBoard(advance(s.body[0],s.dir,s)))retur
       } else if(nearFood>lunarWander.effectiveRadius){
         target=escortTarget||parent.body[0];focus='parent';
       }
-    } else if(nearFood>effRadius){target=parent.body[0];focus='parent';}}}else{s.dependent=false;s.familySafe=false;renderListNeedsUpdate=true;}}
+    } else if(nearFood>effRadius){target=parent.body[0];focus='parent';}}}}else{s.dependent=false;s.familySafe=false;renderListNeedsUpdate=true;}}
  let best=s.dir,bestScore=-1e9;
  for(const d of DIRECTIONS){if(d.x===-s.dir.x&&d.y===-s.dir.y)continue;const p=advance(head,d,s);if(!inBoard(p))continue;
  let colorRisk=0,colorField=0;
