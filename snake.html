@@ -1430,9 +1430,9 @@ body.layout-arcade-deck .btn.primary, body.layout-arcade .btn.primary {
   <small><b>Shift + − / +</b> schimbă pasul · căsuțele numerice acceptă orice valoare · grila rămâne în celule întregi.</small>
   <small id="saveStatus" class="save-status" role="status" aria-live="polite">Setări locale · autosave la 15 secunde</small>
 </div>
-<section><h2 class="sideheading">01 / Moduri de joc</h2><div class="mode-preset"><button id="preset1" type="button">① Fibonacci</button><button id="preset2" type="button">② Auto-mușcare</button><button id="preset3" type="button">③ Familie</button><button id="preset4" type="button">④ Subpixel</button></div>
+<section><h2 class="sideheading">01 / Moduri de joc</h2><div class="mode-preset"><button id="preset1" type="button">① Fibonacci</button><button id="preset2" type="button">② Auto-mușcare</button><button id="preset3" type="button">③ Familie</button><button id="preset4" type="button">④ Subpixel</button><button id="preset5" type="button">⑤ Mod 3X (Nano)</button></div>
 <p class="mode-caption">Preseturile configurează regulile. Bifele pot fi apoi combinate. În modul Familie, fiecare pui dependent are checkbox propriu «Protecție familie» în lista șerpilor. Cap-la-cap rămâne activ.</p>
-<label class="setting"><span>Mod 1 · divizare Fibonacci la direcție inversă</span><input id="fib" type="checkbox" checked/></label><label class="setting"><span>Mod 2 · auto-mușcare / tăiere coadă</span><input id="selfCut" type="checkbox"/></label><label class="setting"><span>Mod 3 · familie / pui urmăresc mama</span><input id="family" type="checkbox"/></label><label class="setting"><span>Atașament matern pe viață · puii rămân cu părintele</span><input id="eternalBond" type="checkbox"/></label><label class="setting"><span>Mod 4 · Subpixel children, parent bonds and fractional navigation</span><input id="subpixel" type="checkbox"/></label><div class="tune" id="subpixelSetup"><div class="tune-title"><span>Subdivisions per grid cell</span><output id="subdivisionValue">4 (2×2)</output></div><input id="subdivisionSelect" type="range" min="0" max="2" step="1" value="0" aria-label="Grid subdivisions: 4, 6, or 9"><div class="tune-meta"><span>4 = 2×2</span><span>6 = 3×2</span><span>9 = 3×3</span></div><p class="note">Adults and berries retain main-cell size. Children with an active assigned parent occupy and navigate one subdivision per segment. Six-way layouts use a balanced 3×2 tiling.</p></div>
+<label class="setting"><span>Mod 1 · divizare Fibonacci la direcție inversă</span><input id="fib" type="checkbox" checked/></label><label class="setting"><span>Mod 2 · auto-mușcare / tăiere coadă</span><input id="selfCut" type="checkbox"/></label><label class="setting"><span>Mod 3 · familie / pui urmăresc mama</span><input id="family" type="checkbox"/></label><label class="setting"><span>Atașament matern pe viață · puii rămân cu părintele</span><input id="eternalBond" type="checkbox"/></label><label class="setting"><span>Mod 4 · Subpixel children, parent bonds and fractional navigation</span><input id="subpixel" type="checkbox"/></label><label class="setting"><span>Mod 5 · 3X Fractal Plane, Ierarhie Clan & Coliziuni Pătrate</span><input id="mode3x" type="checkbox"/></label><div class="tune" id="subpixelSetup"><div class="tune-title"><span>Subdivisions per grid cell</span><output id="subdivisionValue">4 (2×2)</output></div><input id="subdivisionSelect" type="range" min="0" max="2" step="1" value="0" aria-label="Grid subdivisions: 4, 6, or 9"><div class="tune-meta"><span>4 = 2×2</span><span>6 = 3×2</span><span>9 = 3×3</span></div><p class="note">Adults and berries retain main-cell size. Children with an active assigned parent occupy and navigate one subdivision per segment. Six-way layouts use a balanced 3×2 tiling.</p></div>
 <label class="setting"><span>Tail Stealing · steal an unrelated snake’s last segment (no collision or gene transfer)</span><input id="tailStealing" type="checkbox"/></label><p class="note">Bonded parent and child cannot steal each other’s tails. Ancestry alone does not block stealing once the active dependency ends.</p><label class="setting"><span>Ignoră TOATE coliziunile (debug)</span><input id="nocollision" type="checkbox"/></label><p class="note">Debug: traversare liberă, fără luptă cap-la-cap sau auto-mușcare. Poți testa în continuare divizarea Fibonacci.</p>
 <div class="tune" id="tune-collisionScale"><div class="tune-title"><span>Collision Risk × · multiplicator global (%)</span><output id="collisionScaleValue">100%</output></div>
 <div class="tune-line"><button class="nudge" type="button" data-tune="collisionScale" data-sign="-1" aria-label="Redu riscul global de coliziune">−</button><input id="collisionScale" type="range" min="0" max="200" step="any" value="100" data-base-max="200" aria-label="Multiplicator risc global de coliziune"><button class="nudge plus" type="button" data-tune="collisionScale" data-sign="1" aria-label="Crește riscul global de coliziune">+</button><input class="direct" type="number" id="collisionScaleDirect" min="0" step="any" value="100" aria-label="Multiplicator de coliziune, valoare exactă"></div><div class="tune-meta"><span id="collisionScaleRange">0–200</span><span id="collisionScaleExtend" class="extension"></span></div></div>
@@ -1496,6 +1496,18 @@ body.layout-arcade-deck .btn.primary, body.layout-arcade .btn.primary {
 <div id="snakeList" class="snake-list"></div><div class="select-actions"><button id="selectAll">Selectează toți</button><button id="selectNone">Deselectează</button><button id="allAi">Toți AI</button><button id="allManual">Toți manual</button></div></section>
 <section><h2 class="sideheading">05 / Editor & jurnal</h2><label class="field"><span>Click pe tablă pentru:</span><select id="editor"><option value="none">Inspectare</option><option value="food">Plasează hrană</option><option value="snake">Mută capul șarpelui selectat</option></select></label>
 <p class="note">Mutarea în editor este disponibilă în pauză. În modul Familie, puii devin independenți imediat ce depășesc lungimea părintelui.</p><div id="log" class="log" aria-live="polite"></div></section>
+
+<div class="tune" id="zoomSetup">
+  <div class="tune-title"><span>Zoom Navigare &amp; Panoramare</span><output id="zoomValue">1.0×</output></div>
+  <div class="tune-line">
+    <button class="nudge" type="button" id="zoomOutBtn" aria-label="Zoom Out">−</button>
+    <input id="zoomSlider" type="range" min="0.3" max="5.0" step="0.1" value="1.0" aria-label="Slider Zoom Cameră">
+    <button class="nudge plus" type="button" id="zoomInBtn" aria-label="Zoom In">+</button>
+    <input class="direct" type="number" id="zoomDirect" min="0.2" max="10.0" step="0.1" value="1.0" aria-label="Valoare exactă Zoom">
+  </div>
+  <div class="tune-meta"><span>0.3× (Panoramic)</span><span>Mouse Drag = Pan</span><span>5.0× (Nano)</span></div>
+  <p class="note">Apasă și trage cu mouse-ul pe tablă pentru panoramare liberă (Pan). La zoom redus, puii 3X își proiectează automat culoarea mediată în celulă.</p>
+</div>
 </aside></div>
 
 <div class="cockpit-telemetry-bar" id="cockpitTelemetry" aria-label="Telemetrie Desktop Cockpit">
@@ -1520,9 +1532,9 @@ const $=id=>document.getElementById(id),canvas=$('game'),ctx=canvas.getContext('
 const DIR={up:{x:0,y:-1},down:{x:0,y:1},left:{x:-1,y:0},right:{x:1,y:0}},DIRECTIONS=Object.values(DIR);
 const FOOD_BASE_COLOR='#b4f287'; // same RGB as the founder at initial creation
 const COLORS=['#b4f287','#b4a1ff','#6cd4f7','#fbb77d','#f27ba8','#ebdf78','#78e2b9','#f58d88','#9fc4fd','#cb9ee5','#ead1a4'];
-let opts={currentTheme:'cyber-slate',currentLayout:'cockpit',dpadVisible:false,worldMode:'finite',worldSeed:'12345',enableFaux3D:false,topScale:0.70,topAlpha:0.50,middleK:0.50,bottomAlpha:1.0,wireframeGrid:true,wireframeSnakes:true,initialVineSize:3,vineShape:'square',emojiOpacity:0.70,emojiPalette:['🔷', '🔹', '💠', '❄️', '💎', '🔶', '🔸', '🔆', '⭐', '✨'],gameMode:'sandbox',currentSurvivalStarter:'green',duplication:{grid:true,snakes:true,heads:true,berries:true,emojis:false,vineFootprints:false,vineLabels:false,heatmap:false,contactMarks:false,parentChildLinks:false,coordinates:false,editor:false},eternalBond:false,cols:30,rows:22,speed:5,timeScale:1,moonCycle:60,lunarReproduction:true,mutation:.35,colorMutation:8,moonBerryEffect:50,foodGeneMutation:5,founderSusceptibility:50,vineSpreadChance:25,vineAbsorbChance:100,sameColorAttraction:8,differentColorRepulsion:8,foodColorPreference:false,tailStealing:false,subpixel:false,subdivisions:4,collisionScale:100,decay:20,radius:5,eternalBond:false,foodDecay:.4,foodDensity:2.5,foodSpawn:.8,foodNodes:10,foodRadius:6,initialFood:2,baseFertility:1,corpseImpact:0.8,corpseLifetime:25,corpseRadius:1.5,showContactMarks:true,showDeathHeatmap:false,showNodes:false,numbers:false,showGrid:true,lightMode:false,fib:true,selfCut:false,family:false,noCollision:false,walls:false,fade:true,foodMode:"ecology",spawnMin:2,spawnMax:6,lifeMin:4,lifeMax:12};
+let opts={currentTheme:'cyber-slate',currentLayout:'cockpit',dpadVisible:false,worldMode:'finite',worldSeed:'12345',enableFaux3D:false,topScale:0.70,topAlpha:0.50,middleK:0.50,bottomAlpha:1.0,wireframeGrid:true,wireframeSnakes:true,initialVineSize:3,vineShape:'square',emojiOpacity:0.70,emojiPalette:['🔷', '🔹', '💠', '❄️', '💎', '🔶', '🔸', '🔆', '⭐', '✨'],gameMode:'sandbox',currentSurvivalStarter:'green',duplication:{grid:true,snakes:true,heads:true,berries:true,emojis:false,vineFootprints:false,vineLabels:false,heatmap:false,contactMarks:false,parentChildLinks:false,coordinates:false,editor:false},eternalBond:false,mode3x:false,zoom:1.0,cols:30,rows:22,speed:5,timeScale:1,mode3x:false,zoom:1.0,moonCycle:60,lunarReproduction:true,mutation:.35,colorMutation:8,moonBerryEffect:50,foodGeneMutation:5,founderSusceptibility:50,vineSpreadChance:25,vineAbsorbChance:100,sameColorAttraction:8,differentColorRepulsion:8,foodColorPreference:false,tailStealing:false,subpixel:false,subdivisions:4,collisionScale:100,decay:20,radius:5,eternalBond:false,foodDecay:.4,foodDensity:2.5,foodSpawn:.8,foodNodes:10,foodRadius:6,initialFood:2,baseFertility:1,corpseImpact:0.8,corpseLifetime:25,corpseRadius:1.5,showContactMarks:true,showDeathHeatmap:false,showNodes:false,numbers:false,showGrid:true,lightMode:false,fib:true,selfCut:false,family:false,noCollision:false,walls:false,fade:true,foodMode:"ecology",spawnMin:2,spawnMax:6,lifeMin:4,lifeMax:12};
 let nodeSlots=0,nextVineId=1,cachedVineCells=null,vineCacheTime=0;
-let contactMarks=new Map(),deathHeatmap=new Map(),heatmapDirty=false,heatSegments=0,nutrientStatsClock=0,foodNodes=[],foodNodesById=new Map(),ecoClock=0,nodeFlashUntil=0,ecoNote='—',snakes=[],foods=[],selected=new Set([1]),nextId=1,births=0,eaten=0,phase='ready',lastFrame=0,decayClock=0,hover=null,renderListNeedsUpdate=true,logItems=[],lastLog='',modePreset=1;
+let microFoods=[],contactMarks=new Map(),deathHeatmap=new Map(),heatmapDirty=false,heatSegments=0,nutrientStatsClock=0,foodNodes=[],foodNodesById=new Map(),ecoClock=0,nodeFlashUntil=0,ecoNote='—',snakes=[],foods=[],selected=new Set([1]),nextId=1,births=0,eaten=0,phase='ready',lastFrame=0,decayClock=0,hover=null,renderListNeedsUpdate=true,logItems=[],lastLog='',modePreset=1;
 let persistedSnakeControls={};
 let inspectedSnakeId=null, inspectorTextAt=0;
 let timeToNextFoodMs=0,simCarryMs=0,moonClockMs=0,moonUiAt=0;
@@ -5517,6 +5529,441 @@ function advanceAdventureGeneFromVine(snake, vineGoal) {
 
 
 
+/**
+ * mode_3x_fractal_hierarchy.js
+ * 
+ * Znake Mode 3X & Fractal Clan Hierarchy Engine
+ * Architect: RC-Znk-01 [uncle of RC03-Wisly]
+ * 
+ * Features:
+ * 1. Mode 3X Three-Tier Plane Grid Hierarchy (Macro L0, Subpixel L1, Micro/Nano L2).
+ * 2. Older Brother Authority, Lightning Rod escorting, and Clan Head succession upon matriarch death.
+ * 3. Square-Level Clan Collision Resolution (O(1) per contested cell, winning clan spared,
+ *    proportional damage distribution, and overlap resistance reduction halving per layer).
+ * 4. Food-as-a-Vine generator emitting micro-pellets for L2 micro-snakes.
+ * 5. Full Moon genetic disparity wander & rare breakaway rebellion roll.
+ * 6. Level of Detail (LOD) pixel-averaging optimization for zoomed-out rendering.
+ * 7. Camera Zoom & Mouse Drag-to-Pan state management.
+ */
+
+const CLAN_TIERS = {
+    MACRO: 0,     // 1.0x standard cell
+    SUBPIXEL: 1,  // 1/S subcell (e.g. 1/2, 1/3)
+    MICRO_3X: 2   // 1/(S*3) micro-cell (nano plane)
+  };
+
+  /**
+   * Determine a snake's hierarchical tier.
+   */
+  function determineSnakeTier(snake, opts){
+    if(!snake) return CLAN_TIERS.MACRO;
+    if(opts && opts.mode3x && snake.tier === 2) return CLAN_TIERS.MICRO_3X;
+    if(opts && opts.subpixel && snake.isSubpixel) return CLAN_TIERS.SUBPIXEL;
+    return CLAN_TIERS.MACRO;
+  }
+
+  /**
+   * Calculate cell dimensions for a specific tier.
+   */
+  function getTierCellSize(tier, opts){
+    const subCol = (opts && opts.subdivisions === 9) ? 3 : ((opts && opts.subdivisions === 6) ? 3 : 2);
+    const subRow = (opts && opts.subdivisions === 9) ? 3 : ((opts && opts.subdivisions === 6) ? 2 : 2);
+    if(tier === CLAN_TIERS.MICRO_3X){
+      return { x: 1 / (subCol * 3), y: 1 / (subRow * 3) };
+    }
+    if(tier === CLAN_TIERS.SUBPIXEL){
+      return { x: 1 / subCol, y: 1 / subRow };
+    }
+    return { x: 1.0, y: 1.0 };
+  }
+
+  /**
+   * Builds the clan hierarchy for all active snakes.
+   * Identifies matriarch, older brothers (deputy authorities), and handles succession.
+   */
+  function buildClanHierarchy(snakes){
+    const snakeMap = new Map(snakes.map(s => [s.id, s]));
+
+    // Step 1: For orphaned siblings whose direct parent is dead,
+    // establish succession so the oldest surviving sibling becomes the clan head/authority.
+    const deadParentGroups = new Map();
+    for(const s of snakes){
+      if(s.parentId != null && !snakeMap.has(s.parentId)){
+        if(!deadParentGroups.has(s.parentId)) deadParentGroups.set(s.parentId, []);
+        deadParentGroups.get(s.parentId).push(s);
+      }
+    }
+
+    const surrogateParents = new Map();
+    for(const [deadPid, siblings] of deadParentGroups.entries()){
+      siblings.sort((a, b) => (b.body ? b.body.length : 0) - (a.body ? a.body.length : 0) || a.id - b.id);
+      const oldestSibling = siblings[0];
+      for(let i = 1; i < siblings.length; i++){
+        surrogateParents.set(siblings[i].id, oldestSibling.id);
+      }
+    }
+
+    function findLivingRoot(s){
+      let curr = s;
+      const visited = new Set([curr.id]);
+      while(curr){
+        const nextId = snakeMap.has(curr.parentId) ? curr.parentId : surrogateParents.get(curr.id);
+        if(!nextId || !snakeMap.has(nextId) || visited.has(nextId)) break;
+        visited.add(nextId);
+        curr = snakeMap.get(nextId);
+      }
+      return curr;
+    }
+
+    const clanRoots = new Map();
+    for(const s of snakes){
+      const root = findLivingRoot(s);
+      if(!clanRoots.has(root.id)) clanRoots.set(root.id, []);
+      clanRoots.get(root.id).push(s);
+    }
+
+    const hierarchies = new Map();
+
+    for(const [rootId, members] of clanRoots.entries()){
+      const rootSnake = snakeMap.get(rootId);
+      // Candidates for older brother: direct children of root or oldest secondary
+      const directChildren = members.filter(m => (m.parentId === rootId || surrogateParents.get(m.id) === rootId) && m.id !== rootId)
+        .sort((a, b) => (b.body ? b.body.length : 0) - (a.body ? a.body.length : 0) || a.id - b.id);
+
+      const olderBrother = directChildren.length > 0 ? directChildren[0] : null;
+
+      for(const m of members){
+        let activeAuthority = null;
+        let isClanHead = false;
+
+        if(m.id === rootId){
+          isClanHead = true;
+          activeAuthority = null;
+        } else if(m.parentId === rootId || surrogateParents.get(m.id) === rootId){
+          // Direct child of root matriarch / ascended head
+          activeAuthority = rootSnake;
+        } else {
+          const directParent = snakeMap.get(m.parentId);
+          if(directParent){
+            activeAuthority = directParent;
+          } else if(olderBrother && olderBrother.id !== m.id){
+            activeAuthority = olderBrother;
+          } else {
+            activeAuthority = rootSnake;
+          }
+        }
+
+        if(!activeAuthority && !isClanHead){
+          isClanHead = true;
+          m.dependent = false;
+        }
+
+        hierarchies.set(m.id, {
+          clanId: rootId,
+          matriarch: rootSnake,
+          olderBrother: olderBrother,
+          activeAuthority: activeAuthority,
+          isClanHead: isClanHead,
+          isOlderBrother: olderBrother ? (m.id === olderBrother.id) : (m.id === rootId && surrogateParents.size > 0)
+        });
+      }
+    }
+
+    return hierarchies;
+  }
+
+  /**
+   * Superposition Overlap Resistance:
+   * Resistance is reduced by double (halved) for each superposed layer k.
+   */
+  function calculateOverlapResistance(baseResistance, overlapCount){
+    const k = Math.max(1, overlapCount);
+    // 1 layer: 1.0x, 2 layers: 0.5x, 3 layers: 0.25x...
+    const factor = Math.pow(0.5, k - 1);
+    return Math.max(0, Math.min(100, baseResistance * factor));
+  }
+
+  /**
+   * Square-Level Clan Collision Resolution Engine.
+   * Contested squares are calculated ONCE per contested cell.
+   * Winning clan is spared individual collision checks.
+   * Losing clan divides damage proportionately.
+   */
+  function resolveSquareClanCollisions(snakes, hierarchyMap, opts){
+    if(!opts || opts.noCollision) return { collisions: [], sparedClanIds: new Set() };
+
+    // 1. Map all snake positions to integer grid cells (or subcell keys)
+    const cellOccupants = new Map(); // key -> Array of { snake, segmentIndex, isHead }
+
+    for(const s of snakes){
+      if(!s || !s.body || !s.body.length) continue;
+      for(let i = 0; i < s.body.length; i++){
+        const p = s.body[i];
+        const cellX = Math.floor(p.x);
+        const cellY = Math.floor(p.y);
+        const cellKey = cellX + ',' + cellY;
+
+        if(!cellOccupants.has(cellKey)) cellOccupants.set(cellKey, []);
+        cellOccupants.get(cellKey).push({
+          snake: s,
+          segmentIndex: i,
+          isHead: (i === 0)
+        });
+      }
+    }
+
+    const collisions = [];
+    const sparedClanIds = new Set();
+    const processedPairs = new Set();
+
+    // 2. Iterate each occupied square
+    for(const [cellKey, occupants] of cellOccupants.entries()){
+      // Group by Clan ID
+      const clanGroups = new Map(); // clanId -> Array of occupants
+
+      for(const occ of occupants){
+        const h = hierarchyMap.get(occ.snake.id);
+        const clanId = h ? h.clanId : occ.snake.id;
+        if(!clanGroups.has(clanId)) clanGroups.set(clanId, []);
+        clanGroups.get(clanId).push(occ);
+      }
+
+      // If only 1 clan occupies this square, it's peaceful family superposition!
+      if(clanGroups.size <= 1) continue;
+
+      // Multiple opposing clans in this square: BATTLE!
+      const competingClans = Array.from(clanGroups.keys());
+
+      for(let i = 0; i < competingClans.length; i++){
+        for(let j = i + 1; j < competingClans.length; j++){
+          const clanAId = competingClans[i];
+          const clanBId = competingClans[j];
+          const pairKey = Math.min(clanAId, clanBId) + ':' + Math.max(clanAId, clanBId) + '@' + cellKey;
+          if(processedPairs.has(pairKey)) continue;
+          processedPairs.add(pairKey);
+
+          const groupA = clanGroups.get(clanAId);
+          const groupB = clanGroups.get(clanBId);
+
+          // Calculate clan powers with overlap resistance reduction
+          function calcClanPower(group){
+            const overlapCount = group.length;
+            let totalPower = 0;
+            let heads = 0;
+            for(const occ of group){
+              const s = occ.snake;
+              const baseRes = s.collisionResistance || 0;
+              const effRes = calculateOverlapResistance(baseRes, overlapCount);
+              const weight = occ.isHead ? 3.0 : 1.0;
+              totalPower += (weight * (1 + effRes / 100));
+              if(occ.isHead) heads++;
+            }
+            return { totalPower, heads, count: group.length, overlapCount };
+          }
+
+          const powerA = calcClanPower(groupA);
+          const powerB = calcClanPower(groupB);
+
+          // Decide winning clan based on power differential
+          const winRoll = Math.random() * (powerA.totalPower + powerB.totalPower);
+          const aWins = winRoll < powerA.totalPower;
+
+          const winningClanId = aWins ? clanAId : clanBId;
+          const losingClanId = aWins ? clanBId : clanAId;
+          const losingGroup = aWins ? groupB : groupA;
+
+          sparedClanIds.add(winningClanId);
+
+          // Divide damage proportionately among the losing clan snakes in this square
+          const losingSnakes = losingGroup.map(g => g.snake);
+          const totalLosingWeight = losingGroup.reduce((acc, g) => acc + (g.isHead ? 2 : 1), 0);
+
+          const outcome = {
+            cellKey,
+            winningClanId,
+            losingClanId,
+            losingSnakes,
+            totalLosingWeight,
+            proportionalDamage: 1.0 / Math.max(1, losingSnakes.length),
+            hasHeadClash: (powerA.heads > 0 && powerB.heads > 0)
+          };
+
+          collisions.push(outcome);
+        }
+      }
+    }
+
+    return { collisions, sparedClanIds };
+  }
+
+  /**
+   * Full Moon Wander & Genetic Disparity Rebellion Roll:
+   * Expands adventure radius during full moon, with rare breakaway chance for extreme genetic disparity.
+   */
+  function calculateFullMoonAdventureRadius(child, parent, baseRadius, moonPhase){
+    const bRad = Number.isFinite(baseRadius) ? Math.max(1, baseRadius) : 5;
+    if(!child) return bRad;
+
+    const childAdvGene = child.adventureGene || 0;
+    const parentAdvGene = parent ? (parent.adventureGene || 0) : 0;
+    const childFoodGene = child.foodGene || 0;
+    const parentFoodGene = parent ? (parent.foodGene || 0) : 0;
+
+    // Genetic disparity calculation
+    const disparity = Math.abs(childAdvGene - parentAdvGene) + (Math.abs(childFoodGene - parentFoodGene) / 2);
+
+    // Standard effective radius
+    const geneFactor = Math.max(0.2, Math.min(2.0, 1 + (childAdvGene / 100)));
+    let effectiveRadius = Math.max(1, Math.round(bRad * geneFactor));
+
+    let didRebel = false;
+
+    // Lunar amplification
+    const isFullMoon = (moonPhase === 'full' || moonPhase === '🌕 Plină' || moonPhase === 'plina');
+    if(isFullMoon){
+      // Full moon makes children wander farther based on genetic disparity
+      const lunarMultiplier = 1.0 + Math.min(1.5, disparity / 80.0);
+      effectiveRadius = Math.max(1, Math.round(effectiveRadius * lunarMultiplier));
+
+      // Extreme disparity rebellion roll: statistically rare (0.2% chance)
+      if(disparity > 140 && Math.random() < 0.002){
+        didRebel = true;
+      }
+    }
+
+    return {
+      effectiveRadius,
+      disparity,
+      isFullMoon,
+      didRebel
+    };
+  }
+
+  /**
+   * Mode 3X Food-as-a-Vine Generator:
+   * Generates a halo of micro-food pellets around standard macro berries for L2 micro-snakes.
+   */
+  function generateMicroFoodFromBerries(macroFoods, existingMicroFoods, opts){
+    if(!opts || !opts.mode3x) return [];
+
+    const result = [];
+    const maxPelletsPerBerry = 4;
+    const subCol = (opts.subdivisions === 9) ? 3 : 2;
+    const subRow = (opts.subdivisions === 9) ? 3 : 2;
+    const microStepX = 1 / (subCol * 3);
+    const microStepY = 1 / (subRow * 3);
+
+    for(const berry of macroFoods){
+      if(!berry) continue;
+      const berryX = Math.floor(berry.x);
+      const berryY = Math.floor(berry.y);
+
+      // Create micro-pellet constellation around berry center
+      for(let dx = 1; dx <= 2; dx++){
+        for(let dy = 1; dy <= 2; dy++){
+          const mx = Number((berryX + dx * microStepX).toFixed(6));
+          const my = Number((berryY + dy * microStepY).toFixed(6));
+          result.push({
+            x: mx,
+            y: my,
+            color: berry.color || '#b4f287',
+            parentBerryId: berry.sourceNodeId || berry.x + ',' + berry.y,
+            isMicroFood: true,
+            tier: CLAN_TIERS.MICRO_3X
+          });
+        }
+      }
+    }
+
+    return result;
+  }
+
+  /**
+   * Level of Detail (LOD) Pixel-Averaging Renderer:
+   * When zoomed out, clusters micro-cells into an averaged color footprint to preserve 60 FPS.
+   */
+  function shouldApplyMicroLodAveraging(cameraZoom, screenCellWidth){
+    const zoom = Number.isFinite(cameraZoom) ? cameraZoom : 1.0;
+    const pixelWidth = Number.isFinite(screenCellWidth) ? screenCellWidth : 20;
+    // If a micro-cell on screen is smaller than 3.0 pixels, collapse into averaged LOD
+    return (zoom < 1.35 || (pixelWidth / 6.0) < 3.0);
+  }
+
+  /**
+   * Setup interactive mouse pan and zoom slider listeners.
+   */
+  function setupMousePanAndZoom(canvas, camera, opts, onChangeCallback){
+    if(!canvas || !camera) return null;
+
+    let isDragging = false;
+    let dragStartX = 0;
+    let dragStartY = 0;
+    let camStartX = camera.x;
+    let camStartY = camera.y;
+    let totalDragDist = 0;
+
+    function onMouseDown(e){
+      if(e.button !== 0) return; // Left click only
+      isDragging = true;
+      dragStartX = e.clientX;
+      dragStartY = e.clientY;
+      camStartX = camera.x;
+      camStartY = camera.y;
+      totalDragDist = 0;
+    }
+
+    function onMouseMove(e){
+      if(!isDragging) return;
+      const dx = e.clientX - dragStartX;
+      const dy = e.clientY - dragStartY;
+      totalDragDist += Math.abs(dx) + Math.abs(dy);
+
+      const cellW = (canvas.clientWidth || 800) / Math.max(1, opts.cols || 30);
+      const zoom = camera.zoom || 1.0;
+
+      camera.x = camStartX - (dx / (cellW * zoom));
+      camera.y = camStartY - (dy / (cellW * zoom));
+
+      if(typeof onChangeCallback === 'function') onChangeCallback(camera);
+    }
+
+    function onMouseUp(e){
+      const wasClick = totalDragDist < 5;
+      isDragging = false;
+      return wasClick;
+    }
+
+    canvas.addEventListener('mousedown', onMouseDown);
+    window.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('mouseup', onMouseUp);
+
+    return {
+      destroy: function(){
+        canvas.removeEventListener('mousedown', onMouseDown);
+        window.removeEventListener('mousemove', onMouseMove);
+        window.removeEventListener('mouseup', onMouseUp);
+      }
+    };
+  }
+
+  const Mode3XEngine = {
+    CLAN_TIERS,
+    determineSnakeTier,
+    getTierCellSize,
+    buildClanHierarchy,
+    calculateOverlapResistance,
+    resolveSquareClanCollisions,
+    calculateFullMoonAdventureRadius,
+    generateMicroFoodFromBerries,
+    shouldApplyMicroLodAveraging,
+    setupMousePanAndZoom
+  };
+
+  if(typeof window !== 'undefined'){
+    window.Mode3XEngine = Mode3XEngine;
+  }
+  
+
 function checkEmergencyEmojiConsumption(snake, cell){
   if(!snake || snake.body.length > 3) return false;
   const ref = typeof getReferenceEmoji === 'function' ? getReferenceEmoji(cell.x, cell.y, opts.worldSeed) : null;
@@ -6389,7 +6836,27 @@ function chooseAI(s){if(s.fleeSteps>0&&inBoard(advance(s.body[0],s.dir,s)))retur
   }
   if(score<bestFoodScore){bestFoodScore=score;target=f;}
  }
- if(opts.family&&s.dependent){const parent=owner(s.parentId);if(parent){const stayDep=typeof shouldChildRemainDependent==='function'?shouldChildRemainDependent(s,parent,opts):(opts.eternalBond?true:(s.body.length<=parent.body.length));if(!stayDep){s.dependent=false;s.familySafe=false;renderListNeedsUpdate=true;info('Puiul #'+s.id+' l-a depășit pe #'+parent.id+' — este independent și poate deveni părinte.');}else{const effRadius=typeof calculateEffectiveAdventureRadius==='function'?calculateEffectiveAdventureRadius(s,opts.radius):Math.max(1,Math.round(opts.radius*Math.max(0.2,Math.min(2.0,1+((s.adventureGene||0)/100)))));if(nearFood>effRadius){target=parent.body[0];focus='parent';}}}else{s.dependent=false;s.familySafe=false;renderListNeedsUpdate=true;}}
+ if(opts.family&&s.dependent){const parent=owner(s.parentId);if(parent){const stayDep=typeof shouldChildRemainDependent==='function'?shouldChildRemainDependent(s,parent,opts):(opts.eternalBond?true:(s.body.length<=parent.body.length));if(!stayDep){s.dependent=false;s.familySafe=false;renderListNeedsUpdate=true;info('Puiul #'+s.id+' l-a depășit pe #'+parent.id+' — este independent și poate deveni părinte.');}else{const effRadius=typeof calculateEffectiveAdventureRadius==='function'?calculateEffectiveAdventureRadius(s,opts.radius):Math.max(1,Math.round(opts.radius*Math.max(0.2,Math.min(2.0,1+((s.adventureGene||0)/100)))));if(typeof Mode3XEngine!=='undefined'&&opts.mode3x){
+      const clanHierarchy=Mode3XEngine.buildClanHierarchy(snakes);
+      const h=clanHierarchy.get(s.id);
+      const authority=h?.activeAuthority||parent;
+      const olderBrother=h?.olderBrother;
+      // Older brother acts as lightning rod escort focus alongside mother
+      let escortTarget=authority?.body?.[0];
+      if(olderBrother&&olderBrother.id!==s.id&&owner(olderBrother.id)){
+        const dMom=authority?.body?.[0]?dist(head,authority.body[0]):Infinity;
+        const dBro=dist(head,olderBrother.body[0]);
+        if(dBro<dMom)escortTarget=olderBrother.body[0];
+      }
+      // Full moon lunar wander & disparity rebellion
+      const lunarWander=Mode3XEngine.calculateFullMoonAdventureRadius(s,parent,opts.radius,lunarPhase());
+      if(lunarWander.didRebel){
+        s.dependent=false;s.familySafe=false;s.parentId=null;renderListNeedsUpdate=true;
+        info('🌕 RĂZVRĂTIRE LUNARĂ! Puiul #'+s.id+' a părăsit clanul din cauza disparității genetice mari!');
+      } else if(nearFood>lunarWander.effectiveRadius){
+        target=escortTarget||parent.body[0];focus='parent';
+      }
+    } else if(nearFood>effRadius){target=parent.body[0];focus='parent';}}}else{s.dependent=false;s.familySafe=false;renderListNeedsUpdate=true;}}
  let best=s.dir,bestScore=-1e9;
  for(const d of DIRECTIONS){if(d.x===-s.dir.x&&d.y===-s.dir.y)continue;const p=advance(head,d,s);if(!inBoard(p))continue;
  let colorRisk=0,colorField=0;
@@ -6545,7 +7012,7 @@ function stepAll(dt){if(phase!=='running')return;
  updateDependents();
  if(!snakes.length){phase='over';info('Niciun șarpe nu mai trăiește. Restart pentru o nouă lume.');}
  refresh();}
-function setPreset(mode){modePreset=mode;opts.fib=mode===1;opts.selfCut=mode!==1;opts.family=mode>=3;opts.subpixel=mode===4;for(const [name,id] of [['fib','fib'],['selfCut','selfCut'],['family','family'],['subpixel','subpixel']])$(id).checked=opts[name];if(mode>=3){opts.cols=48;opts.rows=34;}else{opts.cols=30;opts.rows=22;}syncTune('cols',opts.cols);syncTune('rows',opts.rows);initialize();info(mode===1?'Mod 1 activ: divizare Fibonacci prin mers invers.':mode===2?'Mod 2 activ: mușcare și desprindere de coadă.':mode===3?'Mod 3 activ: pui AI, urmărire și independență.':'Mod 4 activ: copii navighează la scară subpixel.');draw();}
+function setPreset(mode){modePreset=mode;opts.fib=mode===1;opts.selfCut=mode!==1;opts.family=mode>=3;opts.subpixel=mode>=4;opts.mode3x=mode===5;for(const [name,id] of [['fib','fib'],['selfCut','selfCut'],['family','family'],['subpixel','subpixel'],['mode3x','mode3x']])$(id).checked=opts[name];if(mode>=3){opts.cols=48;opts.rows=34;}else{opts.cols=30;opts.rows=22;}syncTune('cols',opts.cols);syncTune('rows',opts.rows);initialize();info(mode===1?'Mod 1 activ: divizare Fibonacci prin mers invers.':mode===2?'Mod 2 activ: mușcare și desprindere de coadă.':mode===3?'Mod 3 activ: pui AI, urmărire și independență.':mode===4?'Mod 4 activ: copii navighează la scară subpixel.':'Mod 5 activ: 3X Fractal Plane, ierarhie clan, frate protector & coliziuni pătrate.');draw();}
 function createTestSnake(){if(phase==='running')phase='paused';const pos=randomFree();if(!pos){info('Nu mai este spațiu pentru șerpi.');return;}let body=[pos];for(let i=1;i<3;i++){const q={x:pos.x-i,y:pos.y};if(inBoard(q)&&!isOccupied(q)&&foodAt(q)<0)body.push(q);}const parent=owner([...selected][0])||owner(1);const s=born(body,DIR.right,parent||null,'test',false);s.dependent=false;s.familySafe=false;selected.add(s.id);info('Șarpe test #'+s.id+' creat. Bifează-l pentru săgeți.');refresh();}
 function updateList(){if(!renderListNeedsUpdate)return;renderListNeedsUpdate=false;const list=$('snakeList');list.replaceChildren();for(const s of snakes){const item=document.createElement('div');item.className='snake-item';const color=s.color||COLORS[(s.id-1)%COLORS.length];const top=document.createElement('div');top.className='snake-top';const dot=document.createElement('span');dot.className='dot';dot.style.background=color;const strong=document.createElement('strong');strong.textContent='#'+s.id+(s.id===1?' · Fondator':s.dependent?' · Pui':' · Independent');const spacer=document.createElement('span');spacer.className='flexspacer';const length=document.createElement('span');length.className='snake-meta';length.textContent=s.body.length+(s.pending?' +'+s.pending:'')+' seg · '+(opts.speed*effectiveSpeedFactor(s)/(s.berrySlowFactor||1)*opts.timeScale).toFixed(2)+'/s';top.append(dot,strong,spacer,length);top.title='Click pentru fișa șarpelui';top.style.cursor='pointer';top.addEventListener('click',()=>{selected=new Set([s.id]);inspectSnake(s.id);refresh();});
  const line=document.createElement('div');line.className='selectrow';const cb=document.createElement('input');cb.type='checkbox';cb.id='sn_'+s.id;cb.checked=selected.has(s.id);cb.addEventListener('change',()=>{if(cb.checked)selected.add(s.id);else selected.delete(s.id);});const label=document.createElement('label');label.htmlFor=cb.id;label.textContent='Săgeți';const mode=document.createElement('select');mode.setAttribute('aria-label','Control șarpe #'+s.id);for(const val of ['manual','ai']){const opt=document.createElement('option');opt.value=val;opt.textContent=val==='ai'?'AI':'Manual';mode.append(opt);}mode.value=s.control;mode.addEventListener('change',()=>{s.control=mode.value;});const parent=document.createElement('span');parent.className='snake-meta';parent.textContent=s.parentId?'părinte #'+s.parentId+' · gen '+s.generation:'gen 1';line.append(cb,label,mode,parent);
@@ -7009,6 +7476,7 @@ $('reset').addEventListener('click',()=>reset());$('feed').addEventListener('cli
 $('tailStealing').addEventListener('change',e=>{opts.tailStealing=e.target.checked;scheduleSettingsSave();});
 $('subpixel').addEventListener('change',e=>{opts.subpixel=e.target.checked;if(opts.subpixel){opts.family=true;$('family').checked=true;}adaptAllChildren();scheduleSettingsSave();draw();});
 $('eternalBond').addEventListener('change',e=>{opts.eternalBond=e.target.checked;if(opts.eternalBond&&!opts.family){opts.family=true;$('family').checked=true;}scheduleSettingsSave();refresh();draw();});
+$('mode3x').addEventListener('change',e=>{opts.mode3x=e.target.checked;if(opts.mode3x){opts.family=true;opts.subpixel=true;$('family').checked=true;$('subpixel').checked=true;}adaptAllChildren();scheduleSettingsSave();refresh();draw();});
 $('subdivisionSelect').addEventListener('input',e=>{opts.subdivisions=[4,6,9][+e.target.value]||4;$('subdivisionValue').textContent=opts.subdivisions+' ('+(opts.subdivisions===9?'3×3':opts.subdivisions===6?'3×2':'2×2')+')';for(const snake of snakes){if(snake.isSubpixel){snake.isSubpixel=false;adaptChildGeometry(snake);}}scheduleSettingsSave();draw();});
 for(let m=1;m<=4;m++)$('preset'+m).addEventListener('click',()=>{setPreset(m);resize();});
 for(const name of ['fib','selfCut','family','nocollision','walls','numbers','fade','showGrid'])$(name).addEventListener('change',e=>{const optName=name==='nocollision'?'noCollision':name==='selfCut'?'selfCut':name==='numbers'?'numbers':name==='walls'?'walls':name;opts[optName]=e.target.checked;if(name==='family'&&e.target.checked){opts.selfCut=true;$('selfCut').checked=true;opts.cols=Math.max(opts.cols,48);opts.rows=Math.max(opts.rows,34);syncTune('cols',opts.cols);syncTune('rows',opts.rows);gridChanged();}if(name==='family'&&!e.target.checked){for(const s of snakes){s.dependent=false;s.familySafe=false;}}if(name==='nocollision')info(opts.noCollision?'DEBUG: toate coliziunile ignorate; șerpii pot trece unul prin altul.':'Coliziuni activate.');modePreset=0;refresh();draw();});
@@ -7893,6 +8361,28 @@ $('stopLatched').addEventListener('click',stopAllLatched);
   $('closeSurvivalModalBtn')?.addEventListener('click', closeSurvivalModal);
   $('exitSurvivalBtn')?.addEventListener('click', exitSurvivalRun);
 
+  // Mode 3X & Zoom Slider Wiring (RC-Znk-01)
+  const zoomSlider = $('zoomSlider');
+  const zoomDirect = $('zoomDirect');
+  const zoomValue = $('zoomValue');
+  function applyZoom(z){
+    const clz = Math.max(0.2, Math.min(10.0, parseFloat(z) || 1.0));
+    camera.zoom = opts.zoom = clz;
+    if(zoomSlider) zoomSlider.value = String(Math.min(5.0, clz));
+    if(zoomDirect) zoomDirect.value = String(clz.toFixed(1));
+    if(zoomValue) zoomValue.textContent = clz.toFixed(1) + '×';
+    draw();
+  }
+  zoomSlider?.addEventListener('input', e => applyZoom(e.target.value));
+  zoomDirect?.addEventListener('change', e => applyZoom(e.target.value));
+  $('zoomInBtn')?.addEventListener('click', () => applyZoom((camera.zoom || 1.0) + 0.2));
+  $('zoomOutBtn')?.addEventListener('click', () => applyZoom((camera.zoom || 1.0) - 0.2));
+  $('preset5')?.addEventListener('click', () => setPreset(5));
+
+  if(typeof setupMousePanAndZoom === 'function'){
+    setupMousePanAndZoom(canvas, camera, opts, () => draw());
+  }
+
 function setSettingsTab(key){
  if(!tabDescriptors.some(d=>d[0]===key))return;
  activeSettingsTab=key;
@@ -8112,7 +8602,7 @@ function restoreSettings(){
  updateFoodModeUI();
  if(Number.isInteger(state.modePreset)&&state.modePreset>=0&&state.modePreset<=4)modePreset=state.modePreset;
  if(Number.isInteger(state.precisionIndex))precisionIndex=clamp(state.precisionIndex,0,STEPS.length-1);
- const optionsToInputs={lunarReproduction:'lunarReproduction',fib:'fib',selfCut:'selfCut',family:'family',noCollision:'nocollision',walls:'walls',numbers:'numbers',showGrid:'showGrid',showContactMarks:'showContactMarks',lightMode:'lightMode',fade:'fade',showNodes:'showNodes',showDeathHeatmap:'showDeathHeatmap',foodColorPreference:'foodColorPreference',tailStealing:'tailStealing',subpixel:'subpixel',eternalBond:'eternalBond'};
+ const optionsToInputs={lunarReproduction:'lunarReproduction',fib:'fib',selfCut:'selfCut',family:'family',noCollision:'nocollision',walls:'walls',numbers:'numbers',showGrid:'showGrid',showContactMarks:'showContactMarks',lightMode:'lightMode',fade:'fade',showNodes:'showNodes',showDeathHeatmap:'showDeathHeatmap',foodColorPreference:'foodColorPreference',tailStealing:'tailStealing',subpixel:'subpixel',eternalBond:'eternalBond',mode3x:'mode3x'};
  for(const [name,id] of Object.entries(optionsToInputs))$(id).checked=opts[name];
  applyTheme();
  $('subdivisionSelect').value=String([4,6,9].indexOf(opts.subdivisions)<0?0:[4,6,9].indexOf(opts.subdivisions));$('subdivisionValue').textContent=opts.subdivisions+' ('+(opts.subdivisions===9?'3×3':opts.subdivisions===6?'3×2':'2×2')+')';
@@ -8209,7 +8699,7 @@ function advanceSimulation(realDt){
 function frame(now){if(!lastFrame)lastFrame=now;const dt=Math.min(85,Math.max(0,now-lastFrame));lastFrame=now;advanceSimulation(dt);updateMoonUI();if(renderListNeedsUpdate)updateList();draw(now);requestAnimationFrame(frame);}
 window.addEventListener('resize',resize);if(typeof ResizeObserver!=='undefined')new ResizeObserver(resize).observe(board);
 restoreSettings();restoreHeatmap();restoreVines();if(typeof applyThemeMode==='function')applyThemeMode(opts.currentTheme);if(typeof applyLayoutMode==='function')applyLayoutMode(opts.currentLayout);initialize();resize();if(typeof TripleEPressDetector==='function')window._tripleEDetector=new TripleEPressDetector(()=>{if(typeof openSecretMenu==='function')openSecretMenu({opts,snakes,foods,selected,nextId,contactMarks,renderListNeedsUpdate,phase});},{autoAttach:true});if(typeof ModePController==='function')window._modePController=new ModePController({opts,snakes,foods,selected,nextId,contactMarks,renderListNeedsUpdate,phase},{autoAttach:true});updateMoonUI(true);requestAnimationFrame(frame);
-window.__snakeLab={debugMaternalBond:{calculateEffectiveAdventureRadius,mutateAdventureGene,shouldChildRemainDependent,absorbAdventureGeneInNode,advanceAdventureGeneFromVine},debugWireframe:()=>({camera,opts,computeMiddleOpacity,getReferenceEmoji,inBoard,advance,dist,setWorldMode:(m)=>{opts.worldMode=m;draw();},setFaux3D:(f)=>{opts.enableFaux3D=!!f;draw();},setTopScale:(s)=>{opts.topScale=s;draw();},setTopAlpha:(a)=>{opts.topAlpha=a;draw();},setMiddleK:(k)=>{opts.middleK=k;draw();},setTheme:applyThemeMode,setLayout:applyLayoutMode,getLayout:()=>opts.currentLayout,updateTelemetry:updateTelemetryBar,draw:()=>draw()}),debugMaternalTransfer:calculateMaternalTransfer,debugEmojiEatChance:calculateEmojiEatChance,debugAttemptEmojiEat:attemptEmergencyEmojiConsumption,debugDisorientation:applyDisorientation,debugCleanseToxicity:cleanseToxicityOnBerry,debugGetStarters:getStarterSnakes,debugStartSurvival:startSurvivalRun,debugExitSurvival:exitSurvivalRun,debugSetVineShape:(s)=>{opts.vineShape=s;cachedVineCells=null;vineMixCache.clear();draw();},debugBlackPortal:{createBlackPortal,spawnPortalSnakes,renderBlackPortal},debugSecretMenu:{openSecretMenu,closeSecretMenu,isSecretMenuOpen,saveCustomEntity,loadCustomEntities,saveCustomMap,loadCustomMaps},debugModeP:{enterModeP,exitModeP,toggleModeP,isModePActive,getAllAvailableMaps},getUI:()=>({immersive:document.body.classList.contains('immersive'),menuOpen:!document.body.classList.contains('menu-closed'),showAll:document.body.classList.contains('menu-all'),canvasWidth:canvas.clientWidth,canvasHeight:canvas.clientHeight,boardHeight:board.clientHeight,sidebarScrollHeight:$('settingsPanel').scrollHeight,sidebarHeight:$('settingsPanel').clientHeight}),enterImmersive,exitImmersive,toggleMenu,getState:()=>({phase,opts:{...opts},snakes:snakes.map(s=>({id:s.id,length:s.body.length,pending:s.pending,parentId:s.parentId,dependent:s.dependent,familySafe:s.familySafe,control:s.control,speedFactor:s.speedFactor,color:s.color,fertility:s.fertility,collisionResistance:s.collisionResistance,twinGene:s.twinGene,subpixel:snakeSubcell(s),foodGene:s.foodGene,foodSeekingGene:s.foodSeekingGene,adventureGene:s.adventureGene||0,vineSusceptibility:s.vineSusceptibility,moonSpeedGene:s.moonSpeedGene,berrySlowFactor:s.berrySlowFactor||1,head:{...s.body[0]}})),foods:foods.length,nodes:foodNodes.length,nodePositions:foodNodes.map(n=>({...n})),births,eaten,selected:[...selected],moonPhase:lunarPhase(),moonClockMs}),select:exclusiveSelect,steer:(id,d)=>{steer(owner(id),d);refresh();},tick:stepAll,advanceSimulation,setTimeScale,setPreset,reset,feed:addFood,
+window.__snakeLab={debugMode3X:typeof Mode3XEngine!=='undefined'?Mode3XEngine:null,debugMaternalBond:{calculateEffectiveAdventureRadius,mutateAdventureGene,shouldChildRemainDependent,absorbAdventureGeneInNode,advanceAdventureGeneFromVine},debugWireframe:()=>({camera,opts,computeMiddleOpacity,getReferenceEmoji,inBoard,advance,dist,setWorldMode:(m)=>{opts.worldMode=m;draw();},setFaux3D:(f)=>{opts.enableFaux3D=!!f;draw();},setTopScale:(s)=>{opts.topScale=s;draw();},setTopAlpha:(a)=>{opts.topAlpha=a;draw();},setMiddleK:(k)=>{opts.middleK=k;draw();},setTheme:applyThemeMode,setLayout:applyLayoutMode,getLayout:()=>opts.currentLayout,updateTelemetry:updateTelemetryBar,draw:()=>draw()}),debugMaternalTransfer:calculateMaternalTransfer,debugEmojiEatChance:calculateEmojiEatChance,debugAttemptEmojiEat:attemptEmergencyEmojiConsumption,debugDisorientation:applyDisorientation,debugCleanseToxicity:cleanseToxicityOnBerry,debugGetStarters:getStarterSnakes,debugStartSurvival:startSurvivalRun,debugExitSurvival:exitSurvivalRun,debugSetVineShape:(s)=>{opts.vineShape=s;cachedVineCells=null;vineMixCache.clear();draw();},debugBlackPortal:{createBlackPortal,spawnPortalSnakes,renderBlackPortal},debugSecretMenu:{openSecretMenu,closeSecretMenu,isSecretMenuOpen,saveCustomEntity,loadCustomEntities,saveCustomMap,loadCustomMaps},debugModeP:{enterModeP,exitModeP,toggleModeP,isModePActive,getAllAvailableMaps},getUI:()=>({immersive:document.body.classList.contains('immersive'),menuOpen:!document.body.classList.contains('menu-closed'),showAll:document.body.classList.contains('menu-all'),canvasWidth:canvas.clientWidth,canvasHeight:canvas.clientHeight,boardHeight:board.clientHeight,sidebarScrollHeight:$('settingsPanel').scrollHeight,sidebarHeight:$('settingsPanel').clientHeight}),enterImmersive,exitImmersive,toggleMenu,getState:()=>({phase,opts:{...opts},snakes:snakes.map(s=>({id:s.id,length:s.body.length,pending:s.pending,parentId:s.parentId,dependent:s.dependent,familySafe:s.familySafe,control:s.control,speedFactor:s.speedFactor,color:s.color,fertility:s.fertility,collisionResistance:s.collisionResistance,twinGene:s.twinGene,subpixel:snakeSubcell(s),foodGene:s.foodGene,foodSeekingGene:s.foodSeekingGene,adventureGene:s.adventureGene||0,vineSusceptibility:s.vineSusceptibility,moonSpeedGene:s.moonSpeedGene,berrySlowFactor:s.berrySlowFactor||1,head:{...s.body[0]}})),foods:foods.length,nodes:foodNodes.length,nodePositions:foodNodes.map(n=>({...n})),births,eaten,selected:[...selected],moonPhase:lunarPhase(),moonClockMs}),select:exclusiveSelect,steer:(id,d)=>{steer(owner(id),d);refresh();},tick:stepAll,advanceSimulation,setTimeScale,setPreset,reset,feed:addFood,
  debugCollisionProbability:(a,b,resistance=0)=>collisionProbability(a,b,resistance),debugMutateColor:mutateColor,debugResistanceMutation:(id)=>{const s=owner(id);return s?mutateCollisionResistance(s):null;},debugResistanceRates:resistanceMutationRates,inspectSnake,closeInspector,
  debugFoodMismatchRisk:foodMismatchRisk,debugFoodFatality:(id,color)=>foodFatalityChance(owner(id),color),
  debugGetVines:()=>foodNodes.map(n=>({...n,pulses:n.pulses.map(p=>({...p}))})),
