@@ -1002,7 +1002,8 @@ body.layout-desktop-cockpit main.card, body.layout-cockpit main.card {
   width: 100%;
 }
 body.layout-mobile-sheet .cockpit-telemetry-bar, body.layout-bottom-sheet .cockpit-telemetry-bar,
-body.layout-zen-overlay .cockpit-telemetry-bar, body.layout-zen .cockpit-telemetry-bar {
+body.layout-zen-overlay .cockpit-telemetry-bar, body.layout-zen .cockpit-telemetry-bar,
+body.layout-arcade-deck .cockpit-telemetry-bar, body.layout-arcade .cockpit-telemetry-bar {
   display: none;
 }
 
@@ -1307,6 +1308,9 @@ body.layout-arcade-deck .btn.primary, body.layout-arcade .btn.primary {
 
 </style>
 
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
   <meta name="description" content="Znake · Snake Fibonacci Ecology — Procedural infinite signed sandbox simulation with Fibonacci genetics, subpixel tail stealing, local vine ecology, and a faux-3D three-plane wireframe perspective engine. Playable online or offline in pure HTML5 Canvas.">
   <meta name="keywords" content="snake game, artificial life, fibonacci ecology, faux 3d wireframe, procedural generation, cellular automata, genetic algorithms, webgl alternative, html5 canvas">
   <meta name="author" content="Andrei Vențilă & Antigravity Swarm">
@@ -2545,10 +2549,15 @@ function refresh(){const live=snakes.length;if(typeof updateTelemetryBar==='func
 function hexAlpha(c,a){return c+Math.round(clamp(a,0,1)*255).toString(16).padStart(2,'0');}
 
 function draw(now=performance.now()){
-  const w=canvas.clientWidth||board.clientWidth,h=w*opts.rows/opts.cols;
-  const dpr=Math.min(2,window.devicePixelRatio||1);
-  if(canvas.width!==Math.round(w*dpr)||canvas.height!==Math.round(h*dpr)){
-    canvas.width=Math.round(w*dpr);canvas.height=Math.round(h*dpr);
+  const measuredW = canvas.clientWidth || board.clientWidth;
+  const w = Math.max(240, (Number.isFinite(measuredW) && measuredW > 0) ? measuredW : 850);
+  const h = Math.round(w * opts.rows / opts.cols);
+  const dpr = Math.min(2, window.devicePixelRatio || 1);
+  const bufW = Math.round(w * dpr);
+  const bufH = Math.round(h * dpr);
+  if (canvas.width !== bufW || canvas.height !== bufH) {
+    canvas.width = bufW;
+    canvas.height = bufH;
   }
   ctx.setTransform(dpr,0,0,dpr,0,0);
 
@@ -2891,14 +2900,24 @@ function draw(now=performance.now()){
 }
 
 function resize(){
+ const ratio=opts.cols/opts.rows;
  canvas.style.aspectRatio=opts.cols+'/'+opts.rows;
- // Make the physical canvas match its visible rectangle (also keeps click-to-cell mapping correct).
+ // Make the physical canvas match its visible rectangle with hysteresis protection against ResizeObserver decay loops
  const fit=document.body.classList.contains('immersive');
  if(fit&&board.clientWidth>0&&board.clientHeight>0){
-  const ratio=opts.cols/opts.rows,pad=2;
-  const w=Math.max(1,Math.min(board.clientWidth-pad,(board.clientHeight-pad)*ratio));
-  canvas.style.width=w+'px';canvas.style.height=(w/ratio)+'px';canvas.style.maxHeight='none';
- }else{canvas.style.width='';canvas.style.height='';canvas.style.maxHeight='';}
+  const availW=Math.max(120,board.clientWidth);
+  const availH=Math.max(120,board.clientHeight);
+  const targetW=Math.round(Math.min(availW,availH*ratio));
+  const targetH=Math.round(targetW/ratio);
+  const currentW=parseFloat(canvas.style.width)||0;
+  if(Math.abs(currentW-targetW)>2){
+   canvas.style.width=targetW+'px';canvas.style.height=targetH+'px';canvas.style.maxHeight='none';
+  }
+ }else{
+  if(canvas.style.width!==''||canvas.style.height!==''||canvas.style.maxHeight!==''){
+   canvas.style.width='';canvas.style.height='';canvas.style.maxHeight='';
+  }
+ }
  draw();
 }
 let savedSidebarScroll=0;
@@ -3764,7 +3783,13 @@ function restoreSettings(){
   if(!raw)return false;
   state=JSON.parse(raw);
  }catch(err){storageFeedback('Nu se pot citi setările locale',true);return false;}
- if(!state||state.version!==1||!state.options||typeof state.options!=='object'||Array.isArray(state.options))return false;
+ if(!state||(state.version!==1&&state.version!==2&&state.version!==3)||!state.options||typeof state.options!=='object'||Array.isArray(state.options))return false;
+  if(state.currentTheme)opts.currentTheme=state.currentTheme;
+  if(state.currentLayout)opts.currentLayout=state.currentLayout;
+  if(state.worldMode)opts.worldMode=state.worldMode;
+  if(state.worldSeed)opts.worldSeed=state.worldSeed;
+  if(typeof state.enableFaux3D==='boolean')opts.enableFaux3D=state.enableFaux3D;
+  if(state.duplication&&typeof state.duplication==='object')opts.duplication={...opts.duplication,...state.duplication};
  for(const [name,previous] of Object.entries(opts)){
   const value=state.options[name];
   if(typeof previous==='boolean'){
@@ -3885,7 +3910,7 @@ function advanceSimulation(realDt){
 }
 function frame(now){if(!lastFrame)lastFrame=now;const dt=Math.min(85,Math.max(0,now-lastFrame));lastFrame=now;advanceSimulation(dt);updateMoonUI();if(renderListNeedsUpdate)updateList();draw(now);requestAnimationFrame(frame);}
 window.addEventListener('resize',resize);if(typeof ResizeObserver!=='undefined')new ResizeObserver(resize).observe(board);
-restoreSettings();restoreHeatmap();restoreVines();applyTheme();initialize();resize();updateMoonUI(true);requestAnimationFrame(frame);
+restoreSettings();restoreHeatmap();restoreVines();if(typeof applyThemeMode==='function')applyThemeMode(opts.currentTheme);if(typeof applyLayoutMode==='function')applyLayoutMode(opts.currentLayout);initialize();resize();updateMoonUI(true);requestAnimationFrame(frame);
 window.__snakeLab={debugWireframe:()=>({camera,opts,computeMiddleOpacity,getReferenceEmoji,inBoard,advance,dist,setWorldMode:(m)=>{opts.worldMode=m;draw();},setFaux3D:(f)=>{opts.enableFaux3D=!!f;draw();},setTopScale:(s)=>{opts.topScale=s;draw();},setTopAlpha:(a)=>{opts.topAlpha=a;draw();},setMiddleK:(k)=>{opts.middleK=k;draw();},setTheme:applyThemeMode,setLayout:applyLayoutMode,getLayout:()=>opts.currentLayout,updateTelemetry:updateTelemetryBar,draw:()=>draw()}),getUI:()=>({immersive:document.body.classList.contains('immersive'),menuOpen:!document.body.classList.contains('menu-closed'),showAll:document.body.classList.contains('menu-all'),canvasWidth:canvas.clientWidth,canvasHeight:canvas.clientHeight,boardHeight:board.clientHeight,sidebarScrollHeight:$('settingsPanel').scrollHeight,sidebarHeight:$('settingsPanel').clientHeight}),enterImmersive,exitImmersive,toggleMenu,getState:()=>({phase,opts:{...opts},snakes:snakes.map(s=>({id:s.id,length:s.body.length,pending:s.pending,parentId:s.parentId,dependent:s.dependent,familySafe:s.familySafe,control:s.control,speedFactor:s.speedFactor,color:s.color,fertility:s.fertility,collisionResistance:s.collisionResistance,twinGene:s.twinGene,subpixel:snakeSubcell(s),foodGene:s.foodGene,foodSeekingGene:s.foodSeekingGene,vineSusceptibility:s.vineSusceptibility,moonSpeedGene:s.moonSpeedGene,berrySlowFactor:s.berrySlowFactor||1,head:{...s.body[0]}})),foods:foods.length,nodes:foodNodes.length,nodePositions:foodNodes.map(n=>({...n})),births,eaten,selected:[...selected],moonPhase:lunarPhase(),moonClockMs}),select:exclusiveSelect,steer:(id,d)=>{steer(owner(id),d);refresh();},tick:stepAll,advanceSimulation,setTimeScale,setPreset,reset,feed:addFood,
  debugCollisionProbability:(a,b,resistance=0)=>collisionProbability(a,b,resistance),debugMutateColor:mutateColor,debugResistanceMutation:(id)=>{const s=owner(id);return s?mutateCollisionResistance(s):null;},debugResistanceRates:resistanceMutationRates,inspectSnake,closeInspector,
  debugFoodMismatchRisk:foodMismatchRisk,debugFoodFatality:(id,color)=>foodFatalityChance(owner(id),color),
