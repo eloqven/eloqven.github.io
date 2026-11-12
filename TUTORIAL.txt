@@ -147,6 +147,26 @@ When a snake segments (via self-cut or pressing the opposite movement key):
 - Deployed directly to GitHub Pages at: https://eloqven.github.io/
 - All mechanics run offline in any modern standard browser.
 
+--------------------------------------------------------------------------------
+10. GENA REZONANȚEI CROMATICE A CLANULUI (INDIVIDUALIST RESONANCE GENE)
+--------------------------------------------------------------------------------
+- Lideri / Individualiști Activi:
+  - Gena este activă exclusiv la șerpii independenți / capii de familie (isClanHead === true).
+  - Fratele mai mare este STRICT EXCLUS atâta timp cât mama / matriarhul trăiește.
+  - La moartea mamei, fratele mai mare preia autoritatea clanului, devenind noul cap de familie și activându-și gena.
+- Curba de Expresie Lunară:
+  - 100% (1.00) la mijlocul ciclului lunar (pătrare / tranziție).
+  - 111% (1.11) la Lună Plină (🌕 Luna plină).
+  - 89% (0.89) la Lună Nouă (🌑 Luna nouă).
+  - Formulă: factor = 1.00 + 0.11 * cos(2 * PI * (phase - 0.5)).
+- Multiplicator Proporțional cu Populația Clanului (N_clan):
+  - Șarpe solitar (N_clan = 1): menține valorile triviale/de bază (1.0x).
+  - Clan extins: forța de atracție pentru culori similare și repulsia pentru culori diferite cresc direct proporțional cu numărul de membri vii înlănțuiți în acea ramură (N_clan * lunarFactor).
+  - Repulsia colectivă a grupurilor mari este un fenomen emergent natural al mecanicii de steering vectorial.
+- Protecție Robustă Dimensiune Grid / Web View:
+  - Rezolvat definitiv bug-ul în care canvas-ul se micșora la 2px x 2px la refresh:
+  - Adăugate limite defensive minime (min-height: 240px pe frame, min-height: 180px pe canvas, Math.max(180, ...) la calculul buffer-ului).
+
 ================================================================================
 Signed: RC-Znk-01 [uncle of RC03-Wisly]
 ================================================================================

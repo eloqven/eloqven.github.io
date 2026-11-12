@@ -6,7 +6,7 @@
 <style>
 :root{color-scheme:dark;--bg:#090e16;--panel:#111c29;--panel2:#162436;--line:#2b3e50;--txt:#e9f4f7;--muted:#91a7b9;--green:#adf17c;--yellow:#f7d178;--purple:#bca6ff}
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 13% -8%,#213b43 0,transparent 48%),var(--bg);font:13px/1.48 system-ui,-apple-system,Segoe UI,sans-serif;color:var(--txt)}
-button,input,select{font:inherit}button{cursor:pointer}button:disabled{opacity:.35;cursor:not-allowed}button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid #e5f2ac;outline-offset:2px}.wrap{max-width:1420px;margin:0 auto;padding:22px 20px 36px}.header{display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap;margin-bottom:18px}.eyebrow{color:#a9e19a;letter-spacing:2px;text-transform:uppercase;font-size:10px;font-weight:750}.header h1{font-size:clamp(25px,3vw,35px);letter-spacing:-1.2px;margin:3px 0;font-weight:850}.header h1 span{color:#93a6b8;font-weight:400}.right-pill{font-size:11px;letter-spacing:.5px;color:#c9dbd4;background:#18312e;border:1px solid #3a6557;border-radius:30px;padding:8px 13px}.layout{display:grid;grid-template-columns:minmax(0,1fr) 338px;gap:16px;align-items:start}.card{background:#0f1926;border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 16px 34px #0002}.summary{display:flex;flex-wrap:wrap;gap:1px;background:var(--line);border-bottom:1px solid var(--line)}.summary .stat{padding:15px 19px;background:#101d2a;flex:1;min-width:0}.summary .stat{min-width:100px}.stat small{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:#91a6b6;display:block}.stat strong{font-size:23px;line-height:1.2;letter-spacing:-.5px}.board-pad{padding:14px 14px 5px}.board-frame{width:100%;background:#0a1622;border:1px solid #395064;border-radius:8px;overflow:hidden;position:relative;touch-action:none}.board-frame canvas{display:block;width:100%;height:auto;max-height:min(67vh,710px);cursor:crosshair}.board-status{padding:8px 2px 12px;display:flex;justify-content:space-between;gap:10px;color:#a0b3c3;font-size:11px}.board-status span:first-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.bar{display:flex;gap:7px;flex-wrap:wrap;padding:13px 14px;border-top:1px solid var(--line);align-items:center}.btn{border:1px solid #415569;border-radius:8px;background:#1c2d3d;color:#eff5fc;padding:9px 12px;font-weight:750}.btn:hover{background:#293e51}.btn.primary{background:#b5f07c;color:#1a2a17;border-color:#b5f07c}.btn.danger{background:#412829;border-color:#83504c}.smallhint{font-size:11px;color:#91a7b9}.touch{border-top:1px solid var(--line);padding:12px 14px;display:flex;gap:24px;justify-content:center;align-items:start;flex-wrap:wrap}.touch-group{display:flex;flex-direction:column;align-items:center;gap:6px}.touch-group>b{font-size:11px;color:#c7d6e2}.dpad{display:grid;grid-template-columns:repeat(3,36px);grid-template-rows:repeat(2,35px);gap:4px}.dir{background:#28394a;border:1px solid #4c6379;border-radius:6px;color:#e4f6fa;font-size:16px}.dir.up{grid-column:2;grid-row:1}.dir.left{grid-column:1;grid-row:2}.dir.down{grid-column:2;grid-row:2}.dir.right{grid-column:3;grid-row:2}.dir:active{background:#517483}.sidebar section{padding:16px 18px;border-bottom:1px solid var(--line)}.sidebar section:last-child{border-bottom:0}.sideheading{font-size:11px;letter-spacing:1.25px;font-weight:850;color:#a5b6c5;text-transform:uppercase;margin:0 0 12px}.mode-preset{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:10px}.mode-preset button{font-size:11px;padding:8px 3px;border:1px solid #435669;border-radius:7px;background:#172738;color:#c9d7e4}.mode-preset button.active{background:#344d3e;border-color:#95cf89;color:#def3d7}.setting{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:7px 0;color:#bdcedb;font-size:12px}.setting span{flex:1}.setting input[type=checkbox]{accent-color:#a9ed77;width:16px;height:16px;cursor:pointer;flex-shrink:0}.setting small{color:#7f95a6;font-size:10px}.row-two{display:grid;grid-template-columns:1fr 1fr;gap:8px}.field>span{display:block;color:#93a9ba;font-size:11px;margin:2px 0 5px}.field input,.field select{width:100%;background:#0d1925;border:1px solid #405166;border-radius:7px;color:#e8f1f6;padding:8px 9px;font-weight:650}.field input[type=range]{padding:5px 0;accent-color:#b2ed7f}.readout{font-size:10px;color:#a1b4c4;margin:5px 0}.note{font-size:11px;color:#8ca1b1;line-height:1.5;margin:6px 0 0}.snake-list{max-height:290px;overflow:auto;display:grid;gap:7px}.snake-item{border:1px solid #394d5f;background:#172435;border-radius:9px;padding:9px 10px;display:grid;gap:6px}.snake-top{display:flex;align-items:center;gap:8px}.dot{width:11px;height:11px;border-radius:3px;flex-shrink:0}.snake-top strong{font-size:12px}.snake-meta{color:#95aabe;font-size:10px}.family-protect-row{display:flex;align-items:center;gap:7px;border:1px solid #3b745d;background:#142c2a;padding:6px 8px;border-radius:6px;color:#bfead2;font-size:11px;cursor:pointer}.family-protect-row input{accent-color:#8ce4b2;width:15px;height:15px}.family-protect-row small{color:#91ad9f;font-size:10px;margin-left:auto}.snake-item select{background:#0d1a27;color:#dceaf4;border:1px solid #425365;border-radius:5px;padding:5px;font-size:11px}.selectrow{display:flex;align-items:center;gap:6px;flex-wrap:wrap}.selectrow label{font-size:11px;color:#a9bfcc;cursor:pointer}.selectrow input{accent-color:#b0ef75}.flexspacer{flex:1}.mini{font-size:10px;padding:4px 7px}.log{max-height:140px;overflow-y:auto;background:#0b1622;border:1px solid #2f4153;border-radius:7px;padding:8px 10px;font-size:10px;color:#9db6c3}.log div{padding:3px 0;border-bottom:1px solid #213141}.log div:last-child{border-bottom:0}.muted{color:#8298a9}.mode-caption{margin:0 0 9px;font-size:11px;color:#9bb0bf}.inline-info{display:flex;gap:10px;justify-content:space-between;padding:0 14px 13px;font-size:11px;color:#8098aa}.kbd{border:1px solid #4d6577;border-radius:4px;padding:1px 4px;color:#e0eff5;font-size:10px}.highlight{color:#d9f9bd}.select-actions{display:flex;gap:7px;margin-top:8px;flex-wrap:wrap}.select-actions button{border:1px solid #3d5166;color:#bad1dd;background:#182a3a;border-radius:6px;padding:6px 8px;font-size:10px}@media(max-width:980px){.layout{grid-template-columns:1fr}.sidebar{display:grid;grid-template-columns:1fr 1fr}.sidebar section{border-right:1px solid var(--line)}}@media(max-width:600px){.wrap{padding:12px 8px 20px}.header{padding:3px 5px}.right-pill{font-size:10px}.summary .stat{padding:10px 11px}.stat strong{font-size:19px}.board-pad{padding:6px 6px 0}.board-status{padding:8px}.sidebar{display:block}.touch{gap:12px}.bar{padding:10px 8px}.smallhint{display:none}.card{border-radius:10px}} 
+button,input,select{font:inherit}button{cursor:pointer}button:disabled{opacity:.35;cursor:not-allowed}button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid #e5f2ac;outline-offset:2px}.wrap{max-width:1420px;margin:0 auto;padding:22px 20px 36px}.header{display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap;margin-bottom:18px}.eyebrow{color:#a9e19a;letter-spacing:2px;text-transform:uppercase;font-size:10px;font-weight:750}.header h1{font-size:clamp(25px,3vw,35px);letter-spacing:-1.2px;margin:3px 0;font-weight:850}.header h1 span{color:#93a6b8;font-weight:400}.right-pill{font-size:11px;letter-spacing:.5px;color:#c9dbd4;background:#18312e;border:1px solid #3a6557;border-radius:30px;padding:8px 13px}.layout{display:grid;grid-template-columns:minmax(0,1fr) 338px;gap:16px;align-items:start}.card{background:#0f1926;border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 16px 34px #0002}.summary{display:flex;flex-wrap:wrap;gap:1px;background:var(--line);border-bottom:1px solid var(--line)}.summary .stat{padding:15px 19px;background:#101d2a;flex:1;min-width:0}.summary .stat{min-width:100px}.stat small{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:#91a6b6;display:block}.stat strong{font-size:23px;line-height:1.2;letter-spacing:-.5px}.board-pad{padding:14px 14px 5px}.board-frame{width:100%;min-height:240px;background:#0a1622;border:1px solid #395064;border-radius:8px;overflow:hidden;position:relative;touch-action:none}.board-frame canvas{display:block;width:100%;height:auto;min-height:200px;max-height:min(67vh,710px);cursor:crosshair}.board-status{padding:8px 2px 12px;display:flex;justify-content:space-between;gap:10px;color:#a0b3c3;font-size:11px}.board-status span:first-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.bar{display:flex;gap:7px;flex-wrap:wrap;padding:13px 14px;border-top:1px solid var(--line);align-items:center}.btn{border:1px solid #415569;border-radius:8px;background:#1c2d3d;color:#eff5fc;padding:9px 12px;font-weight:750}.btn:hover{background:#293e51}.btn.primary{background:#b5f07c;color:#1a2a17;border-color:#b5f07c}.btn.danger{background:#412829;border-color:#83504c}.smallhint{font-size:11px;color:#91a7b9}.touch{border-top:1px solid var(--line);padding:12px 14px;display:flex;gap:24px;justify-content:center;align-items:start;flex-wrap:wrap}.touch-group{display:flex;flex-direction:column;align-items:center;gap:6px}.touch-group>b{font-size:11px;color:#c7d6e2}.dpad{display:grid;grid-template-columns:repeat(3,36px);grid-template-rows:repeat(2,35px);gap:4px}.dir{background:#28394a;border:1px solid #4c6379;border-radius:6px;color:#e4f6fa;font-size:16px}.dir.up{grid-column:2;grid-row:1}.dir.left{grid-column:1;grid-row:2}.dir.down{grid-column:2;grid-row:2}.dir.right{grid-column:3;grid-row:2}.dir:active{background:#517483}.sidebar section{padding:16px 18px;border-bottom:1px solid var(--line)}.sidebar section:last-child{border-bottom:0}.sideheading{font-size:11px;letter-spacing:1.25px;font-weight:850;color:#a5b6c5;text-transform:uppercase;margin:0 0 12px}.mode-preset{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:10px}.mode-preset button{font-size:11px;padding:8px 3px;border:1px solid #435669;border-radius:7px;background:#172738;color:#c9d7e4}.mode-preset button.active{background:#344d3e;border-color:#95cf89;color:#def3d7}.setting{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:7px 0;color:#bdcedb;font-size:12px}.setting span{flex:1}.setting input[type=checkbox]{accent-color:#a9ed77;width:16px;height:16px;cursor:pointer;flex-shrink:0}.setting small{color:#7f95a6;font-size:10px}.row-two{display:grid;grid-template-columns:1fr 1fr;gap:8px}.field>span{display:block;color:#93a9ba;font-size:11px;margin:2px 0 5px}.field input,.field select{width:100%;background:#0d1925;border:1px solid #405166;border-radius:7px;color:#e8f1f6;padding:8px 9px;font-weight:650}.field input[type=range]{padding:5px 0;accent-color:#b2ed7f}.readout{font-size:10px;color:#a1b4c4;margin:5px 0}.note{font-size:11px;color:#8ca1b1;line-height:1.5;margin:6px 0 0}.snake-list{max-height:290px;overflow:auto;display:grid;gap:7px}.snake-item{border:1px solid #394d5f;background:#172435;border-radius:9px;padding:9px 10px;display:grid;gap:6px}.snake-top{display:flex;align-items:center;gap:8px}.dot{width:11px;height:11px;border-radius:3px;flex-shrink:0}.snake-top strong{font-size:12px}.snake-meta{color:#95aabe;font-size:10px}.family-protect-row{display:flex;align-items:center;gap:7px;border:1px solid #3b745d;background:#142c2a;padding:6px 8px;border-radius:6px;color:#bfead2;font-size:11px;cursor:pointer}.family-protect-row input{accent-color:#8ce4b2;width:15px;height:15px}.family-protect-row small{color:#91ad9f;font-size:10px;margin-left:auto}.snake-item select{background:#0d1a27;color:#dceaf4;border:1px solid #425365;border-radius:5px;padding:5px;font-size:11px}.selectrow{display:flex;align-items:center;gap:6px;flex-wrap:wrap}.selectrow label{font-size:11px;color:#a9bfcc;cursor:pointer}.selectrow input{accent-color:#b0ef75}.flexspacer{flex:1}.mini{font-size:10px;padding:4px 7px}.log{max-height:140px;overflow-y:auto;background:#0b1622;border:1px solid #2f4153;border-radius:7px;padding:8px 10px;font-size:10px;color:#9db6c3}.log div{padding:3px 0;border-bottom:1px solid #213141}.log div:last-child{border-bottom:0}.muted{color:#8298a9}.mode-caption{margin:0 0 9px;font-size:11px;color:#9bb0bf}.inline-info{display:flex;gap:10px;justify-content:space-between;padding:0 14px 13px;font-size:11px;color:#8098aa}.kbd{border:1px solid #4d6577;border-radius:4px;padding:1px 4px;color:#e0eff5;font-size:10px}.highlight{color:#d9f9bd}.select-actions{display:flex;gap:7px;margin-top:8px;flex-wrap:wrap}.select-actions button{border:1px solid #3d5166;color:#bad1dd;background:#182a3a;border-radius:6px;padding:6px 8px;font-size:10px}@media(max-width:980px){.layout{grid-template-columns:1fr}.sidebar{display:grid;grid-template-columns:1fr 1fr}.sidebar section{border-right:1px solid var(--line)}}@media(max-width:600px){.wrap{padding:12px 8px 20px}.header{padding:3px 5px}.right-pill{font-size:10px}.summary .stat{padding:10px 11px}.stat strong{font-size:19px}.board-pad{padding:6px 6px 0}.board-status{padding:8px}.sidebar{display:block}.touch{gap:12px}.bar{padding:10px 8px}.smallhint{display:none}.card{border-radius:10px}} 
 
 /* Fine-grained, extendable parameter controls */
 .tune{margin:12px 0 13px}.tune-title{display:flex;align-items:baseline;justify-content:space-between;gap:8px;color:#a4bdc8;font-size:11px;margin-bottom:6px}.tune-title output{font-size:12px;font-variant-numeric:tabular-nums;color:#e5f4d7;font-weight:800;white-space:nowrap}
@@ -24,9 +24,9 @@ html,body{min-height:100%;scrollbar-color:#536778 #111d2b}
   .layout{height:calc(100dvh - 124px);min-height:430px;align-items:stretch}
   .layout>main{height:100%;min-height:0;position:sticky;top:12px;display:flex;flex-direction:column}
   .layout>main .summary,.layout>main .bar,.layout>main .touch,.layout>main .inline-info{flex-shrink:0}
-  .layout>main .board-pad{flex:1 1 auto;min-height:0;display:flex;flex-direction:column}
-  .layout>main .board-frame{flex:1 1 auto;min-height:0;display:flex;justify-content:center;align-items:center}
-  .layout>main .board-frame canvas{max-height:none}
+  .layout>main .board-pad{flex:1 1 auto;min-height:220px;display:flex;flex-direction:column}
+  .layout>main .board-frame{flex:1 1 auto;min-height:220px;display:flex;justify-content:center;align-items:center}
+  .layout>main .board-frame canvas{min-height:180px;max-height:none}
   .sidebar{height:100%;max-height:100%;overflow-y:auto;overflow-x:hidden}
 }
 /* Immersive game mode uses the same live settings, never a cloned menu. */
@@ -5964,6 +5964,261 @@ const CLAN_TIERS = {
   }
   
 
+/**
+ * Individualist Clan Resonance Gene (Gena Rezonanței Cromatice a Clanului).
+ *
+ * Requirements:
+ * - Active ONLY in individualists / clan heads (founders, independent adults, clan heads).
+ * - Strictly EXCLUDES the older brother as long as he has an active living leader (matriarch/mother).
+ *   When the matriarch dies and the older brother becomes clan head, he qualifies!
+ * - Lunar Expression:
+ *   - 100% in the middle of the lunar cycle (quarter moons / transition).
+ *   - 111% at Full Moon (🌕 Luna plină).
+ *   - 89% at New Moon (🌑 Luna nouă).
+ * - Governs chromatic attraction (sameColorAttraction) and repulsion (differentColorRepulsion).
+ * - Baseline/trivial values when alone (N_clan = 1, multiplier = 1.0).
+ * - Scales directly proportional to active living clan population chained to that family branch (N_clan).
+ *   Larger clans have significantly stronger attraction to similar colors and stronger repulsion from dissimilar colors.
+ * - Emergent group repulsion: no artificial hacks needed, natural flock steering produces stronger collective repulsion.
+ *
+ * Coordinator: RC-Znk-01 [uncle of RC03-Wisly]
+ */
+
+'use strict';
+
+/**
+ * Calculates the lunar expression factor for the individualist gene.
+ * @param {number} moonPhase - Normalized lunar phase in [0, 1) where 0 = new moon, 0.5 = full moon
+ * @returns {number} Factor in range [0.89, 1.11] (0.89 at new moon, 1.00 at mid-cycle, 1.11 at full moon)
+ */
+function calculateLunarColorExpression(moonPhaseOrClock, moonCycle = 60) {
+  let phase;
+  if (typeof moonPhaseOrClock === 'number') {
+    if (moonPhaseOrClock >= 0 && moonPhaseOrClock <= 1) {
+      phase = moonPhaseOrClock;
+    } else {
+      // Milliseconds clock
+      const cycleMs = Math.max(1, moonCycle * 1000);
+      phase = ((moonPhaseOrClock % cycleMs) + cycleMs) % cycleMs / cycleMs;
+    }
+  } else {
+    phase = 0.5; // default mid-cycle
+  }
+
+  // phase: 0 = new moon, 0.5 = full moon, 0.25 & 0.75 = mid-cycle
+  // cos(2 * PI * (phase - 0.5)):
+  // phase = 0.5 (full moon) -> cos(0) = 1.0 -> 1.00 + 0.11 * 1.0 = 1.11
+  // phase = 0.0 (new moon)  -> cos(-PI) = -1.0 -> 1.00 + 0.11 * -1.0 = 0.89
+  // phase = 0.25 (mid-cycle) -> cos(-PI/2) = 0.0 -> 1.00 + 0.11 * 0.0 = 1.00
+  // phase = 0.75 (mid-cycle) -> cos(PI/2) = 0.0 -> 1.00 + 0.11 * 0.0 = 1.00
+  const wave = Math.cos(2 * Math.PI * (phase - 0.5));
+  const factor = 1.00 + 0.11 * wave;
+  return Number(factor.toFixed(4));
+}
+
+/**
+ * Determines whether a snake qualifies as an individualist / clan head.
+ * Excludes older brothers as long as their mother/leader is alive.
+ * @param {object} snake - Snake object
+ * @param {Map|object} [clanHierarchy] - Clan hierarchy map from buildClanHierarchy
+ * @param {Array<object>} [allSnakes] - All snakes currently active
+ * @returns {boolean}
+ */
+function isSnakeIndividualistLeader(snake, clanHierarchy = null, allSnakes = []) {
+  if (!snake) return false;
+
+  // If clan hierarchy is provided
+  if (clanHierarchy) {
+    const info = (typeof clanHierarchy.get === 'function')
+      ? clanHierarchy.get(snake.id)
+      : clanHierarchy[snake.id];
+
+    if (info) {
+      // Rule: Exclude older brother as long as he has a living leader/matriarch
+      if (info.isOlderBrother) {
+        const hasLivingLeader = info.matriarch && info.matriarch.id !== snake.id &&
+          (!allSnakes || allSnakes.some(s => s.id === info.matriarch.id));
+        if (hasLivingLeader) {
+          return false; // Not an individualist while following mother
+        }
+      }
+
+      // If he is clan head, he qualifies!
+      if (info.isClanHead) {
+        return true;
+      }
+
+      // If he has an active authority above him, he is dependent
+      if (info.activeAuthority && info.activeAuthority.id !== snake.id) {
+        return false;
+      }
+    }
+  }
+
+  // Fallback to snake attributes:
+  // Dependent snakes are children following a parent, not individualists
+  if (snake.dependent === true) {
+    return false;
+  }
+
+  // If snake has an active parent alive in allSnakes, it is not an independent head
+  if (snake.parentId != null && Array.isArray(allSnakes) && allSnakes.some(s => s.id === snake.parentId)) {
+    return false;
+  }
+
+  // Independent founder or emancipated adult without authority above them
+  return true;
+}
+
+/**
+ * Calculates the active living population chained to a snake's clan branch.
+ * @param {object} leaderSnake - Qualifying leader snake
+ * @param {Map|object} [clanHierarchy] - Clan hierarchy map
+ * @param {Array<object>} [allSnakes] - All active living snakes
+ * @returns {number} Active living clan population (minimum 1)
+ */
+function calculateClanLivingPopulation(leaderSnake, clanHierarchy = null, allSnakes = []) {
+  if (!leaderSnake) return 1;
+  if (!Array.isArray(allSnakes) || allSnakes.length === 0) return 1;
+
+  if (clanHierarchy) {
+    const leaderInfo = (typeof clanHierarchy.get === 'function')
+      ? clanHierarchy.get(leaderSnake.id)
+      : clanHierarchy[leaderSnake.id];
+
+    if (leaderInfo && leaderInfo.clanId != null) {
+      const clanId = leaderInfo.clanId;
+      let count = 0;
+      for (const s of allSnakes) {
+        const memberInfo = (typeof clanHierarchy.get === 'function')
+          ? clanHierarchy.get(s.id)
+          : clanHierarchy[s.id];
+        if (memberInfo && memberInfo.clanId === clanId) {
+          count++;
+        }
+      }
+      return Math.max(1, count);
+    }
+  }
+
+  // Fallback clan tracing: count descendants where parentId links back to leaderSnake
+  const clanSet = new Set([leaderSnake.id]);
+  let added = true;
+  while (added) {
+    added = false;
+    for (const s of allSnakes) {
+      if (!clanSet.has(s.id) && s.parentId != null && clanSet.has(s.parentId)) {
+        clanSet.add(s.id);
+        added = true;
+      }
+    }
+  }
+
+  return Math.max(1, clanSet.size);
+}
+
+/**
+ * Computes effective color attraction and repulsion considering lunar cycle and clan population.
+ * @param {object} snake - Snake steering
+ * @param {number} baseAttraction - Base sameColorAttraction
+ * @param {number} baseRepulsion - Base differentColorRepulsion
+ * @param {number} moonClockMs - Current moon clock in ms
+ * @param {number} moonCycle - Moon cycle duration in s
+ * @param {Map|object} [clanHierarchy] - Clan hierarchy
+ * @param {Array<object>} [allSnakes] - All living snakes
+ * @returns {object}
+ */
+function calculateEffectiveClanColorResonance(
+  snake,
+  baseAttraction = 8,
+  baseRepulsion = 8,
+  moonClockMs = 0,
+  moonCycle = 60,
+  clanHierarchy = null,
+  allSnakes = []
+) {
+  const isLeader = isSnakeIndividualistLeader(snake, clanHierarchy, allSnakes);
+  const resonanceGene = typeof snake?.clanResonanceGene === 'number' ? snake.clanResonanceGene : 100;
+  const geneScale = resonanceGene / 100;
+
+  if (!isLeader) {
+    return {
+      isActive: false,
+      effectiveAttraction: baseAttraction,
+      effectiveRepulsion: baseRepulsion,
+      lunarExpression: 1.0,
+      clanPopulation: 1,
+      resonanceGene,
+      effectiveMultiplier: 1.0,
+      reason: 'Dependent / Non-leader'
+    };
+  }
+
+  const lunarExpression = calculateLunarColorExpression(moonClockMs, moonCycle);
+  const clanPopulation = calculateClanLivingPopulation(snake, clanHierarchy, allSnakes);
+
+  // Proportional scaling: (gene / 100) * lunarExpression * clanPopulation
+  // When alone (clanPopulation = 1), values are baseline * lunarExpression
+  const effectiveMultiplier = Number((geneScale * lunarExpression * clanPopulation).toFixed(4));
+  const effectiveAttraction = Number((baseAttraction * effectiveMultiplier).toFixed(3));
+  const effectiveRepulsion = Number((baseRepulsion * effectiveMultiplier).toFixed(3));
+
+  return {
+    isActive: true,
+    effectiveAttraction,
+    effectiveRepulsion,
+    lunarExpression,
+    clanPopulation,
+    resonanceGene,
+    effectiveMultiplier,
+    reason: 'Individualist Clan Leader'
+  };
+}
+
+/**
+ * Mutates the clan resonance gene on birth/split.
+ * @param {number} [parentGene=100] - Parent gene value
+ * @param {number} [mutationScale=0.35] - Global mutation scale
+ * @returns {number} Clamped in [10, 300]
+ */
+function mutateClanResonanceGene(parentGene = 100, mutationScale = 0.35) {
+  const base = typeof parentGene === 'number' ? parentGene : 100;
+  if (mutationScale <= 0) return base;
+  const shift = (Math.random() * 2 - 1) * (mutationScale * 25);
+  return Number(Math.max(10, Math.min(300, base + shift)).toFixed(2));
+}
+
+/**
+ * Formats a clean inspector display string for the snake inspector panel.
+ * @param {object} snake - Inspected snake
+ * @param {object} resonance - Computed resonance data
+ * @returns {string}
+ */
+function formatResonanceGeneInspector(snake, resonance) {
+  if (!resonance || !resonance.isActive) {
+    return 'Inactivă (urmează liderul)';
+  }
+  const lunarPct = Math.round(resonance.lunarExpression * 100);
+  const genePct = Math.round(resonance.resonanceGene);
+  const pop = resonance.clanPopulation;
+  const mult = resonance.effectiveMultiplier.toFixed(2);
+  return `${genePct}% · Lunar ${lunarPct}% · Clan ${pop} ${pop === 1 ? 'membru' : 'membri'} (×${mult})`;
+}
+
+const IndividualistGeneEngine = {
+  calculateLunarColorExpression,
+  isSnakeIndividualistLeader,
+  calculateClanLivingPopulation,
+  calculateEffectiveClanColorResonance,
+  mutateClanResonanceGene,
+  formatResonanceGeneInspector
+};
+
+if (typeof window !== 'undefined') {
+  window.IndividualistGeneEngine = IndividualistGeneEngine;
+}
+
+
 function checkEmergencyEmojiConsumption(snake, cell){
   if(!snake || snake.body.length > 3) return false;
   const ref = typeof getReferenceEmoji === 'function' ? getReferenceEmoji(cell.x, cell.y, opts.worldSeed) : null;
@@ -6715,7 +6970,7 @@ function speedForNew(parent,childLength){
  else shift=(r*2-1)*m;
  return clamp(parent.speedFactor*(1+shift),.35,2.8);
 }
-function born(body,dir,parent=null,role='pui',forceAI=null,isTwinBirth=false){const id=++nextId;const s={id,body:body.map(p=>({...p})),dir:{...dir},next:null,control:(persistedSnakeControls[id]??(forceAI===null?(parent?'ai':'manual'):(forceAI?'ai':'manual'))),parentId:parent?.id??null,dependent:!!(opts.family&&parent),familySafe:!!(opts.family&&parent),generation:parent?parent.generation+1:1,color:parent?mutateColor(parent.color):COLORS[(id-1)%COLORS.length],speedFactor:speedForNew(parent,body.length),speedDebt:0,fertility:lunarBirthMutation(parent),collisionResistance:mutateCollisionResistance(parent),twinGene:mutateTwinGene(parent),moonSpeedGene:mutateMoonSpeedGene(parent),foodGene:mutateFoodGene(parent),foodSeekingGene:mutateFoodSeekingGene(parent),vineMeals:Object.create(null),vineSusceptibility:bornSusceptibility(parent),adventureGene:parent?(typeof mutateAdventureGene==='function'?mutateAdventureGene(parent.adventureGene,opts.mutation):Math.max(-100,Math.min(100,Math.round((parent.adventureGene||0)+(Math.random()-0.5)*16)))):0,emojiDesperationGene:typeof mutateEmojiDesperationGene==='function'?mutateEmojiDesperationGene(parent,opts.mutation):75,toxicity:0,disorientationSteps:0,hasReachedMother:parent?false:true,emojisEaten:0,isSubpixel:false,elapsed:0,pending:0,score:0,role,fleeSteps:role==='auto-mușcare'?3:0};if(parent&&typeof applyMaternalBirthDeduction==='function')applyMaternalBirthDeduction(parent,s);if(parent&&opts.family)s.elapsed=1000/(opts.speed*s.speedFactor);snakes.push(s);adaptChildGeometry(s);births++;renderListNeedsUpdate=true;if(parent&&!isTwinBirth)maybeSpawnTwin(parent,s,role+' · geamăn',forceAI);return s;}
+function born(body,dir,parent=null,role='pui',forceAI=null,isTwinBirth=false){const id=++nextId;const s={id,body:body.map(p=>({...p})),dir:{...dir},next:null,control:(persistedSnakeControls[id]??(forceAI===null?(parent?'ai':'manual'):(forceAI?'ai':'manual'))),parentId:parent?.id??null,dependent:!!(opts.family&&parent),familySafe:!!(opts.family&&parent),generation:parent?parent.generation+1:1,color:parent?mutateColor(parent.color):COLORS[(id-1)%COLORS.length],speedFactor:speedForNew(parent,body.length),speedDebt:0,fertility:lunarBirthMutation(parent),collisionResistance:mutateCollisionResistance(parent),twinGene:mutateTwinGene(parent),moonSpeedGene:mutateMoonSpeedGene(parent),foodGene:mutateFoodGene(parent),foodSeekingGene:mutateFoodSeekingGene(parent),vineMeals:Object.create(null),vineSusceptibility:bornSusceptibility(parent),clanResonanceGene:parent?(typeof mutateClanResonanceGene==='function'?mutateClanResonanceGene(parent.clanResonanceGene,opts.mutation):100):100,adventureGene:parent?(typeof mutateAdventureGene==='function'?mutateAdventureGene(parent.adventureGene,opts.mutation):Math.max(-100,Math.min(100,Math.round((parent.adventureGene||0)+(Math.random()-0.5)*16)))):0,emojiDesperationGene:typeof mutateEmojiDesperationGene==='function'?mutateEmojiDesperationGene(parent,opts.mutation):75,toxicity:0,disorientationSteps:0,hasReachedMother:parent?false:true,emojisEaten:0,isSubpixel:false,elapsed:0,pending:0,score:0,role,fleeSteps:role==='auto-mușcare'?3:0};if(parent&&typeof applyMaternalBirthDeduction==='function')applyMaternalBirthDeduction(parent,s);if(parent&&opts.family)s.elapsed=1000/(opts.speed*s.speedFactor);snakes.push(s);adaptChildGeometry(s);births++;renderListNeedsUpdate=true;if(parent&&!isTwinBirth)maybeSpawnTwin(parent,s,role+' · geamăn',forceAI);return s;}
 function initialize(){closeInspector();const firstX=Math.max(4,Math.floor(opts.cols*.31)),firstY=Math.floor(opts.rows*.47),len=5;snakes=[];foods=[];selected=new Set([1]);nextId=0;births=0;eaten=0;decayClock=0;simCarryMs=0;moonClockMs=0;phase='ready';contactMarks.clear();clearHeatmap();logItems=[];lastLog='';born(Array.from({length:len},(_,i)=>({x:firstX-i,y:firstY})),DIR.right,null,'fondator',false);ecoClock=0;ecoNote='—';rebuildNodes(true);scheduleNextFood();if(opts.foodMode==='ecology')seedNodeFood();else for(let i=0;i<(opts.family?12:3);i++)addFood();renderEcoStats();info('Un șarpe fondator (#1). Crește, se divide și formează o familie.');renderListNeedsUpdate=true;refresh();}
 function reset(resume=false){initialize();if(resume)phase='running';refresh();}
 function splitOnReverse(s,automatic=false){const len=s.body.length;if(!opts.fib&&!automatic)return false;let a=2,b=3;while(a+b<len){[a,b]=[b,a+b];}if(a+b!==len||len<5){info('#'+s.id+' are '+len+' segmente. Divizarea necesită o lungime Fibonacci ≥ 5.');return false;}
@@ -6785,7 +7040,9 @@ function updateInspector(force=false){
   ['Food intolerance (signed)',(s.foodGene||0).toFixed(3)+'%'],
   ['Food-seeking distance gene',(s.foodSeekingGene||0).toFixed(3)+' (−100…+100)'],
    ['Genă aventură pui',(s.adventureGene||0).toFixed(2)+' (−100…+100) · efectiv '+(typeof calculateEffectiveAdventureRadius==='function'?calculateEffectiveAdventureRadius(s,opts.radius):Math.max(1,Math.round(opts.radius*Math.max(0.2,Math.min(2.0,1+((s.adventureGene||0)/100))))))+' cel.'],
-  ['Max 1-channel food fatality',(foodFatalityChance(s,rgbHex(rgbChannels(s.color).map((v,i)=>i===0?255-v:v)))*100).toFixed(2)+'%'],
+  ['Rezonanță cromatică clan',typeof calculateEffectiveClanColorResonance==='function'?formatResonanceGeneInspector(s,calculateEffectiveClanColorResonance(s,opts.sameColorAttraction,opts.differentColorRepulsion,moonClockMs,opts.moonCycle,typeof Mode3XEngine!=='undefined'?Mode3XEngine.buildClanHierarchy(snakes):null,snakes)):'100%'],
+   ['Genă rezonanță lider',(s.clanResonanceGene||100).toFixed(1)+'%'],
+   ['Max 1-channel food fatality',(foodFatalityChance(s,rgbHex(rgbChannels(s.color).map((v,i)=>i===0?255-v:v)))*100).toFixed(2)+'%'],
   ['Vine susceptibility',(s.vineSusceptibility??opts.founderSusceptibility).toFixed(3)+'%'],
   ['Genă gemeni',(s.twinGene||1).toFixed(3)+'%'],
   ['Gemeni acum',(twinBirthChance(s)*100).toFixed(4)+'% / naștere'],
@@ -6865,8 +7122,14 @@ function chooseAI(s){if(s.fleeSteps>0&&inBoard(advance(s.body[0],s.dir,s)))retur
    if(other===s)continue;
    const dd=dist(p,other.body[0]);
    const sim=colorSimilarity(s.color,other.color);
-   colorField+=opts.sameColorAttraction*sim*inverseDistanceWeight(dd);
-   colorField-=opts.differentColorRepulsion*(1-sim)*inverseDistanceWeight(dd);
+   let effAttr=opts.sameColorAttraction,effRep=opts.differentColorRepulsion;
+   if(typeof calculateEffectiveClanColorResonance==='function'){
+     const hMap=typeof Mode3XEngine!=='undefined'?Mode3XEngine.buildClanHierarchy(snakes):null;
+     const res=calculateEffectiveClanColorResonance(s,opts.sameColorAttraction,opts.differentColorRepulsion,moonClockMs,opts.moonCycle,hMap,snakes);
+     if(res&&res.isActive){effAttr=res.effectiveAttraction;effRep=res.effectiveRepulsion;}
+   }
+   colorField+=effAttr*sim*inverseDistanceWeight(dd);
+   colorField-=effRep*(1-sim)*inverseDistanceWeight(dd);
    for(let i=0;i<other.body.length;i++){
     if(cellOverlap(other,other.body[i],s,p)&&!(i===other.body.length-1)&&!(i>0&&familyBodyPass(s,other))){
      colorRisk=Math.max(colorRisk,collisionProbability(s.color,other.color,s.collisionResistance)*(1-Math.max(0,-(s.foodGene||0))/100));break;
@@ -8697,7 +8960,7 @@ function advanceSimulation(realDt){
 function frame(now){if(!lastFrame)lastFrame=now;const dt=Math.min(85,Math.max(0,now-lastFrame));lastFrame=now;advanceSimulation(dt);updateMoonUI();if(renderListNeedsUpdate)updateList();draw(now);requestAnimationFrame(frame);}
 window.addEventListener('resize',resize);if(typeof ResizeObserver!=='undefined')new ResizeObserver(resize).observe(board);
 restoreSettings();restoreHeatmap();restoreVines();if(typeof applyThemeMode==='function')applyThemeMode(opts.currentTheme);if(typeof applyLayoutMode==='function')applyLayoutMode(opts.currentLayout);initialize();resize();if(typeof TripleEPressDetector==='function')window._tripleEDetector=new TripleEPressDetector(()=>{if(typeof openSecretMenu==='function')openSecretMenu({opts,snakes,foods,selected,nextId,contactMarks,renderListNeedsUpdate,phase});},{autoAttach:true});if(typeof ModePController==='function')window._modePController=new ModePController({opts,snakes,foods,selected,nextId,contactMarks,renderListNeedsUpdate,phase},{autoAttach:true});updateMoonUI(true);requestAnimationFrame(frame);
-window.__snakeLab={debugMode3X:typeof Mode3XEngine!=='undefined'?Mode3XEngine:null,debugMaternalBond:{calculateEffectiveAdventureRadius,mutateAdventureGene,shouldChildRemainDependent,absorbAdventureGeneInNode,advanceAdventureGeneFromVine},debugWireframe:()=>({camera,opts,computeMiddleOpacity,getReferenceEmoji,inBoard,advance,dist,setWorldMode:(m)=>{opts.worldMode=m;draw();},setFaux3D:(f)=>{opts.enableFaux3D=!!f;draw();},setTopScale:(s)=>{opts.topScale=s;draw();},setTopAlpha:(a)=>{opts.topAlpha=a;draw();},setMiddleK:(k)=>{opts.middleK=k;draw();},setTheme:applyThemeMode,setLayout:applyLayoutMode,getLayout:()=>opts.currentLayout,updateTelemetry:updateTelemetryBar,draw:()=>draw()}),debugMaternalTransfer:calculateMaternalTransfer,debugEmojiEatChance:calculateEmojiEatChance,debugAttemptEmojiEat:attemptEmergencyEmojiConsumption,debugDisorientation:applyDisorientation,debugCleanseToxicity:cleanseToxicityOnBerry,debugGetStarters:getStarterSnakes,debugStartSurvival:startSurvivalRun,debugExitSurvival:exitSurvivalRun,debugSetVineShape:(s)=>{opts.vineShape=s;cachedVineCells=null;vineMixCache.clear();draw();},debugBlackPortal:{createBlackPortal,spawnPortalSnakes,renderBlackPortal},debugSecretMenu:{openSecretMenu,closeSecretMenu,isSecretMenuOpen,saveCustomEntity,loadCustomEntities,saveCustomMap,loadCustomMaps},debugModeP:{enterModeP,exitModeP,toggleModeP,isModePActive,getAllAvailableMaps},getUI:()=>({immersive:document.body.classList.contains('immersive'),menuOpen:!document.body.classList.contains('menu-closed'),showAll:document.body.classList.contains('menu-all'),canvasWidth:canvas.clientWidth,canvasHeight:canvas.clientHeight,boardHeight:board.clientHeight,sidebarScrollHeight:$('settingsPanel').scrollHeight,sidebarHeight:$('settingsPanel').clientHeight}),enterImmersive,exitImmersive,toggleMenu,getState:()=>({phase,opts:{...opts},snakes:snakes.map(s=>({id:s.id,length:s.body.length,pending:s.pending,parentId:s.parentId,dependent:s.dependent,familySafe:s.familySafe,control:s.control,speedFactor:s.speedFactor,color:s.color,fertility:s.fertility,collisionResistance:s.collisionResistance,twinGene:s.twinGene,subpixel:snakeSubcell(s),foodGene:s.foodGene,foodSeekingGene:s.foodSeekingGene,adventureGene:s.adventureGene||0,vineSusceptibility:s.vineSusceptibility,moonSpeedGene:s.moonSpeedGene,berrySlowFactor:s.berrySlowFactor||1,head:{...s.body[0]}})),foods:foods.length,nodes:foodNodes.length,nodePositions:foodNodes.map(n=>({...n})),births,eaten,selected:[...selected],moonPhase:lunarPhase(),moonClockMs}),select:exclusiveSelect,steer:(id,d)=>{steer(owner(id),d);refresh();},tick:stepAll,advanceSimulation,setTimeScale,setPreset,reset,feed:addFood,
+window.__snakeLab={debugIndividualistGene:typeof IndividualistGeneEngine!=='undefined'?IndividualistGeneEngine:null,debugMode3X:typeof Mode3XEngine!=='undefined'?Mode3XEngine:null,debugMaternalBond:{calculateEffectiveAdventureRadius,mutateAdventureGene,shouldChildRemainDependent,absorbAdventureGeneInNode,advanceAdventureGeneFromVine},debugWireframe:()=>({camera,opts,computeMiddleOpacity,getReferenceEmoji,inBoard,advance,dist,setWorldMode:(m)=>{opts.worldMode=m;draw();},setFaux3D:(f)=>{opts.enableFaux3D=!!f;draw();},setTopScale:(s)=>{opts.topScale=s;draw();},setTopAlpha:(a)=>{opts.topAlpha=a;draw();},setMiddleK:(k)=>{opts.middleK=k;draw();},setTheme:applyThemeMode,setLayout:applyLayoutMode,getLayout:()=>opts.currentLayout,updateTelemetry:updateTelemetryBar,draw:()=>draw()}),debugMaternalTransfer:calculateMaternalTransfer,debugEmojiEatChance:calculateEmojiEatChance,debugAttemptEmojiEat:attemptEmergencyEmojiConsumption,debugDisorientation:applyDisorientation,debugCleanseToxicity:cleanseToxicityOnBerry,debugGetStarters:getStarterSnakes,debugStartSurvival:startSurvivalRun,debugExitSurvival:exitSurvivalRun,debugSetVineShape:(s)=>{opts.vineShape=s;cachedVineCells=null;vineMixCache.clear();draw();},debugBlackPortal:{createBlackPortal,spawnPortalSnakes,renderBlackPortal},debugSecretMenu:{openSecretMenu,closeSecretMenu,isSecretMenuOpen,saveCustomEntity,loadCustomEntities,saveCustomMap,loadCustomMaps},debugModeP:{enterModeP,exitModeP,toggleModeP,isModePActive,getAllAvailableMaps},getUI:()=>({immersive:document.body.classList.contains('immersive'),menuOpen:!document.body.classList.contains('menu-closed'),showAll:document.body.classList.contains('menu-all'),canvasWidth:canvas.clientWidth,canvasHeight:canvas.clientHeight,boardHeight:board.clientHeight,sidebarScrollHeight:$('settingsPanel').scrollHeight,sidebarHeight:$('settingsPanel').clientHeight}),enterImmersive,exitImmersive,toggleMenu,getState:()=>({phase,opts:{...opts},snakes:snakes.map(s=>({id:s.id,length:s.body.length,pending:s.pending,parentId:s.parentId,dependent:s.dependent,familySafe:s.familySafe,control:s.control,speedFactor:s.speedFactor,color:s.color,fertility:s.fertility,collisionResistance:s.collisionResistance,twinGene:s.twinGene,subpixel:snakeSubcell(s),foodGene:s.foodGene,foodSeekingGene:s.foodSeekingGene,adventureGene:s.adventureGene||0,vineSusceptibility:s.vineSusceptibility,moonSpeedGene:s.moonSpeedGene,berrySlowFactor:s.berrySlowFactor||1,head:{...s.body[0]}})),foods:foods.length,nodes:foodNodes.length,nodePositions:foodNodes.map(n=>({...n})),births,eaten,selected:[...selected],moonPhase:lunarPhase(),moonClockMs}),select:exclusiveSelect,steer:(id,d)=>{steer(owner(id),d);refresh();},tick:stepAll,advanceSimulation,setTimeScale,setPreset,reset,feed:addFood,
  debugCollisionProbability:(a,b,resistance=0)=>collisionProbability(a,b,resistance),debugMutateColor:mutateColor,debugResistanceMutation:(id)=>{const s=owner(id);return s?mutateCollisionResistance(s):null;},debugResistanceRates:resistanceMutationRates,inspectSnake,closeInspector,
  debugFoodMismatchRisk:foodMismatchRisk,debugFoodFatality:(id,color)=>foodFatalityChance(owner(id),color),
  debugGetVines:()=>foodNodes.map(n=>({...n,pulses:n.pulses.map(p=>({...p}))})),
