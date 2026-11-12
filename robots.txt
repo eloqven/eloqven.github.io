@@ -1,0 +1,7 @@
+# robots.txt for https://eloqven.github.io/
+# Znake: Snake Fibonacci Ecology Free Roam Sandbox & Faux-3D Wireframe Engine
+
+User-agent: *
+Allow: /
+
+Sitemap: https://eloqven.github.io/sitemap.xml

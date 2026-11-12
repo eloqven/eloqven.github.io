@@ -317,7 +317,1048 @@ body.light-mode{color-scheme:light;--bg:#f2f6fb;--panel:#fff;--panel2:#eef4fa;--
 .duplication-matrix input{accent-color:#a9ed77;width:14px;height:14px;}
 .alpha1-badge{display:inline-block;padding:2px 7px;border-radius:4px;background:#18362e;border:1px solid #3c775d;color:#9ce7b8;font-weight:750;font-variant-numeric:tabular-nums;}
 
+/* Production Toolbar */
+.prod-top-controls{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;padding:9px 16px;background:var(--panel);border-bottom:1px solid var(--line);font-size:11px;}
+.prod-top-controls .btn-group{display:flex;align-items:center;gap:4px;}
+.prod-top-controls button{padding:5px 9px;border-radius:6px;border:1px solid var(--line);background:var(--panel2);color:var(--txt);font-size:11px;font-weight:700;transition:all 0.15s ease;}
+.prod-top-controls button.active{background:var(--accent-primary, #a9ed77);border-color:var(--accent-primary, #a9ed77);color:#0e1e12;}
+
+
+/* Theme Selector Bar & Toggle Buttons */
+.theme-selector-bar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--panel2, #142337);
+  padding: 4px;
+  border-radius: 9px;
+  border: 1px solid var(--line, #2b3e50);
+}
+.theme-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--txt-muted, #91a7b9);
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+.theme-btn:hover {
+  background: var(--btn-bg, #1c2d3d);
+  color: var(--txt, #e9f4f7);
+}
+.theme-btn.active {
+  background: var(--btn-primary-bg, #adf17c);
+  color: var(--btn-primary-txt, #1a2a17);
+  border-color: var(--btn-primary-border, #adf17c);
+}
+.theme-btn .theme-icon {
+  font-size: 12px;
+}
+
+
+
+/* --- Theme: Cyber Slate / Deep Matrix --- */
+body.theme-cyber-slate,
+[data-theme="cyber-slate"] {
+  color-scheme: dark;
+  --bg: #0a1622;
+  --bg-secondary: #0e1e2e;
+  --panel: #112336;
+  --panel2: #162c42;
+  --board-bg: #0a1622;
+  --line: #24435c;
+  --border-accent: #00f0ff;
+  --txt: #e8f4f8;
+  --txt-muted: #8ca6bd;
+  --txt-dim: #56738b;
+  --accent-primary: #a9ed77;
+  --accent-secondary: #00f0ff;
+  --accent-glow: #00f0ff55;
+  --accent-warning: #ffd166;
+  --accent-danger: #ff5c7c;
+  --card-shadow: 0 16px 36px rgba(0, 8, 16, 0.45);
+  --btn-bg: #18334b;
+  --btn-border: #2e587b;
+  --btn-txt: #e8f4f8;
+  --btn-primary-bg: #a9ed77;
+  --btn-primary-border: #a9ed77;
+  --btn-primary-txt: #0d2012;
+  --input-bg: #091522;
+  --input-border: #294c69;
+  --input-txt: #e8f4f8;
+  --font-main: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: ui-monospace, "JetBrains Mono", Consolas, monospace;
+}
+.theme-cyber-slate {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+.theme-cyber-slate .card {
+  background: #112336;
+  border-color: #24435c;
+  box-shadow: 0 16px 36px rgba(0, 8, 16, 0.45);
+}
+.theme-cyber-slate .board-frame {
+  background: #0a1622;
+  border-color: #24435c;
+}
+.theme-cyber-slate .summary {
+  background: #24435c;
+  border-bottom-color: #24435c;
+}
+.theme-cyber-slate .summary .stat {
+  background: #112336;
+}
+.theme-cyber-slate .btn {
+  background: #18334b;
+  color: #e8f4f8;
+  border-color: #2e587b;
+}
+.theme-cyber-slate .btn:hover {
+  filter: brightness(1.15);
+}
+.theme-cyber-slate .btn.primary {
+  background: #a9ed77;
+  color: #0d2012;
+  border-color: #a9ed77;
+}
+.theme-cyber-slate .btn.danger {
+  background: #44222a;
+  color: #ffc2cc;
+  border-color: #7d3844;
+}
+.theme-cyber-slate input,
+.theme-cyber-slate select {
+  background: #091522;
+  color: #e8f4f8;
+  border-color: #294c69;
+}
+.theme-cyber-slate .right-pill {
+  background: #142d2a;
+  border-color: #2b5f54;
+  color: #a9ed77;
+}
+.theme-cyber-slate .dir {
+  background: #18334b;
+  border-color: #2e587b;
+  color: #e8f4f8;
+}
+
+body.theme-cyber-slate {
+  background: radial-gradient(ellipse at 13% -8%, #162c42 0, transparent 48%), #0a1622;
+}
+.theme-cyber-slate .eyebrow {
+  color: #a9ed77;
+}
+.theme-cyber-slate .btn.primary {
+  box-shadow: 0 0 12px rgba(169, 237, 119, 0.35);
+}
+
+
+
+
+/* --- Theme: Solar Luxe / Paper Amber --- */
+body.theme-solar-luxe,
+[data-theme="solar-luxe"] {
+  color-scheme: light;
+  --bg: #fbf8f1;
+  --bg-secondary: #f4ede0;
+  --panel: #ffffff;
+  --panel2: #f5efe4;
+  --board-bg: #f7f3ea;
+  --line: #e5dcce;
+  --border-accent: #d97706;
+  --txt: #1c1917;
+  --txt-muted: #57534e;
+  --txt-dim: #8a8278;
+  --accent-primary: #d97706;
+  --accent-secondary: #b45309;
+  --accent-glow: rgba(217, 119, 6, 0.25);
+  --accent-warning: #d97706;
+  --accent-danger: #b91c1c;
+  --card-shadow: 0 8px 28px rgba(120, 80, 30, 0.08);
+  --btn-bg: #f2eae0;
+  --btn-border: #d9cebe;
+  --btn-txt: #1c1917;
+  --btn-primary-bg: #b45309;
+  --btn-primary-border: #92400e;
+  --btn-primary-txt: #ffffff;
+  --input-bg: #ffffff;
+  --input-border: #d4c7b5;
+  --input-txt: #1c1917;
+  --font-main: system-ui, -apple-system, "Segoe UI", serif;
+  --font-mono: ui-monospace, "Courier New", monospace;
+}
+.theme-solar-luxe {
+  font-family: system-ui, -apple-system, "Segoe UI", "Palatino Linotype", serif;
+}
+.theme-solar-luxe .card {
+  background: #ffffff;
+  border-color: #e5dcce;
+  box-shadow: 0 8px 28px rgba(120, 80, 30, 0.08);
+}
+.theme-solar-luxe .board-frame {
+  background: #f7f3ea;
+  border-color: #e5dcce;
+}
+.theme-solar-luxe .summary {
+  background: #e5dcce;
+  border-bottom-color: #e5dcce;
+}
+.theme-solar-luxe .summary .stat {
+  background: #ffffff;
+}
+.theme-solar-luxe .btn {
+  background: #f2eae0;
+  color: #1c1917;
+  border-color: #d9cebe;
+}
+.theme-solar-luxe .btn:hover {
+  filter: brightness(1.15);
+}
+.theme-solar-luxe .btn.primary {
+  background: #b45309;
+  color: #ffffff;
+  border-color: #92400e;
+}
+.theme-solar-luxe .btn.danger {
+  background: #fee2e2;
+  color: #991b1b;
+  border-color: #f87171;
+}
+.theme-solar-luxe input,
+.theme-solar-luxe select {
+  background: #ffffff;
+  color: #1c1917;
+  border-color: #d4c7b5;
+}
+.theme-solar-luxe .right-pill {
+  background: #fef3c7;
+  border-color: #fde68a;
+  color: #92400e;
+}
+.theme-solar-luxe .dir {
+  background: #ece2d4;
+  border-color: #d4c7b5;
+  color: #1c1917;
+}
+
+body.theme-solar-luxe {
+  background: radial-gradient(ellipse at 12% -10%, #f3ede2 0, transparent 60%), #fbf8f1;
+}
+.theme-solar-luxe .card {
+  box-shadow: 0 10px 30px rgba(140, 95, 30, 0.07);
+}
+.theme-solar-luxe .eyebrow,
+.theme-solar-luxe .sideheading {
+  color: #b45309;
+}
+
+
+
+
+/* --- Theme: Midnight OLED / Obsidian Violet --- */
+body.theme-midnight-oled,
+[data-theme="midnight-oled"] {
+  color-scheme: dark;
+  --bg: #000000;
+  --bg-secondary: #08040d;
+  --panel: #0c0614;
+  --panel2: #140a22;
+  --board-bg: #000000;
+  --line: #271842;
+  --border-accent: #a855f7;
+  --txt: #ffffff;
+  --txt-muted: #c4b5fd;
+  --txt-dim: #806b9e;
+  --accent-primary: #a855f7;
+  --accent-secondary: #c084fc;
+  --accent-glow: rgba(168, 85, 247, 0.45);
+  --accent-warning: #fbbf24;
+  --accent-danger: #f43f5e;
+  --card-shadow: 0 0 30px rgba(168, 85, 247, 0.12);
+  --btn-bg: #180d2b;
+  --btn-border: #3b2066;
+  --btn-txt: #f3e8ff;
+  --btn-primary-bg: #a855f7;
+  --btn-primary-border: #c084fc;
+  --btn-primary-txt: #000000;
+  --input-bg: #050208;
+  --input-border: #3b2066;
+  --input-txt: #ffffff;
+  --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: ui-monospace, "SF Mono", monospace;
+}
+.theme-midnight-oled {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+}
+.theme-midnight-oled .card {
+  background: #0c0614;
+  border-color: #271842;
+  box-shadow: 0 0 30px rgba(168, 85, 247, 0.12);
+}
+.theme-midnight-oled .board-frame {
+  background: #000000;
+  border-color: #271842;
+}
+.theme-midnight-oled .summary {
+  background: #271842;
+  border-bottom-color: #271842;
+}
+.theme-midnight-oled .summary .stat {
+  background: #0c0614;
+}
+.theme-midnight-oled .btn {
+  background: #180d2b;
+  color: #f3e8ff;
+  border-color: #3b2066;
+}
+.theme-midnight-oled .btn:hover {
+  filter: brightness(1.15);
+}
+.theme-midnight-oled .btn.primary {
+  background: #a855f7;
+  color: #000000;
+  border-color: #c084fc;
+}
+.theme-midnight-oled .btn.danger {
+  background: #3d0c1d;
+  color: #fecdd3;
+  border-color: #7a1c3b;
+}
+.theme-midnight-oled input,
+.theme-midnight-oled select {
+  background: #050208;
+  color: #ffffff;
+  border-color: #3b2066;
+}
+.theme-midnight-oled .right-pill {
+  background: #210e3d;
+  border-color: #4c228a;
+  color: #c084fc;
+}
+.theme-midnight-oled .dir {
+  background: #180d2b;
+  border-color: #3b2066;
+  color: #ffffff;
+}
+
+body.theme-midnight-oled,
+.theme-midnight-oled .card,
+.theme-midnight-oled .board-frame {
+  background: #000000 !important;
+}
+.theme-midnight-oled .btn.primary {
+  box-shadow: 0 0 14px rgba(168, 85, 247, 0.55);
+}
+.theme-midnight-oled .sideheading,
+.theme-midnight-oled .eyebrow {
+  color: #c084fc;
+}
+
+
+
+
+/* --- Theme: Arcade CRT / Phosphor Emerald --- */
+body.theme-arcade-crt,
+[data-theme="arcade-crt"] {
+  color-scheme: dark;
+  --bg: #030a05;
+  --bg-secondary: #061208;
+  --panel: #07170a;
+  --panel2: #0b210f;
+  --board-bg: #020804;
+  --line: #0d3d19;
+  --border-accent: #00ff66;
+  --txt: #00ff66;
+  --txt-muted: #50c878;
+  --txt-dim: #256a3b;
+  --accent-primary: #00ff66;
+  --accent-secondary: #39ff14;
+  --accent-glow: rgba(0, 255, 102, 0.60);
+  --accent-warning: #e2ff3b;
+  --accent-danger: #ff3344;
+  --card-shadow: 0 0 25px rgba(0, 255, 102, 0.18);
+  --btn-bg: #09230f;
+  --btn-border: #175c27;
+  --btn-txt: #00ff66;
+  --btn-primary-bg: #00ff66;
+  --btn-primary-border: #39ff14;
+  --btn-primary-txt: #030a05;
+  --input-bg: #020904;
+  --input-border: #12481e;
+  --input-txt: #00ff66;
+  --font-main: "VT323", "Courier New", monospace;
+  --font-mono: "VT323", "Courier New", monospace;
+}
+.theme-arcade-crt {
+  font-family: "VT323", "Courier New", Monaco, monospace;
+}
+.theme-arcade-crt .card {
+  background: #07170a;
+  border-color: #0d3d19;
+  box-shadow: 0 0 25px rgba(0, 255, 102, 0.18);
+}
+.theme-arcade-crt .board-frame {
+  background: #020804;
+  border-color: #0d3d19;
+}
+.theme-arcade-crt .summary {
+  background: #0d3d19;
+  border-bottom-color: #0d3d19;
+}
+.theme-arcade-crt .summary .stat {
+  background: #07170a;
+}
+.theme-arcade-crt .btn {
+  background: #09230f;
+  color: #00ff66;
+  border-color: #175c27;
+}
+.theme-arcade-crt .btn:hover {
+  filter: brightness(1.15);
+}
+.theme-arcade-crt .btn.primary {
+  background: #00ff66;
+  color: #030a05;
+  border-color: #39ff14;
+}
+.theme-arcade-crt .btn.danger {
+  background: #380a0e;
+  color: #ff8a93;
+  border-color: #781922;
+}
+.theme-arcade-crt input,
+.theme-arcade-crt select {
+  background: #020904;
+  color: #00ff66;
+  border-color: #12481e;
+}
+.theme-arcade-crt .right-pill {
+  background: #0b2811;
+  border-color: #156027;
+  color: #00ff66;
+}
+.theme-arcade-crt .dir {
+  background: #09230f;
+  border-color: #175c27;
+  color: #00ff66;
+}
+
+body.theme-arcade-crt {
+  text-shadow: 0 0 5px rgba(0, 255, 102, 0.45);
+}
+.theme-arcade-crt .header h1,
+.theme-arcade-crt .sideheading,
+.theme-arcade-crt .stat strong,
+.theme-arcade-crt .btn.primary {
+  text-shadow: 0 0 8px rgba(0, 255, 102, 0.75);
+}
+.theme-arcade-crt .board-frame {
+  position: relative;
+  box-shadow: inset 0 0 40px rgba(0, 255, 102, 0.12), 0 0 25px rgba(0, 255, 102, 0.2);
+}
+.theme-arcade-crt .board-frame::after {
+  content: " ";
+  display: block;
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.36) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+  background-size: 100% 3px, 6px 100%;
+  pointer-events: none;
+  z-index: 3;
+}
+.theme-arcade-crt .board-frame canvas {
+  filter: contrast(1.1) brightness(1.04);
+}
+
+
+
+
+/* ==========================================================================
+   SNAKE FIBONACCI ECOLOGY — LAYOUT SYSTEMS & MOBILE ERGONOMICS (Agent Erg-Mobile)
+   ========================================================================== */
+
+/* --- 1. Global Ergonomics: Large Touch Targets (HIG & Material Standard) --- */
+@media (max-width: 1024px) {
+  button, .btn, input[type="button"], input[type="submit"], select, .tab-item {
+    min-height: 44px;
+    min-width: 44px;
+    touch-action: manipulation;
+  }
+  .category-tabs button, .category-tabs .tab-btn {
+    min-height: 44px;
+    padding: 10px 14px;
+    font-size: 13px;
+  }
+  .nudge {
+    min-width: 44px !important;
+    min-height: 44px !important;
+    font-size: 18px !important;
+  }
+}
+
+@media (max-width: 640px) {
+  button, .btn, input[type="button"], input[type="submit"], select {
+    min-height: 48px;
+    min-width: 48px;
+    font-size: 14px;
+  }
+  .bar {
+    gap: 10px;
+    padding: 12px 10px;
+  }
+  .bar .btn {
+    flex: 1 1 calc(50% - 10px);
+    text-align: center;
+  }
+  .time-controls {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .time-controls button {
+    min-height: 44px;
+    flex: 1;
+  }
+  .tune-line {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .tune-line input[type="range"] {
+    height: 36px;
+    flex: 1;
+  }
+}
+
+/* --- 2. Floating Virtual D-Pad --- */
+.virtual-dpad {
+  position: fixed;
+  z-index: 999;
+  width: 160px;
+  height: 160px;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+}
+.virtual-dpad.vpad-pos-left {
+  bottom: 24px;
+  left: 20px;
+}
+.virtual-dpad.vpad-pos-right {
+  bottom: 24px;
+  right: 20px;
+}
+.vpad-disc {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(20, 32, 48, 0.92) 0%, rgba(9, 17, 26, 0.96) 100%);
+  border: 2px solid rgba(82, 126, 168, 0.55);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.65), inset 0 2px 6px rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+.vpad-btn {
+  position: absolute;
+  width: 48px;
+  height: 48px;
+  border: 1px solid rgba(100, 150, 190, 0.4);
+  background: linear-gradient(145deg, #1e3144, #142230);
+  color: #d8ecf8;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform 0.08s ease, background 0.08s ease, box-shadow 0.08s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+}
+.vpad-btn:active, .vpad-btn.vpad-active {
+  background: #a9ed77;
+  color: #0b1a0e;
+  border-color: #a9ed77;
+  transform: scale(0.92);
+  box-shadow: 0 0 16px rgba(169, 237, 119, 0.7);
+}
+.vpad-up    { top: 6px;  left: 51px; }
+.vpad-down  { bottom: 6px; left: 51px; }
+.vpad-left  { top: 51px; left: 6px; }
+.vpad-right { top: 51px; right: 6px; }
+.vpad-center {
+  position: absolute;
+  top: 55px;
+  left: 55px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #22374d 0%, #111e2b 100%);
+  border: 1px solid #3d5a77;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  color: #79a1c2;
+  cursor: pointer;
+}
+
+/* Toggle D-Pad Pill */
+.vpad-toggle-pill {
+  position: fixed;
+  bottom: 12px;
+  right: 12px;
+  z-index: 1001;
+  background: rgba(16, 28, 40, 0.88);
+  border: 1px solid #3c5975;
+  border-radius: 20px;
+  padding: 6px 12px;
+  color: #bcd2e5;
+  font-size: 12px;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+}
+
+/* Layout Switcher Floating Menu */
+.layout-switcher-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(15, 25, 38, 0.9);
+  padding: 4px 6px;
+  border-radius: 10px;
+  border: 1px solid rgba(80, 115, 145, 0.4);
+}
+.layout-switcher-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  color: #9ab4c7;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+.layout-switcher-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+.layout-switcher-btn.active {
+  background: #233c54;
+  color: #9ee37d;
+  border-color: #3f688e;
+  font-weight: 750;
+}
+
+/* ==========================================================================
+   LAYOUT 1: DESKTOP COCKPIT (Flight-deck, Left Sidebar, Center Canvas, Right Inspector)
+   ========================================================================== */
+body.layout-desktop-cockpit .wrap {
+  max-width: 1720px;
+  margin: 0 auto;
+  padding: 12px 18px;
+}
+body.layout-desktop-cockpit .layout {
+  display: grid;
+  grid-template-columns: 340px minmax(0, 1fr);
+  grid-template-areas:
+    "sidebar main"
+    "telemetry telemetry";
+  gap: 16px;
+  align-items: start;
+}
+body.layout-desktop-cockpit .sidebar {
+  grid-area: sidebar;
+  max-height: calc(100vh - 120px);
+  position: sticky;
+  top: 14px;
+}
+body.layout-desktop-cockpit main.card {
+  grid-area: main;
+}
+body.layout-desktop-cockpit .cockpit-telemetry-bar {
+  grid-area: telemetry;
+  background: #0d1622;
+  border: 1px solid #233b52;
+  border-radius: 10px;
+  padding: 10px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: monospace;
+  font-size: 12px;
+  color: #72a4cb;
+}
+
+/* ==========================================================================
+   LAYOUT 2: MOBILE BOTTOM SHEET / HUD
+   ========================================================================== */
+body.layout-mobile-sheet .wrap {
+  max-width: 100%;
+  padding: 0;
+  margin: 0;
+}
+body.layout-mobile-sheet .header {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--line);
+}
+body.layout-mobile-sheet .header h1 {
+  font-size: 18px;
+}
+body.layout-mobile-sheet .layout {
+  display: block;
+  position: relative;
+  min-height: calc(100vh - 60px);
+}
+body.layout-mobile-sheet main.card {
+  border-radius: 0;
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  padding-bottom: 100px; /* Space for collapsed bottom sheet */
+}
+body.layout-mobile-sheet .board-pad {
+  padding: 4px;
+}
+body.layout-mobile-sheet .board-frame {
+  border-radius: 4px;
+}
+body.layout-mobile-sheet .board-frame canvas {
+  max-height: calc(100vh - 220px);
+  height: auto;
+}
+/* Bottom Sheet Container */
+body.layout-mobile-sheet .sidebar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: #0f1a26;
+  border-top: 2px solid #3c5975;
+  border-radius: 18px 18px 0 0;
+  box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.7);
+  transition: transform 0.28s cubic-bezier(0.2, 0.9, 0.3, 1);
+  max-height: 82vh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+body.layout-mobile-sheet .sidebar.sheet-collapsed {
+  transform: translateY(calc(100% - 54px));
+}
+body.layout-mobile-sheet .sidebar.sheet-expanded {
+  transform: translateY(0);
+}
+/* Bottom Sheet Drag Handle */
+.sheet-drag-handle {
+  display: none;
+  width: 100%;
+  padding: 12px 0 8px;
+  text-align: center;
+  cursor: pointer;
+  background: #132233;
+  border-radius: 18px 18px 0 0;
+  user-select: none;
+}
+body.layout-mobile-sheet .sheet-drag-handle {
+  display: block;
+}
+.sheet-drag-pill {
+  display: inline-block;
+  width: 44px;
+  height: 5px;
+  border-radius: 3px;
+  background: #476a8d;
+}
+.sheet-handle-text {
+  display: block;
+  font-size: 11px;
+  color: #8fb1cf;
+  margin-top: 4px;
+  font-weight: 600;
+}
+/* Floating Quick Actions Bar */
+.floating-quick-bar {
+  display: none;
+  position: fixed;
+  bottom: 64px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 998;
+  background: rgba(14, 25, 38, 0.92);
+  border: 1px solid #3b5774;
+  border-radius: 30px;
+  padding: 6px 12px;
+  gap: 8px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+}
+body.layout-mobile-sheet .floating-quick-bar {
+  display: flex;
+}
+.quick-btn {
+  background: #1e344a;
+  border: 1px solid #4a6c8e;
+  color: #fff;
+  border-radius: 20px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.quick-btn.primary {
+  background: #9ee37d;
+  color: #0b1a0e;
+  border-color: #9ee37d;
+}
+
+/* ==========================================================================
+   LAYOUT 3: MINIMALIST ZEN / STREAMER OVERLAY
+   ========================================================================== */
+body.layout-zen-overlay {
+  background: #06090e;
+  overflow-x: hidden;
+}
+body.layout-zen-overlay .wrap {
+  max-width: 100vw;
+  padding: 0;
+  margin: 0;
+}
+body.layout-zen-overlay .header {
+  position: fixed;
+  top: 14px;
+  left: 18px;
+  z-index: 900;
+  background: rgba(10, 18, 28, 0.6);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 24px;
+  padding: 6px 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+body.layout-zen-overlay .header h1 {
+  font-size: 15px;
+  margin: 0;
+}
+body.layout-zen-overlay .header .eyebrow {
+  display: none;
+}
+body.layout-zen-overlay .layout {
+  display: block;
+  position: relative;
+}
+body.layout-zen-overlay main.card {
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  border-radius: 0;
+}
+body.layout-zen-overlay .board-pad {
+  padding: 0;
+}
+body.layout-zen-overlay .board-frame {
+  border: none;
+  border-radius: 0;
+  background: #000;
+}
+body.layout-zen-overlay .board-frame canvas {
+  width: 100vw;
+  height: 100vh;
+  max-height: 100vh;
+  object-fit: contain;
+}
+/* Floating Glass HUD Chips */
+body.layout-zen-overlay .summary {
+  position: fixed;
+  top: 14px;
+  right: 18px;
+  z-index: 900;
+  background: rgba(10, 18, 28, 0.65) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  border-radius: 20px;
+  padding: 4px 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  gap: 12px;
+}
+body.layout-zen-overlay .summary .stat {
+  background: transparent !important;
+  padding: 4px 8px;
+  min-width: unset;
+}
+body.layout-zen-overlay .summary .stat strong {
+  font-size: 18px;
+  color: #9ee37d;
+}
+/* Translucent Glass Transport Bar */
+body.layout-zen-overlay .bar {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 900;
+  background: rgba(10, 18, 28, 0.7);
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 30px;
+  padding: 8px 18px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+body.layout-zen-overlay .sidebar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 360px;
+  z-index: 950;
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+  background: rgba(14, 23, 36, 0.95);
+  backdrop-filter: blur(20px);
+  border-left: 1px solid rgba(255, 255, 255, 0.15);
+  overflow-y: auto;
+}
+body.layout-zen-overlay .sidebar.zen-drawer-open {
+  transform: translateX(0);
+}
+
+/* ==========================================================================
+   LAYOUT 4: ARCADE CYBER DECK (CRT Bezel, Chunky Buttons, Neon Marquee)
+   ========================================================================== */
+body.layout-arcade-deck {
+  background: radial-gradient(circle at 50% 20%, #160c24 0%, #080310 100%);
+}
+body.layout-arcade-deck .wrap {
+  border: 4px solid #3d2366;
+  border-radius: 20px;
+  box-shadow: 0 0 40px rgba(162, 59, 255, 0.25), inset 0 0 20px rgba(0, 0, 0, 0.8);
+  margin: 16px auto;
+  max-width: 1280px;
+  background: #0f081c;
+}
+/* Neon Arcade Header Marquee */
+body.layout-arcade-deck .header {
+  background: linear-gradient(180deg, #2b114d 0%, #150629 100%);
+  border-bottom: 3px solid #ff0077;
+  padding: 14px 20px;
+  text-shadow: 0 0 10px #ff0077, 0 0 20px #ff0077;
+}
+body.layout-arcade-deck .header h1 {
+  font-family: 'Impact', 'Arial Black', sans-serif;
+  letter-spacing: 2px;
+  color: #ffde59;
+  text-shadow: 2px 2px 0 #99004d, 0 0 15px #ff0077;
+}
+body.layout-arcade-deck .header h1 span {
+  color: #00f0ff;
+  text-shadow: 2px 2px 0 #005577, 0 0 15px #00f0ff;
+}
+/* Center Arcade CRT Bezel Canvas */
+body.layout-arcade-deck .board-frame {
+  border: 14px ridge #472d6b;
+  border-radius: 28px;
+  box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.9), 0 0 35px rgba(0, 240, 255, 0.3);
+  position: relative;
+  overflow: hidden;
+  background: #05020a;
+}
+body.layout-arcade-deck .board-frame::before {
+  content: " ";
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.3) 50%),
+              linear-gradient(90deg, rgba(255,0,0,0.03), rgba(0,255,0,0.01), rgba(0,0,255,0.03));
+  background-size: 100% 3px, 6px 100%;
+  pointer-events: none;
+  z-index: 5;
+}
+/* Chunky Tactile Arcade Pushbuttons */
+body.layout-arcade-deck .bar {
+  background: #180d2c;
+  border-top: 3px solid #6b3ba7;
+  padding: 18px 20px;
+  gap: 14px;
+}
+body.layout-arcade-deck .btn {
+  background: linear-gradient(180deg, #6c2eb9 0%, #461680 100%);
+  border: 2px solid #8e44ee;
+  border-bottom: 5px solid #230846;
+  border-radius: 12px;
+  color: #fff;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  box-shadow: 0 6px 0 #1c0836, 0 10px 16px rgba(0, 0, 0, 0.6);
+  transition: transform 0.05s ease, border-bottom 0.05s ease;
+}
+body.layout-arcade-deck .btn:active {
+  transform: translateY(4px);
+  border-bottom: 2px solid #230846;
+  box-shadow: 0 2px 0 #1c0836, 0 4px 8px rgba(0, 0, 0, 0.8);
+}
+body.layout-arcade-deck .btn.primary {
+  background: linear-gradient(180deg, #ff0077 0%, #b80053 100%);
+  border-color: #ff4da6;
+  border-bottom: 5px solid #66002e;
+  box-shadow: 0 6px 0 #4d0023, 0 0 20px rgba(255, 0, 119, 0.5);
+}
+
+
 </style>
+
+  <meta name="description" content="Znake · Snake Fibonacci Ecology — Procedural infinite signed sandbox simulation with Fibonacci genetics, subpixel tail stealing, local vine ecology, and a faux-3D three-plane wireframe perspective engine. Playable online or offline in pure HTML5 Canvas.">
+  <meta name="keywords" content="snake game, artificial life, fibonacci ecology, faux 3d wireframe, procedural generation, cellular automata, genetic algorithms, webgl alternative, html5 canvas">
+  <meta name="author" content="Andrei Vențilă & Antigravity Swarm">
+  <link rel="canonical" href="https://eloqven.github.io/">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://eloqven.github.io/">
+  <meta property="og:title" content="Znake · Snake Fibonacci Ecology & Faux-3D Wireframe">
+  <meta property="og:description" content="Infinite free roam artificial life sandbox with Fibonacci reproduction, tail stealing, and coupled wireframe projections.">
+  <meta property="og:site_name" content="Znake Lab">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://eloqven.github.io/">
+  <meta name="twitter:title" content="Znake · Snake Fibonacci Ecology & Faux-3D Wireframe">
+  <meta name="twitter:description" content="Procedural infinite sandbox with Fibonacci genetics, subpixel tail stealing, and a 3-plane wireframe perspective engine.">
+
+  <!-- Structured Data (JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Znake · Snake Fibonacci Ecology",
+    "operatingSystem": "Any",
+    "applicationCategory": "GameApplication",
+    "genre": "Simulation / Artificial Life",
+    "description": "Infinite free roam artificial life simulation featuring Fibonacci genetics, local food ecology, subpixel tail stealing, and a faux-3D three-plane wireframe perspective engine.",
+    "url": "https://eloqven.github.io/",
+    "author": {
+      "@type": "Person",
+      "name": "Andrei Vențilă"
+    }
+  }
+  </script>
+
 </head>
 <body>
 <div class="wrap"><div class="header"><div><div class="eyebrow">Life simulation / Fibonacci · Family · Infinite Free Roam · Faux-3D Wireframe</div><h1>SNAKE <span>FIBONACCI GENETICS.</span></h1></div><div class="header-actions"><button type="button" id="themeToggle" class="theme-toggle" aria-pressed="false" title="Schimbă între Dark și Light Mode">☀ Light Mode</button><span id="phaseLabel" class="right-pill">READY · 1 SNAKE</span></div></div>
@@ -420,7 +1461,7 @@ const $=id=>document.getElementById(id),canvas=$('game'),ctx=canvas.getContext('
 const DIR={up:{x:0,y:-1},down:{x:0,y:1},left:{x:-1,y:0},right:{x:1,y:0}},DIRECTIONS=Object.values(DIR);
 const FOOD_BASE_COLOR='#b4f287'; // same RGB as the founder at initial creation
 const COLORS=['#b4f287','#b4a1ff','#6cd4f7','#fbb77d','#f27ba8','#ebdf78','#78e2b9','#f58d88','#9fc4fd','#cb9ee5','#ead1a4'];
-let opts={worldMode:'finite',worldSeed:'12345',enableFaux3D:false,topScale:0.70,topAlpha:0.50,middleK:0.50,bottomAlpha:1.0,wireframeGrid:true,wireframeSnakes:true,initialVineSize:3,duplication:{grid:true,snakes:true,heads:true,berries:true,emojis:false,vineFootprints:false,vineLabels:false,heatmap:false,contactMarks:false,parentChildLinks:false,coordinates:false,editor:false},cols:30,rows:22,speed:5,timeScale:1,moonCycle:60,lunarReproduction:true,mutation:.35,colorMutation:8,moonBerryEffect:50,foodGeneMutation:5,founderSusceptibility:50,vineSpreadChance:25,vineAbsorbChance:100,sameColorAttraction:8,differentColorRepulsion:8,foodColorPreference:false,tailStealing:false,subpixel:false,subdivisions:4,collisionScale:100,decay:20,radius:5,foodDecay:.4,foodDensity:2.5,foodSpawn:.8,foodNodes:10,foodRadius:6,initialFood:2,baseFertility:1,corpseImpact:0.8,corpseLifetime:25,corpseRadius:1.5,showContactMarks:true,showDeathHeatmap:false,showNodes:false,numbers:false,showGrid:true,lightMode:false,fib:true,selfCut:false,family:false,noCollision:false,walls:false,fade:true,foodMode:"ecology",spawnMin:2,spawnMax:6,lifeMin:4,lifeMax:12};
+let opts={currentTheme:'cyber-slate',currentLayout:'cockpit',dpadVisible:false,worldMode:'finite',worldSeed:'12345',enableFaux3D:false,topScale:0.70,topAlpha:0.50,middleK:0.50,bottomAlpha:1.0,wireframeGrid:true,wireframeSnakes:true,initialVineSize:3,duplication:{grid:true,snakes:true,heads:true,berries:true,emojis:false,vineFootprints:false,vineLabels:false,heatmap:false,contactMarks:false,parentChildLinks:false,coordinates:false,editor:false},cols:30,rows:22,speed:5,timeScale:1,moonCycle:60,lunarReproduction:true,mutation:.35,colorMutation:8,moonBerryEffect:50,foodGeneMutation:5,founderSusceptibility:50,vineSpreadChance:25,vineAbsorbChance:100,sameColorAttraction:8,differentColorRepulsion:8,foodColorPreference:false,tailStealing:false,subpixel:false,subdivisions:4,collisionScale:100,decay:20,radius:5,foodDecay:.4,foodDensity:2.5,foodSpawn:.8,foodNodes:10,foodRadius:6,initialFood:2,baseFertility:1,corpseImpact:0.8,corpseLifetime:25,corpseRadius:1.5,showContactMarks:true,showDeathHeatmap:false,showNodes:false,numbers:false,showGrid:true,lightMode:false,fib:true,selfCut:false,family:false,noCollision:false,walls:false,fade:true,foodMode:"ecology",spawnMin:2,spawnMax:6,lifeMin:4,lifeMax:12};
 let nodeSlots=0,nextVineId=1,cachedVineCells=null,vineCacheTime=0;
 let contactMarks=new Map(),deathHeatmap=new Map(),heatmapDirty=false,heatSegments=0,nutrientStatsClock=0,foodNodes=[],foodNodesById=new Map(),ecoClock=0,nodeFlashUntil=0,ecoNote='—',snakes=[],foods=[],selected=new Set([1]),nextId=1,births=0,eaten=0,phase='ready',lastFrame=0,decayClock=0,hover=null,renderListNeedsUpdate=true,logItems=[],lastLog='',modePreset=1;
 let persistedSnakeControls={};
@@ -1488,7 +2529,15 @@ function draw(now=performance.now()){
     canvas.width=Math.round(w*dpr);canvas.height=Math.round(h*dpr);
   }
   ctx.setTransform(dpr,0,0,dpr,0,0);
-  ctx.fillStyle=opts.lightMode?'#eff6fc':'#0a1622';
+
+  // Background clear respecting current theme
+  let canvasBg = '#0a1622';
+  if(opts.currentTheme === 'solar-luxe') canvasBg = '#fbf8f1';
+  else if(opts.currentTheme === 'midnight-oled') canvasBg = '#000000';
+  else if(opts.currentTheme === 'arcade-crt') canvasBg = '#020a04';
+  else if(opts.lightMode) canvasBg = '#eff6fc';
+
+  ctx.fillStyle = canvasBg;
   ctx.fillRect(0,0,w,h);
 
   // Update Camera tracking in Free Roam
@@ -1544,7 +2593,7 @@ function draw(now=performance.now()){
   // Grid lines
   if(opts.showGrid){
     ctx.lineWidth=.75;
-    ctx.strokeStyle=opts.lightMode?'#c6d6e5b8':'#243848b0';
+    ctx.strokeStyle = opts.currentTheme === 'solar-luxe' ? '#d1c5ae' : (opts.currentTheme === 'arcade-crt' ? '#14381e' : (opts.lightMode?'#c6d6e5b8':'#243848b0'));
     ctx.beginPath();
     for(let x=minWorldX; x<=maxWorldX; x++){
       const p1 = projectB({x, y: minWorldY});
@@ -2216,6 +3265,151 @@ latchedBar.innerHTML='<span id="latchedStatus">Săgeată: 1 pas · ține apăsat
 stickyHeader.appendChild(latchedBar);
 $('stopLatched').addEventListener('click',stopAllLatched);
 
+  // --- Theme & Layout Event Listeners & Production Wiring (RC-Znk-01) ---
+  const THEME_NAMES = ['cyber-slate', 'solar-luxe', 'midnight-oled', 'arcade-crt'];
+  const LAYOUT_NAMES = ['cockpit', 'bottom-sheet', 'zen', 'arcade'];
+
+  function applyThemeMode(themeId){
+    opts.currentTheme = themeId;
+    THEME_NAMES.forEach(t => {
+      document.body.classList.remove('theme-' + t);
+      $('themeBtn_' + t)?.classList.toggle('active', t === themeId);
+    });
+    document.body.classList.add('theme-' + themeId);
+    if(themeId === 'solar-luxe') opts.lightMode = true;
+    else opts.lightMode = false;
+    draw();
+  }
+
+  function applyLayoutMode(layoutId){
+    opts.currentLayout = layoutId;
+    LAYOUT_NAMES.forEach(l => {
+      document.body.classList.remove('layout-' + l);
+      $('layoutBtn_' + l)?.classList.toggle('active', l === layoutId);
+    });
+    document.body.classList.add('layout-' + layoutId);
+    draw();
+  }
+
+  THEME_NAMES.forEach(t => {
+    $('themeBtn_' + t)?.addEventListener('click', () => applyThemeMode(t));
+  });
+
+  LAYOUT_NAMES.forEach(l => {
+    $('layoutBtn_' + l)?.addEventListener('click', () => applyLayoutMode(l));
+  });
+
+  // Virtual D-Pad Integration
+  let vpadEl = null;
+  function updateDpadVisibility(){
+    if(!vpadEl){
+      vpadEl = document.createElement('div');
+      vpadEl.id = 'virtualDPad';
+      vpadEl.className = 'virtual-dpad vpad-pos-left';
+      vpadEl.innerHTML = `
+        <div class="vpad-disc">
+          <button type="button" class="vpad-btn vpad-up" data-dir="up" aria-label="Sus">▲</button>
+          <button type="button" class="vpad-btn vpad-left" data-dir="left" aria-label="Stânga">◀</button>
+          <button type="button" class="vpad-btn vpad-right" data-dir="right" aria-label="Dreapta">▶</button>
+          <button type="button" class="vpad-btn vpad-down" data-dir="down" aria-label="Jos">▼</button>
+          <div class="vpad-center" title="Comută mâna">⇄</div>
+        </div>
+      `;
+      $('virtualDpadContainer')?.appendChild(vpadEl);
+
+      vpadEl.querySelectorAll('.vpad-btn').forEach(btn => {
+        const handler = (e) => {
+          e.preventDefault(); e.stopPropagation();
+          const d = btn.getAttribute('data-dir');
+          if(d) steerGroup(d);
+        };
+        btn.addEventListener('pointerdown', handler);
+        btn.addEventListener('touchstart', handler, { passive: false });
+      });
+
+      vpadEl.querySelector('.vpad-center')?.addEventListener('click', () => {
+        vpadEl.classList.toggle('vpad-pos-left');
+        vpadEl.classList.toggle('vpad-pos-right');
+      });
+    }
+
+    vpadEl.style.display = opts.dpadVisible ? 'flex' : 'none';
+    $('toggleDpadBtn')?.classList.toggle('active', opts.dpadVisible);
+  }
+
+  $('toggleDpadBtn')?.addEventListener('click', () => {
+    opts.dpadVisible = !opts.dpadVisible;
+    updateDpadVisibility();
+  });
+
+  // Auto-enable D-Pad and bottom-sheet layout on mobile screens
+  if(window.innerWidth <= 768){
+    opts.dpadVisible = true;
+    applyLayoutMode('bottom-sheet');
+    updateDpadVisibility();
+  }
+
+  // Keyboard Shortcuts (T: cycle theme, L: cycle layout, D: toggle D-Pad)
+  window.addEventListener('keydown', e => {
+    if(e.target && ['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName)) return;
+    if(e.key === 't' || e.key === 'T'){
+      const idx = THEME_NAMES.indexOf(opts.currentTheme || 'cyber-slate');
+      applyThemeMode(THEME_NAMES[(idx + 1) % THEME_NAMES.length]);
+    } else if(e.key === 'l' || e.key === 'L'){
+      const idx = LAYOUT_NAMES.indexOf(opts.currentLayout || 'cockpit');
+      applyLayoutMode(LAYOUT_NAMES[(idx + 1) % LAYOUT_NAMES.length]);
+    } else if(e.key === 'd' || e.key === 'D'){
+      opts.dpadVisible = !opts.dpadVisible;
+      updateDpadVisibility();
+    }
+  });
+
+  // Touch Swipe on Canvas
+  let touchStartX = null, touchStartY = null, touchStartTime = 0;
+  canvas.addEventListener('touchstart', e => {
+    if(e.touches.length === 1){
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+      touchStartTime = Date.now();
+    }
+  }, { passive: true });
+
+  canvas.addEventListener('touchend', e => {
+    if(touchStartX !== null && e.changedTouches.length === 1){
+      const dx = e.changedTouches[0].clientX - touchStartX;
+      const dy = e.changedTouches[0].clientY - touchStartY;
+      const dt = Date.now() - touchStartTime;
+      const dist = Math.hypot(dx, dy);
+      if(dist > 25 && dt < 600){
+        if(Math.abs(dx) > Math.abs(dy)){
+          steerGroup(dx > 0 ? 'right' : 'left');
+        } else {
+          steerGroup(dy > 0 ? 'down' : 'up');
+        }
+      }
+    }
+    touchStartX = null; touchStartY = null;
+  }, { passive: true });
+
+  // Touch Pinch-to-zoom on Canvas (Free Roam)
+  let initialPinchDist = null, initialZoom = 1.0;
+  canvas.addEventListener('touchstart', e => {
+    if(e.touches.length === 2 && opts.worldMode === 'free-roam'){
+      initialPinchDist = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+      initialZoom = camera.zoom;
+    }
+  }, { passive: true });
+
+  canvas.addEventListener('touchmove', e => {
+    if(e.touches.length === 2 && initialPinchDist && opts.worldMode === 'free-roam'){
+      e.preventDefault();
+      const currentDist = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+      const ratio = currentDist / initialPinchDist;
+      camera.zoom = Math.max(0.2, Math.min(5.0, initialZoom * ratio));
+      draw();
+    }
+  }, { passive: false });
+
   // Wireframe UI event listeners
   function updateAlpha1Readout(){
     const a1 = computeMiddleOpacity(opts.bottomAlpha, opts.topAlpha, opts.topScale, opts.middleK);
@@ -2444,7 +3638,7 @@ function currentSettings(){
  const controls={...persistedSnakeControls};
  for(const s of snakes)controls[String(s.id)]=s.control;
  return {
-  version:2,savedAt:Date.now(),options:{...opts},worldMode:opts.worldMode,worldSeed:opts.worldSeed,enableFaux3D:opts.enableFaux3D,topScale:opts.topScale,topAlpha:opts.topAlpha,middleK:opts.middleK,wireframeGrid:opts.wireframeGrid,wireframeSnakes:opts.wireframeSnakes,duplication:{...opts.duplication},modePreset,precisionIndex,
+  version:3,savedAt:Date.now(),options:{...opts},currentTheme:opts.currentTheme,currentLayout:opts.currentLayout,worldMode:opts.worldMode,worldSeed:opts.worldSeed,enableFaux3D:opts.enableFaux3D,topScale:opts.topScale,topAlpha:opts.topAlpha,middleK:opts.middleK,wireframeGrid:opts.wireframeGrid,wireframeSnakes:opts.wireframeSnakes,duplication:{...opts.duplication},modePreset,precisionIndex,
   sliderLimits:Object.fromEntries(Object.keys(TUNES).map(n=>[n,Number($(n).max)])),
   dualLimits:Object.fromEntries(Object.keys(DUALS).map(n=>[n,Number($(n+'Track').dataset.limit)])),
   editor:$('editor').value,
@@ -2607,7 +3801,7 @@ function advanceSimulation(realDt){
 function frame(now){if(!lastFrame)lastFrame=now;const dt=Math.min(85,Math.max(0,now-lastFrame));lastFrame=now;advanceSimulation(dt);updateMoonUI();if(renderListNeedsUpdate)updateList();draw(now);requestAnimationFrame(frame);}
 window.addEventListener('resize',resize);if(typeof ResizeObserver!=='undefined')new ResizeObserver(resize).observe(board);
 restoreSettings();restoreHeatmap();restoreVines();applyTheme();initialize();resize();updateMoonUI(true);requestAnimationFrame(frame);
-window.__snakeLab={debugWireframe:()=>({camera,opts,computeMiddleOpacity,getReferenceEmoji,inBoard,advance,dist,setWorldMode:(m)=>{opts.worldMode=m;draw();},setFaux3D:(f)=>{opts.enableFaux3D=!!f;draw();},setTopScale:(s)=>{opts.topScale=s;draw();},setTopAlpha:(a)=>{opts.topAlpha=a;draw();},setMiddleK:(k)=>{opts.middleK=k;draw();},draw:()=>draw()}),getUI:()=>({immersive:document.body.classList.contains('immersive'),menuOpen:!document.body.classList.contains('menu-closed'),showAll:document.body.classList.contains('menu-all'),canvasWidth:canvas.clientWidth,canvasHeight:canvas.clientHeight,boardHeight:board.clientHeight,sidebarScrollHeight:$('settingsPanel').scrollHeight,sidebarHeight:$('settingsPanel').clientHeight}),enterImmersive,exitImmersive,toggleMenu,getState:()=>({phase,opts:{...opts},snakes:snakes.map(s=>({id:s.id,length:s.body.length,pending:s.pending,parentId:s.parentId,dependent:s.dependent,familySafe:s.familySafe,control:s.control,speedFactor:s.speedFactor,color:s.color,fertility:s.fertility,collisionResistance:s.collisionResistance,twinGene:s.twinGene,subpixel:snakeSubcell(s),foodGene:s.foodGene,foodSeekingGene:s.foodSeekingGene,vineSusceptibility:s.vineSusceptibility,moonSpeedGene:s.moonSpeedGene,berrySlowFactor:s.berrySlowFactor||1,head:{...s.body[0]}})),foods:foods.length,nodes:foodNodes.length,nodePositions:foodNodes.map(n=>({...n})),births,eaten,selected:[...selected],moonPhase:lunarPhase(),moonClockMs}),select:exclusiveSelect,steer:(id,d)=>{steer(owner(id),d);refresh();},tick:stepAll,advanceSimulation,setTimeScale,setPreset,reset,feed:addFood,
+window.__snakeLab={debugWireframe:()=>({camera,opts,computeMiddleOpacity,getReferenceEmoji,inBoard,advance,dist,setWorldMode:(m)=>{opts.worldMode=m;draw();},setFaux3D:(f)=>{opts.enableFaux3D=!!f;draw();},setTopScale:(s)=>{opts.topScale=s;draw();},setTopAlpha:(a)=>{opts.topAlpha=a;draw();},setMiddleK:(k)=>{opts.middleK=k;draw();},setTheme:applyThemeMode,setLayout:applyLayoutMode,draw:()=>draw()}),getUI:()=>({immersive:document.body.classList.contains('immersive'),menuOpen:!document.body.classList.contains('menu-closed'),showAll:document.body.classList.contains('menu-all'),canvasWidth:canvas.clientWidth,canvasHeight:canvas.clientHeight,boardHeight:board.clientHeight,sidebarScrollHeight:$('settingsPanel').scrollHeight,sidebarHeight:$('settingsPanel').clientHeight}),enterImmersive,exitImmersive,toggleMenu,getState:()=>({phase,opts:{...opts},snakes:snakes.map(s=>({id:s.id,length:s.body.length,pending:s.pending,parentId:s.parentId,dependent:s.dependent,familySafe:s.familySafe,control:s.control,speedFactor:s.speedFactor,color:s.color,fertility:s.fertility,collisionResistance:s.collisionResistance,twinGene:s.twinGene,subpixel:snakeSubcell(s),foodGene:s.foodGene,foodSeekingGene:s.foodSeekingGene,vineSusceptibility:s.vineSusceptibility,moonSpeedGene:s.moonSpeedGene,berrySlowFactor:s.berrySlowFactor||1,head:{...s.body[0]}})),foods:foods.length,nodes:foodNodes.length,nodePositions:foodNodes.map(n=>({...n})),births,eaten,selected:[...selected],moonPhase:lunarPhase(),moonClockMs}),select:exclusiveSelect,steer:(id,d)=>{steer(owner(id),d);refresh();},tick:stepAll,advanceSimulation,setTimeScale,setPreset,reset,feed:addFood,
  debugCollisionProbability:(a,b,resistance=0)=>collisionProbability(a,b,resistance),debugMutateColor:mutateColor,debugResistanceMutation:(id)=>{const s=owner(id);return s?mutateCollisionResistance(s):null;},debugResistanceRates:resistanceMutationRates,inspectSnake,closeInspector,
  debugFoodMismatchRisk:foodMismatchRisk,debugFoodFatality:(id,color)=>foodFatalityChance(owner(id),color),
  debugGetVines:()=>foodNodes.map(n=>({...n,pulses:n.pulses.map(p=>({...p}))})),
