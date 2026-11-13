@@ -8808,12 +8808,18 @@ $('stopLatched').addEventListener('click',stopAllLatched);
   function openSurvivalModal() {
     renderStarterCards();
     const modal = $('survivalModal');
-    if (modal) modal.hidden = false;
+    if (modal) {
+      modal.hidden = false;
+      modal.style.display = 'flex';
+    }
   }
 
   function closeSurvivalModal() {
     const modal = $('survivalModal');
-    if (modal) modal.hidden = true;
+    if (modal) {
+      modal.hidden = true;
+      modal.style.display = 'none';
+    }
   }
 
   function renderStarterCards() {
@@ -8960,7 +8966,11 @@ $('stopLatched').addEventListener('click',stopAllLatched);
   });
 
   $('closeSurvivalModalBtn')?.addEventListener('click', closeSurvivalModal);
+  $('survivalModal')?.addEventListener('click', (e) => {
+    if (e.target === $('survivalModal')) closeSurvivalModal();
+  });
   $('exitSurvivalBtn')?.addEventListener('click', exitSurvivalRun);
+  renderStarterCards();
 
   // Mode 3X & Zoom Slider Wiring (RC-Znk-01)
   const zoomSlider = $('zoomSlider');
@@ -9358,7 +9368,7 @@ window.__snakeLab={debugChildMaturity:typeof ChildMaturityEngine!=='undefined'?C
 })();
 </script>
 
-<div id="survivalModal" class="survival-modal-backdrop" hidden role="dialog" aria-modal="true" aria-label="Alege Șarpele de Supraviețuire">
+<div id="survivalModal" class="survival-modal-backdrop" hidden style="display:none;" role="dialog" aria-modal="true" aria-label="Alege Șarpele de Supraviețuire">
   <div class="survival-modal-card">
     <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding-bottom:12px;">
       <h3 style="margin:0;font-size:16px;color:#ff859b;display:flex;align-items:center;gap:8px;">🛡️ MOD SUPRAVIEȚUIRE · ALEGE ȘARPELE FONDATOR</h3>
