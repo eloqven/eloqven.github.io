@@ -6,7 +6,7 @@
 <style>
 :root{color-scheme:dark;--bg:#090e16;--panel:#111c29;--panel2:#162436;--line:#2b3e50;--txt:#e9f4f7;--muted:#91a7b9;--green:#adf17c;--yellow:#f7d178;--purple:#bca6ff}
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 13% -8%,#213b43 0,transparent 48%),var(--bg);font:13px/1.48 system-ui,-apple-system,Segoe UI,sans-serif;color:var(--txt)}
-button,input,select{font:inherit}button{cursor:pointer}button:disabled{opacity:.35;cursor:not-allowed}button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid #e5f2ac;outline-offset:2px}.wrap{max-width:1420px;margin:0 auto;padding:22px 20px 36px}.header{display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap;margin-bottom:18px}.eyebrow{color:#a9e19a;letter-spacing:2px;text-transform:uppercase;font-size:10px;font-weight:750}.header h1{font-size:clamp(25px,3vw,35px);letter-spacing:-1.2px;margin:3px 0;font-weight:850}.header h1 span{color:#93a6b8;font-weight:400}.right-pill{font-size:11px;letter-spacing:.5px;color:#c9dbd4;background:#18312e;border:1px solid #3a6557;border-radius:30px;padding:8px 13px}.layout{display:grid;grid-template-columns:minmax(0,1fr) 338px;gap:16px;align-items:start}.card{background:#0f1926;border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 16px 34px #0002}.summary{display:flex;flex-wrap:wrap;gap:1px;background:var(--line);border-bottom:1px solid var(--line)}.summary .stat{padding:15px 19px;background:#101d2a;flex:1;min-width:0}.summary .stat{min-width:100px}.stat small{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:#91a6b6;display:block}.stat strong{font-size:23px;line-height:1.2;letter-spacing:-.5px}.board-pad{padding:14px 14px 5px}.board-frame{width:100%;min-height:240px;background:#0a1622;border:1px solid #395064;border-radius:8px;overflow:hidden;position:relative;touch-action:none}.board-frame canvas{display:block;width:100%;height:auto;min-height:200px;max-height:min(67vh,710px);cursor:crosshair}.board-status{padding:8px 2px 12px;display:flex;justify-content:space-between;gap:10px;color:#a0b3c3;font-size:11px}.board-status span:first-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.bar{display:flex;gap:7px;flex-wrap:wrap;padding:13px 14px;border-top:1px solid var(--line);align-items:center}.btn{border:1px solid #415569;border-radius:8px;background:#1c2d3d;color:#eff5fc;padding:9px 12px;font-weight:750}.btn:hover{background:#293e51}.btn.primary{background:#b5f07c;color:#1a2a17;border-color:#b5f07c}.btn.danger{background:#412829;border-color:#83504c}.smallhint{font-size:11px;color:#91a7b9}.touch{border-top:1px solid var(--line);padding:12px 14px;display:flex;gap:24px;justify-content:center;align-items:start;flex-wrap:wrap}.touch-group{display:flex;flex-direction:column;align-items:center;gap:6px}.touch-group>b{font-size:11px;color:#c7d6e2}.dpad{display:grid;grid-template-columns:repeat(3,36px);grid-template-rows:repeat(2,35px);gap:4px}.dir{background:#28394a;border:1px solid #4c6379;border-radius:6px;color:#e4f6fa;font-size:16px}.dir.up{grid-column:2;grid-row:1}.dir.left{grid-column:1;grid-row:2}.dir.down{grid-column:2;grid-row:2}.dir.right{grid-column:3;grid-row:2}.dir:active{background:#517483}.sidebar section{padding:16px 18px;border-bottom:1px solid var(--line)}.sidebar section:last-child{border-bottom:0}.sideheading{font-size:11px;letter-spacing:1.25px;font-weight:850;color:#a5b6c5;text-transform:uppercase;margin:0 0 12px}.mode-preset{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:10px}.mode-preset button{font-size:11px;padding:8px 3px;border:1px solid #435669;border-radius:7px;background:#172738;color:#c9d7e4}.mode-preset button.active{background:#344d3e;border-color:#95cf89;color:#def3d7}.setting{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:7px 0;color:#bdcedb;font-size:12px}.setting span{flex:1}.setting input[type=checkbox]{accent-color:#a9ed77;width:16px;height:16px;cursor:pointer;flex-shrink:0}.setting small{color:#7f95a6;font-size:10px}.row-two{display:grid;grid-template-columns:1fr 1fr;gap:8px}.field>span{display:block;color:#93a9ba;font-size:11px;margin:2px 0 5px}.field input,.field select{width:100%;background:#0d1925;border:1px solid #405166;border-radius:7px;color:#e8f1f6;padding:8px 9px;font-weight:650}.field input[type=range]{padding:5px 0;accent-color:#b2ed7f}.readout{font-size:10px;color:#a1b4c4;margin:5px 0}.note{font-size:11px;color:#8ca1b1;line-height:1.5;margin:6px 0 0}.snake-list{max-height:290px;overflow:auto;display:grid;gap:7px}.snake-item{border:1px solid #394d5f;background:#172435;border-radius:9px;padding:9px 10px;display:grid;gap:6px}.snake-top{display:flex;align-items:center;gap:8px}.dot{width:11px;height:11px;border-radius:3px;flex-shrink:0}.snake-top strong{font-size:12px}.snake-meta{color:#95aabe;font-size:10px}.family-protect-row{display:flex;align-items:center;gap:7px;border:1px solid #3b745d;background:#142c2a;padding:6px 8px;border-radius:6px;color:#bfead2;font-size:11px;cursor:pointer}.family-protect-row input{accent-color:#8ce4b2;width:15px;height:15px}.family-protect-row small{color:#91ad9f;font-size:10px;margin-left:auto}.snake-item select{background:#0d1a27;color:#dceaf4;border:1px solid #425365;border-radius:5px;padding:5px;font-size:11px}.selectrow{display:flex;align-items:center;gap:6px;flex-wrap:wrap}.selectrow label{font-size:11px;color:#a9bfcc;cursor:pointer}.selectrow input{accent-color:#b0ef75}.flexspacer{flex:1}.mini{font-size:10px;padding:4px 7px}.log{max-height:140px;overflow-y:auto;background:#0b1622;border:1px solid #2f4153;border-radius:7px;padding:8px 10px;font-size:10px;color:#9db6c3}.log div{padding:3px 0;border-bottom:1px solid #213141}.log div:last-child{border-bottom:0}.muted{color:#8298a9}.mode-caption{margin:0 0 9px;font-size:11px;color:#9bb0bf}.inline-info{display:flex;gap:10px;justify-content:space-between;padding:0 14px 13px;font-size:11px;color:#8098aa}.kbd{border:1px solid #4d6577;border-radius:4px;padding:1px 4px;color:#e0eff5;font-size:10px}.highlight{color:#d9f9bd}.select-actions{display:flex;gap:7px;margin-top:8px;flex-wrap:wrap}.select-actions button{border:1px solid #3d5166;color:#bad1dd;background:#182a3a;border-radius:6px;padding:6px 8px;font-size:10px}@media(max-width:980px){.layout{grid-template-columns:1fr}.sidebar{display:grid;grid-template-columns:1fr 1fr}.sidebar section{border-right:1px solid var(--line)}}@media(max-width:600px){.wrap{padding:12px 8px 20px}.header{padding:3px 5px}.right-pill{font-size:10px}.summary .stat{padding:10px 11px}.stat strong{font-size:19px}.board-pad{padding:6px 6px 0}.board-status{padding:8px}.sidebar{display:block}.touch{gap:12px}.bar{padding:10px 8px}.smallhint{display:none}.card{border-radius:10px}} 
+button,input,select{font:inherit}button{cursor:pointer}button:disabled{opacity:.35;cursor:not-allowed}button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid #e5f2ac;outline-offset:2px}.wrap{max-width:1420px;margin:0 auto;padding:22px 20px 36px}.header{display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap;margin-bottom:18px}.eyebrow{color:#a9e19a;letter-spacing:2px;text-transform:uppercase;font-size:10px;font-weight:750}.header h1{font-size:clamp(25px,3vw,35px);letter-spacing:-1.2px;margin:3px 0;font-weight:850}.header h1 span{color:#93a6b8;font-weight:400}.right-pill{font-size:11px;letter-spacing:.5px;color:#c9dbd4;background:#18312e;border:1px solid #3a6557;border-radius:30px;padding:8px 13px}.layout{display:grid;grid-template-columns:minmax(0,1fr) 338px;gap:16px;align-items:start}.card{background:#0f1926;border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 16px 34px #0002}.summary{display:flex;flex-wrap:wrap;gap:1px;background:var(--line);border-bottom:1px solid var(--line)}.summary .stat{padding:15px 19px;background:#101d2a;flex:1;min-width:0}.summary .stat{min-width:100px}.stat small{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:#91a6b6;display:block}.stat strong{font-size:23px;line-height:1.2;letter-spacing:-.5px}.board-pad{padding:14px 14px 5px}.board-frame{width:100%;min-height:240px;background:#0a1622;border:1px solid #395064;border-radius:8px;overflow:hidden;position:relative;touch-action:none;display:flex;justify-content:center;align-items:center}.board-frame canvas{display:block;max-width:100%;max-height:100%;width:auto;height:auto;cursor:crosshair;object-fit:contain}.board-status{padding:8px 2px 12px;display:flex;justify-content:space-between;gap:10px;color:#a0b3c3;font-size:11px}.board-status span:first-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.bar{display:flex;gap:7px;flex-wrap:wrap;padding:13px 14px;border-top:1px solid var(--line);align-items:center}.btn{border:1px solid #415569;border-radius:8px;background:#1c2d3d;color:#eff5fc;padding:9px 12px;font-weight:750}.btn:hover{background:#293e51}.btn.primary{background:#b5f07c;color:#1a2a17;border-color:#b5f07c}.btn.danger{background:#412829;border-color:#83504c}.smallhint{font-size:11px;color:#91a7b9}.touch{border-top:1px solid var(--line);padding:12px 14px;display:flex;gap:24px;justify-content:center;align-items:start;flex-wrap:wrap}.touch-group{display:flex;flex-direction:column;align-items:center;gap:6px}.touch-group>b{font-size:11px;color:#c7d6e2}.dpad{display:grid;grid-template-columns:repeat(3,36px);grid-template-rows:repeat(2,35px);gap:4px}.dir{background:#28394a;border:1px solid #4c6379;border-radius:6px;color:#e4f6fa;font-size:16px}.dir.up{grid-column:2;grid-row:1}.dir.left{grid-column:1;grid-row:2}.dir.down{grid-column:2;grid-row:2}.dir.right{grid-column:3;grid-row:2}.dir:active{background:#517483}.sidebar section{padding:16px 18px;border-bottom:1px solid var(--line)}.sidebar section:last-child{border-bottom:0}.sideheading{font-size:11px;letter-spacing:1.25px;font-weight:850;color:#a5b6c5;text-transform:uppercase;margin:0 0 12px}.mode-preset{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:10px}.mode-preset button{font-size:11px;padding:8px 3px;border:1px solid #435669;border-radius:7px;background:#172738;color:#c9d7e4}.mode-preset button.active{background:#344d3e;border-color:#95cf89;color:#def3d7}.setting{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:7px 0;color:#bdcedb;font-size:12px}.setting span{flex:1}.setting input[type=checkbox]{accent-color:#a9ed77;width:16px;height:16px;cursor:pointer;flex-shrink:0}.setting small{color:#7f95a6;font-size:10px}.row-two{display:grid;grid-template-columns:1fr 1fr;gap:8px}.field>span{display:block;color:#93a9ba;font-size:11px;margin:2px 0 5px}.field input,.field select{width:100%;background:#0d1925;border:1px solid #405166;border-radius:7px;color:#e8f1f6;padding:8px 9px;font-weight:650}.field input[type=range]{padding:5px 0;accent-color:#b2ed7f}.readout{font-size:10px;color:#a1b4c4;margin:5px 0}.note{font-size:11px;color:#8ca1b1;line-height:1.5;margin:6px 0 0}.snake-list{max-height:290px;overflow:auto;display:grid;gap:7px}.snake-item{border:1px solid #394d5f;background:#172435;border-radius:9px;padding:9px 10px;display:grid;gap:6px}.snake-top{display:flex;align-items:center;gap:8px}.dot{width:11px;height:11px;border-radius:3px;flex-shrink:0}.snake-top strong{font-size:12px}.snake-meta{color:#95aabe;font-size:10px}.family-protect-row{display:flex;align-items:center;gap:7px;border:1px solid #3b745d;background:#142c2a;padding:6px 8px;border-radius:6px;color:#bfead2;font-size:11px;cursor:pointer}.family-protect-row input{accent-color:#8ce4b2;width:15px;height:15px}.family-protect-row small{color:#91ad9f;font-size:10px;margin-left:auto}.snake-item select{background:#0d1a27;color:#dceaf4;border:1px solid #425365;border-radius:5px;padding:5px;font-size:11px}.selectrow{display:flex;align-items:center;gap:6px;flex-wrap:wrap}.selectrow label{font-size:11px;color:#a9bfcc;cursor:pointer}.selectrow input{accent-color:#b0ef75}.flexspacer{flex:1}.mini{font-size:10px;padding:4px 7px}.log{max-height:140px;overflow-y:auto;background:#0b1622;border:1px solid #2f4153;border-radius:7px;padding:8px 10px;font-size:10px;color:#9db6c3}.log div{padding:3px 0;border-bottom:1px solid #213141}.log div:last-child{border-bottom:0}.muted{color:#8298a9}.mode-caption{margin:0 0 9px;font-size:11px;color:#9bb0bf}.inline-info{display:flex;gap:10px;justify-content:space-between;padding:0 14px 13px;font-size:11px;color:#8098aa}.kbd{border:1px solid #4d6577;border-radius:4px;padding:1px 4px;color:#e0eff5;font-size:10px}.highlight{color:#d9f9bd}.select-actions{display:flex;gap:7px;margin-top:8px;flex-wrap:wrap}.select-actions button{border:1px solid #3d5166;color:#bad1dd;background:#182a3a;border-radius:6px;padding:6px 8px;font-size:10px}@media(max-width:980px){.layout{grid-template-columns:1fr}.sidebar{display:grid;grid-template-columns:1fr 1fr}.sidebar section{border-right:1px solid var(--line)}}@media(max-width:600px){.wrap{padding:12px 8px 20px}.header{padding:3px 5px}.right-pill{font-size:10px}.summary .stat{padding:10px 11px}.stat strong{font-size:19px}.board-pad{padding:6px 6px 0}.board-status{padding:8px}.sidebar{display:block}.touch{gap:12px}.bar{padding:10px 8px}.smallhint{display:none}.card{border-radius:10px}} 
 
 /* Fine-grained, extendable parameter controls */
 .tune{margin:12px 0 13px}.tune-title{display:flex;align-items:baseline;justify-content:space-between;gap:8px;color:#a4bdc8;font-size:11px;margin-bottom:6px}.tune-title output{font-size:12px;font-variant-numeric:tabular-nums;color:#e5f4d7;font-weight:800;white-space:nowrap}
@@ -26,7 +26,7 @@ html,body{min-height:100%;scrollbar-color:#536778 #111d2b}
   .layout>main .summary,.layout>main .bar,.layout>main .touch,.layout>main .inline-info{flex-shrink:0}
   .layout>main .board-pad{flex:1 1 auto;min-height:220px;display:flex;flex-direction:column}
   .layout>main .board-frame{flex:1 1 auto;min-height:220px;display:flex;justify-content:center;align-items:center}
-  .layout>main .board-frame canvas{min-height:180px;max-height:none}
+  .layout>main .board-frame canvas{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain}
   .sidebar{height:100%;max-height:100%;overflow-y:auto;overflow-x:hidden}
 }
 /* Immersive game mode uses the same live settings, never a cloned menu. */
@@ -1014,12 +1014,22 @@ body.layout-desktop-cockpit .board-pad, body.layout-cockpit .board-pad {
 }
 body.layout-desktop-cockpit .board-frame, body.layout-cockpit .board-frame {
   flex: 1 1 auto;
-  min-height: 260px;
+  min-height: 240px;
   width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
 }
 body.layout-desktop-cockpit .board-frame canvas, body.layout-cockpit .board-frame canvas {
-  min-height: 220px;
-  width: 100%;
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  cursor: crosshair;
 }
 .cockpit-telemetry-bar {
   display: flex;
@@ -1518,15 +1528,15 @@ body.layout-arcade-deck .btn.primary, body.layout-arcade .btn.primary {
 <p class="note">Mutarea în editor este disponibilă în pauză. În modul Familie, puii devin independenți imediat ce depășesc lungimea părintelui.</p><div id="log" class="log" aria-live="polite"></div></section>
 
 <div class="tune" id="zoomSetup">
-  <div class="tune-title"><span>Zoom Navigare &amp; Panoramare</span><output id="zoomValue">1.0×</output></div>
+  <div class="tune-title"><span>Zoom Navigare &amp; Panoramare</span><output id="zoomValue" style="cursor:pointer;" title="Dublu-click pentru reset zoom la 1.0×">1.0×</output></div>
   <div class="tune-line">
     <button class="nudge" type="button" id="zoomOutBtn" aria-label="Zoom Out">−</button>
-    <input id="zoomSlider" type="range" min="0.3" max="5.0" step="0.1" value="1.0" aria-label="Slider Zoom Cameră">
+    <input id="zoomSlider" type="range" min="0.2" max="15.0" step="0.1" value="1.0" aria-label="Slider Zoom Cameră">
     <button class="nudge plus" type="button" id="zoomInBtn" aria-label="Zoom In">+</button>
-    <input class="direct" type="number" id="zoomDirect" min="0.2" max="10.0" step="0.1" value="1.0" aria-label="Valoare exactă Zoom">
+    <input class="direct" type="number" id="zoomDirect" min="0.2" max="25.0" step="0.1" value="1.0" aria-label="Valoare exactă Zoom">
   </div>
-  <div class="tune-meta"><span>0.3× (Panoramic)</span><span>Mouse Drag = Pan</span><span>5.0× (Nano)</span></div>
-  <p class="note">Apasă și trage cu mouse-ul pe tablă pentru panoramare liberă (Pan). La zoom redus, puii 3X își proiectează automat culoarea mediată în celulă.</p>
+  <div class="tune-meta"><span>0.2× (Panoramic)</span><span>Rotiță Mouse = Zoom · Drag = Pan</span><span>15.0× (Micro-Macro)</span></div>
+  <p class="note"><b>Scroll cu rotița mouse-ului</b> pe tablă pentru zoom centrat pe cursor (mărește pătrățelele pentru toate nivelele). Trage cu mouse-ul (Drag) pentru panoramare.</p>
 </div>
 </aside></div>
 
@@ -5923,8 +5933,13 @@ const CLAN_TIERS = {
     let totalDragDist = 0;
 
     function onMouseDown(e){
-      if(e.button !== 0) return; // Left click only
+      if(e.button !== 0 && e.button !== 1) return;
+      const editorType = (typeof document !== 'undefined' && document.getElementById('editor')) ? document.getElementById('editor').value : 'none';
+      if(e.button === 0 && editorType !== 'none' && (camera.zoom || 1.0) <= 1.0 && opts.worldMode !== 'free-roam'){
+        return;
+      }
       isDragging = true;
+      camera.isDragging = true;
       dragStartX = e.clientX;
       dragStartY = e.clientY;
       camStartX = camera.x;
@@ -5939,10 +5954,18 @@ const CLAN_TIERS = {
       totalDragDist += Math.abs(dx) + Math.abs(dy);
 
       const cellW = (canvas.clientWidth || 800) / Math.max(1, opts.cols || 30);
+      const cellH = (canvas.clientHeight || 600) / Math.max(1, opts.rows || 22);
       const zoom = camera.zoom || 1.0;
 
       camera.x = camStartX - (dx / (cellW * zoom));
-      camera.y = camStartY - (dy / (cellW * zoom));
+      camera.y = camStartY - (dy / (cellH * zoom));
+
+      if(opts.worldMode !== 'free-roam'){
+        const marginX = Math.max(2, (opts.cols || 30) / (zoom * 2));
+        const marginY = Math.max(2, (opts.rows || 22) / (zoom * 2));
+        camera.x = Math.max(-marginX, Math.min((opts.cols || 30) + marginX, camera.x));
+        camera.y = Math.max(-marginY, Math.min((opts.rows || 22) + marginY, camera.y));
+      }
 
       if(typeof onChangeCallback === 'function') onChangeCallback(camera);
     }
@@ -5950,6 +5973,7 @@ const CLAN_TIERS = {
     function onMouseUp(e){
       const wasClick = totalDragDist < 5;
       isDragging = false;
+      camera.isDragging = false;
       return wasClick;
     }
 
@@ -6685,7 +6709,7 @@ function recordContact(cell,kind){
  }
  mark.events++;
 }
-function drawContactMarks(cw,ch){
+function drawContactMarks(cw,ch,z=1.0){
  if(!opts.showContactMarks||!contactMarks.size)return;
  const base=opts.lightMode?[239,246,252]:[10,22,34];
  ctx.save();
@@ -6694,7 +6718,9 @@ function drawContactMarks(cw,ch){
   if(x<0||x>=opts.cols||y<0||y>=opts.rows)continue;
   const rgb=base.map((channel,i)=>Math.round(clamp(channel+(opts.lightMode?-1:1)*mark.delta[i],0,255)));
   ctx.fillStyle=`rgb(${rgb.join(',')})`;
-  ctx.fillRect(x*cw+0.7,y*ch+0.7,Math.max(0,cw-1.4),Math.max(0,ch-1.4));
+  const p = typeof projectB === "function" ? projectB({x, y}) : {x: x * cw, y: y * ch};
+   const cellW = cw * z, cellH = ch * z;
+   ctx.fillRect(p.x+0.7,p.y+0.7,Math.max(0,cellW-1.4),Math.max(0,cellH-1.4));
   // When already near black/white, a faint edge keeps opposing dents visible.
   if(Math.max(...rgb.map((v,i)=>Math.abs(v-base[i])))<9){
    ctx.strokeStyle=opts.lightMode?'#7896ab55':'#7993a755';
@@ -6760,7 +6786,18 @@ function inBoard(p){if(opts.worldMode==='free-roam')return true;return p.x>=0&&p
 function subShape(){if(opts.subdivisions===9)return {cols:3,rows:3};if(opts.subdivisions===6)return {cols:3,rows:2};return {cols:2,rows:2};}
 function hasParentLink(s){return !!(opts.subpixel&&s&&s.parentId!=null&&owner(s.parentId));}
 function snakeSubcell(s){return !!(opts.subpixel&&s&&s.isSubpixel&&hasParentLink(s));}
-function segmentSize(s){if(!snakeSubcell(s))return {x:1,y:1};const sh=subShape();return {x:1/sh.cols,y:1/sh.rows};}
+function segmentSize(s){
+  if(typeof Mode3XEngine !== 'undefined' && typeof Mode3XEngine.determineSnakeTier === 'function'){
+    const tier = Mode3XEngine.determineSnakeTier(s, opts);
+    if(tier === Mode3XEngine.CLAN_TIERS.MICRO_3X){
+      const sh = subShape();
+      return { x: 1 / (sh.cols * 3), y: 1 / (sh.rows * 3) };
+    }
+  }
+  if(!snakeSubcell(s))return {x:1,y:1};
+  const sh=subShape();
+  return {x:1/sh.cols,y:1/sh.rows};
+}
 function cellOverlap(a,p,b,q){const sa=segmentSize(a),sb=segmentSize(b);return p.x<q.x+sb.x-1e-8&&q.x<p.x+sa.x-1e-8&&p.y<q.y+sb.y-1e-8&&q.y<p.y+sa.y-1e-8;}
 function snapPosition(v,step){return Math.round(v/step)*step;}
 function adaptChildGeometry(s){
@@ -7636,8 +7673,9 @@ function hexAlpha(c,a){return c+Math.round(clamp(a,0,1)*255).toString(16).padSta
 
 function draw(now=performance.now()){
   const measuredW = canvas.clientWidth || board.clientWidth;
+  const measuredH = canvas.clientHeight;
   const w = Math.max(240, (Number.isFinite(measuredW) && measuredW > 0) ? measuredW : 850);
-  const h = Math.round(w * opts.rows / opts.cols);
+  const h = Math.max(160, (Number.isFinite(measuredH) && measuredH > 0) ? measuredH : Math.round(w * opts.rows / opts.cols));
   const dpr = Math.min(2, window.devicePixelRatio || 1);
   const bufW = Math.round(w * dpr);
   const bufH = Math.round(h * dpr);
@@ -7657,7 +7695,9 @@ function draw(now=performance.now()){
   ctx.fillStyle = canvasBg;
   ctx.fillRect(0,0,w,h);
 
-  // Update Camera tracking in Free Roam
+  const z = Number.isFinite(camera.zoom) && camera.zoom > 0 ? camera.zoom : 1.0;
+
+  // Update Camera tracking in Free Roam or Finite Ecology
   if(opts.worldMode==='free-roam'){
     let target = inspectedSnakeId ? owner(inspectedSnakeId) : null;
     if(!target && selected.size > 0) target = owner(selected.values().next().value);
@@ -7667,22 +7707,21 @@ function draw(now=performance.now()){
       camera.y = target.body[0].y;
     }
   } else {
-    camera.x = opts.cols / 2;
-    camera.y = opts.rows / 2;
+    if(typeof camera.x !== 'number' || typeof camera.y !== 'number' || (z <= 1.0 && !camera.isDragging)){
+      camera.x = opts.cols / 2;
+      camera.y = opts.rows / 2;
+    }
   }
 
   const cw = w / opts.cols, ch = h / opts.rows;
   const anchor = { x: w / 2, y: h / 2 };
 
-  // World to screen projection helpers
+  // World to screen projection helpers (Unified across Finite & Free Roam)
   function projectB(p) {
-    if(opts.worldMode === 'free-roam'){
-      return {
-        x: w / 2 + (p.x - camera.x) * cw * camera.zoom,
-        y: h / 2 + (p.y - camera.y) * ch * camera.zoom
-      };
-    }
-    return { x: p.x * cw, y: p.y * ch };
+    return {
+      x: w / 2 + (p.x - camera.x) * cw * z,
+      y: h / 2 + (p.y - camera.y) * ch * z
+    };
   }
 
   function projectU(bp, s = opts.topScale) {
@@ -7705,7 +7744,7 @@ function draw(now=performance.now()){
   // L0: Bottom Plane Rendering
   ctx.save();
   ctx.globalAlpha = opts.bottomAlpha ?? 1.0;
-  drawContactMarks(cw,ch);
+  drawContactMarks(cw,ch,z);
 
   // Grid lines
   if(opts.showGrid){
@@ -7799,38 +7838,62 @@ function draw(now=performance.now()){
   }
   ctx.globalAlpha = opts.bottomAlpha ?? 1.0;
 
-  // Snakes
+  // Snakes (Enlarged and crisp across all tiers and zoom levels)
   for(const s of snakes){
     const color=s.color||COLORS[(s.id-1)%COLORS.length];
+    const sz=segmentSize(s);
+    const ww0=cw*sz.x*z, hh0=ch*sz.y*z;
+    const pad=Math.max(0.12, Math.min(ww0,hh0)*0.075);
     for(let i=s.body.length-1;i>=0;i--){
-      const p=s.body[i],sz=segmentSize(s),ww0=cw*sz.x*camera.zoom,hh0=ch*sz.y*camera.zoom,pad=Math.max(.15,Math.min(ww0,hh0)*.09);
+      const p=s.body[i];
       const bp = projectB(p);
-      const x=bp.x+pad,y=bp.y+pad,ww=ww0-2*pad,hh=hh0-2*pad;
-      if(ww<=0||hh<=0)continue;
-      let alpha=i===s.body.length-1?Math.max(.12,stepFade):i===0?1:.63;
+      const x=bp.x+pad, y=bp.y+pad, ww=Math.max(0.6, ww0-2*pad), hh=Math.max(0.6, hh0-2*pad);
+      if(x + ww < -10 || x > w + 10 || y + hh < -10 || y > h + 10) continue;
+      let alpha=i===s.body.length-1?Math.max(.12,stepFade):i===0?1:.65;
       ctx.fillStyle=hexAlpha(color,alpha * (opts.bottomAlpha ?? 1.0));
-      ctx.beginPath();ctx.roundRect(x,y,ww,hh,Math.min(ww,hh)*.22);ctx.fill();
+      ctx.beginPath();
+      const cornerR = Math.max(0.5, Math.min(ww,hh)*0.20);
+      ctx.roundRect(x,y,ww,hh,cornerR);
+      ctx.fill();
+
+      // Sharp crisp outline for squares when zoomed in so all tiers/levels are distinctly visible!
+      if(ww >= 5.5){
+        ctx.strokeStyle = hexAlpha(color, 0.5);
+        ctx.lineWidth = Math.min(1.5, Math.max(0.5, ww * 0.065));
+        ctx.stroke();
+      }
+
       if(i===0){
         ctx.strokeStyle=selected.has(s.id)?(opts.lightMode?'#0a2339':'#ffffffcc'):'#10232caa';
-        ctx.lineWidth=selected.has(s.id)?Math.max(1.2,cw*camera.zoom*.12):.7;ctx.stroke();
-        const eye=Math.max(.65,Math.min(ww,hh)*.075),d=s.dir;
-        ctx.fillStyle='#17252c';
-        const ox=d.x===0?ww*.48:d.x>0?ww*.7:ww*.3,oy=d.y===0?hh*.48:d.y>0?hh*.7:hh*.3;
-        for(const sign of [-1,1]){
-          ctx.beginPath();ctx.arc(x+(d.x===0?ox+sign*ww*.2:ox),y+(d.y===0?oy+sign*hh*.2:oy),eye,0,2*Math.PI);ctx.fill();
+        ctx.lineWidth=selected.has(s.id)?Math.max(1.4, ww*0.16):Math.max(0.8, ww*0.07);
+        ctx.stroke();
+
+        // Eyes on the head
+        if(ww >= 3.5){
+          const eye=Math.max(0.7, Math.min(ww,hh)*0.08);
+          const d=s.dir;
+          ctx.fillStyle='#17252c';
+          const ox=d.x===0?ww*.48:d.x>0?ww*.7:ww*.3, oy=d.y===0?hh*.48:d.y>0?hh*.7:hh*.3;
+          for(const sign of [-1,1]){
+            ctx.beginPath();
+            ctx.arc(x+(d.x===0?ox+sign*ww*.2:ox), y+(d.y===0?oy+sign*hh*.2:oy), eye, 0, 2*Math.PI);
+            ctx.fill();
+          }
         }
-        if(s.toxicity > 0){
+
+        if(s.toxicity > 0 && ww >= 8){
           ctx.save();
-          ctx.font = 'bold ' + Math.max(10, Math.min(22, cw * camera.zoom * 0.85)) + 'px sans-serif';
+          ctx.font = 'bold ' + Math.max(10, Math.min(22, ww * 0.85)) + 'px sans-serif';
           ctx.textAlign = 'center'; ctx.textBaseline = 'bottom';
           const dizzyEmoji = s.toxicity >= 3 ? '🤢' : s.toxicity >= 2 ? '💫' : '🌀';
           ctx.fillText(dizzyEmoji, x + ww/2, y - 2);
           ctx.restore();
         }
-        if(Math.min(ww,hh)>=15){
-          ctx.font=`bold ${Math.max(7,Math.min(cw,ch)*.43)}px sans-serif`;
+
+        if(ww >= 13){
+          ctx.font = 'bold ' + Math.max(7.5, Math.min(13, ww * 0.44)) + 'px sans-serif';
           ctx.fillStyle='#13242a';ctx.textAlign='center';ctx.textBaseline='middle';
-          ctx.fillText(s.id,x+ww/2,y+hh/2);
+          ctx.fillText(s.id, x+ww/2, y+hh/2);
         }
       }
     }
@@ -8972,26 +9035,65 @@ $('stopLatched').addEventListener('click',stopAllLatched);
   $('exitSurvivalBtn')?.addEventListener('click', exitSurvivalRun);
   renderStarterCards();
 
-  // Mode 3X & Zoom Slider Wiring (RC-Znk-01)
+  // Mode 3X & Zoom Engine Wiring (RC-Znk-01)
   const zoomSlider = $('zoomSlider');
   const zoomDirect = $('zoomDirect');
   const zoomValue = $('zoomValue');
   function applyZoom(z){
-    const clz = Math.max(0.2, Math.min(10.0, parseFloat(z) || 1.0));
+    const clz = Math.max(0.2, Math.min(25.0, parseFloat(z) || 1.0));
     camera.zoom = opts.zoom = clz;
-    if(zoomSlider) zoomSlider.value = String(Math.min(5.0, clz));
+    if(zoomSlider) zoomSlider.value = String(Math.min(15.0, clz));
     if(zoomDirect) zoomDirect.value = String(clz.toFixed(1));
     if(zoomValue) zoomValue.textContent = clz.toFixed(1) + '×';
+    if(clz <= 1.0 && opts.worldMode !== 'free-roam' && !camera.isDragging){
+      camera.x = opts.cols / 2;
+      camera.y = opts.rows / 2;
+    }
     draw();
+    updateTelemetryBar();
   }
   zoomSlider?.addEventListener('input', e => applyZoom(e.target.value));
   zoomDirect?.addEventListener('change', e => applyZoom(e.target.value));
-  $('zoomInBtn')?.addEventListener('click', () => applyZoom((camera.zoom || 1.0) + 0.2));
-  $('zoomOutBtn')?.addEventListener('click', () => applyZoom((camera.zoom || 1.0) - 0.2));
+  $('zoomInBtn')?.addEventListener('click', () => applyZoom((camera.zoom || 1.0) * 1.25));
+  $('zoomOutBtn')?.addEventListener('click', () => applyZoom((camera.zoom || 1.0) / 1.25));
+  zoomValue?.addEventListener('dblclick', () => {
+    camera.x = opts.cols / 2;
+    camera.y = opts.rows / 2;
+    applyZoom(1.0);
+  });
   $('preset5')?.addEventListener('click', () => setPreset(5));
 
+  // Interactive Mouse Wheel Zoom centered on cursor
+  canvas.addEventListener('wheel', e => {
+    e.preventDefault();
+    const r = canvas.getBoundingClientRect();
+    const mx = e.clientX - r.left;
+    const my = e.clientY - r.top;
+    const oldZoom = Number.isFinite(camera.zoom) && camera.zoom > 0 ? camera.zoom : 1.0;
+    const factor = e.deltaY < 0 ? 1.18 : 0.85;
+    const newZoom = Math.max(0.2, Math.min(25.0, Math.round(oldZoom * factor * 100) / 100));
+    if(Math.abs(newZoom - oldZoom) > 0.001){
+      const curW = canvas.clientWidth || 800;
+      const curH = canvas.clientHeight || 600;
+      const cellW = curW / opts.cols;
+      const cellH = curH / opts.rows;
+      camera.x += (mx - curW / 2) / cellW * (1 / oldZoom - 1 / newZoom);
+      camera.y += (my - curH / 2) / cellH * (1 / oldZoom - 1 / newZoom);
+      if(opts.worldMode !== 'free-roam'){
+        const marginX = Math.max(2, opts.cols / (newZoom * 2));
+        const marginY = Math.max(2, opts.rows / (newZoom * 2));
+        camera.x = Math.max(-marginX, Math.min(opts.cols + marginX, camera.x));
+        camera.y = Math.max(-marginY, Math.min(opts.rows + marginY, camera.y));
+      }
+      applyZoom(newZoom);
+    }
+  }, { passive: false });
+
   if(typeof setupMousePanAndZoom === 'function'){
-    setupMousePanAndZoom(canvas, camera, opts, () => draw());
+    setupMousePanAndZoom(canvas, camera, opts, () => {
+      draw();
+      updateTelemetryBar();
+    });
   }
 
 function setSettingsTab(key){
@@ -9195,6 +9297,10 @@ function restoreSettings(){
    if(typeof value==='boolean')opts[name]=value;
   }else if(typeof value==='number'&&Number.isFinite(value)&&value>=0&&value<=1e9){
    opts[name]=value;
+  }else if(typeof previous==='string'&&typeof value==='string'){
+   opts[name]=value;
+  }else if(typeof previous==='object'&&previous!==null&&typeof value==='object'&&value!==null){
+   opts[name]={...previous,...value};
   }
  }
  opts.cols=Math.max(5,Math.round(opts.cols));
