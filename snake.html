@@ -333,6 +333,7 @@ body.mode-survival .sidebar.survival-locked input,
 body.mode-survival .sidebar.survival-locked select,
 body.mode-survival .sidebar.survival-locked button:not(#exitSurvivalBtn):not(.category-tab){opacity:0.55;pointer-events:none;cursor:not-allowed;}
 .survival-modal-backdrop{position:fixed;inset:0;background:rgba(4, 9, 15, 0.88);backdrop-filter:blur(8px);z-index:10000;display:flex;align-items:center;justify-content:center;padding:16px;}
+.survival-modal-backdrop[hidden],.survival-lock-banner[hidden]{display:none !important;}
 .survival-modal-card{background:#0f1a28;border:1px solid #334e68;border-radius:16px;max-width:860px;width:100%;padding:24px;box-shadow:0 20px 60px rgba(0,0,0,0.6);color:var(--txt);}
 .starter-grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(230px, 1fr));gap:16px;margin-top:14px;}
 .starter-card{background:#142334;border:2px solid #2d455d;border-radius:12px;padding:16px;display:flex;flex-direction:column;justify-content:space-between;gap:12px;transition:all 0.2s;}
